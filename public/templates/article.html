@@ -2,9 +2,9 @@
 
     <div  class="title">{{title}}</div>
 
-    <ng-switch on="haveYoutube">
+    <div id="youtube_wrapper" ng-switch on="haveYoutube">
         <iframe ng-switch-when="true"  width="600" height="300" data-ng-src="{{youtube}}" frameborder="0" allowfullscreen></iframe>
-    </ng-switch>
+    </div>
 
     <ul class="photogalery {{hasImagesClass}}">
         <li ng-repeat="image in images">
