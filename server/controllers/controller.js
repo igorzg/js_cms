@@ -33,7 +33,7 @@ Controller.prototype.watch = function(callback,time){
     var interval = null;
 
     var internal = function(){
-        interval = setInterval(function(){
+        interval = setTimeout(function(){
             internal();
             callback();
         },time);
