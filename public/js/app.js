@@ -279,9 +279,11 @@ var rebuild = function(data){
  * @constructor
  */
 function MainCntl($scope, $route, $routeParams, $http, $location ) {
-    $scope.$route = $route;
-    $scope.$location = $location;
-    $scope.$routeParams = $routeParams;
+
+
+    $scope.pageTitle = "Software developer enthusiast - Igor Ivanovic";
+    $scope.pageDescription = "I'm able to envision a future that no one else sees and invent things that haven’t been imagined :) ";
+
     $scope.$me = {
         about : [
             "This is my personal wall :)",
@@ -414,6 +416,10 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             var rebuilded = rebuild(res.data), scope = $rootScope.$new();
             scope.articles = rebuilded;
             scope.viewMore = "View more";
+
+            $scope.$parent.pageDescription  = scope.category.short_description;
+            $scope.$parent.pageTitle  = scope.category.title;
+
             Compiler.template( "/templates/list.html", scope, $http, $compile );
         }else{
             var scope = $rootScope.$new();
@@ -425,6 +431,10 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             }else{
                 scope.haveYoutube = false;
             }
+
+
+            $scope.$parent.pageDescription  = scope.short_description;
+            $scope.$parent.pageTitle  = scope.title;
 
             Compiler.template( "/templates/article.html", scope, $http, $compile );
 

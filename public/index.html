@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ngView">
+<html lang="en" ng-app="ngView" ng-controller="MainCntl">
 <head>
     <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="/css/reset.css">
     <link type="text/css" rel="stylesheet" href="/css/main.css">
     <link type="text/css" rel="stylesheet" href="/css/buttons.css">
-    <title></title>
+    <title>{{pageTitle}}</title>
+    <meta name="description" content="{{pageDescription}}">
 </head>
 <body>
 <div id="overlay_wrapper"></div>
-<div id="structure" ng-controller="MainCntl">
+<div id="structure" >
     <div id="header">
         <div id="logo">
             {{$me.headText}}
