@@ -268,6 +268,15 @@ var rebuild = function(data){
 }
 
 
+var strip_tags = function(input, allowed) {
+    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+        commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+    });
+}
+
 
 
 /***
@@ -417,10 +426,14 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             scope.articles = rebuilded;
             scope.viewMore = "View more";
 
-            $scope.$parent.pageDescription  = scope.category.short_description;
-            $scope.$parent.pageTitle  = scope.category.title;
+            if( res.category && res.category !== null ){
+                $scope.$parent.pageDescription  = strip_tags( res.category.short_description );
+                $scope.$parent.pageTitle  = strip_tags( res.category.title );
+            }
+
 
             Compiler.template( "/templates/list.html", scope, $http, $compile );
+
         }else{
             var scope = $rootScope.$new();
             scope = angular.extend(scope,buildArticle(res.data));
@@ -432,9 +445,11 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
                 scope.haveYoutube = false;
             }
 
+            if( res.data !== null ){
+                $scope.$parent.pageDescription  = strip_tags( scope.short_description );
+                $scope.$parent.pageTitle  = strip_tags( scope.title );
+            }
 
-            $scope.$parent.pageDescription  = scope.short_description;
-            $scope.$parent.pageTitle  = scope.title;
 
             Compiler.template( "/templates/article.html", scope, $http, $compile );
 
