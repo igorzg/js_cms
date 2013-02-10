@@ -30,9 +30,14 @@
     <div id="menu">
         <ul>
             <li ng-repeat="item in $menu">
-                <a data-ng-href="{{item.url}}">
-                    {{item.title}}
-                </a>
+                <ng-switch on="item.blank">
+                    <a ng-switch-when="true"  target="_blank" data-ng-href="{{item.url}}">
+                        {{item.title}}
+                    </a>
+                    <a ng-switch-default  data-ng-href="{{item.url}}">
+                        {{item.title}}
+                    </a>
+                </ng-switch>
             </li>
         </ul>
     </div>
