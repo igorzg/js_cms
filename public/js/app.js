@@ -335,7 +335,7 @@ function MainCntl($scope, $route, $routeParams, $http, $location ) {
          */
         n.push({
             url : 'https://github.com/igorzg/js_cms',
-            title : 'Cms on github',
+            title : 'Github',
             blank : true
         });
 
