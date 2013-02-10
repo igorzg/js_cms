@@ -305,16 +305,7 @@ function MainCntl($scope, $route, $routeParams, $http, $location ) {
 
 
 
-    $scope.$menu = [
-        {
-            url : '/',
-            title : 'Home'
-        },
-        {
-            url : '/contact',
-            title : 'Contact'
-        }
-    ];
+    $scope.$menu = [];
 
     Router.http({
         url : Router.serverUrl($location,'categories')
@@ -338,8 +329,18 @@ function MainCntl($scope, $route, $routeParams, $http, $location ) {
             }
 
         }
+
         /**
-         * Cat must be last
+         * Github
+         */
+        n.push({
+            url : 'https://github.com/igorzg/js_cms',
+            title : 'Cms on github',
+            blank : true
+        });
+
+        /**
+         * Contact must be last
          */
         n.push({
             url : '/contact',
