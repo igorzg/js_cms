@@ -1,0 +1,384 @@
+/**
+ * File:
+ * User: igorivanovic
+ * Date: 1/8/13
+ * Time: 7:52 PM
+ * @copyright : Igor Ivanovic
+ */
+body{
+    background: url("images/bg.png") repeat;
+}
+
+#structure{
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+    width: 960px;
+}
+.content-padding{
+    padding: 10px;
+}
+.clear{
+    clear: both;
+}
+#header{
+    background: #363636;
+    padding: 35px 0 35px 0;
+
+}
+
+
+#header #logo{
+    float: left;
+    color: #fff;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 40px;
+    margin-left: 40px;
+    width: 600px;
+}
+#header #logo a,
+#header #about a{
+    color: #ff9529;
+    text-decoration: none;
+}
+#header #logo a:hover,
+#header #about a:hover{
+    color: #fff;
+}
+
+#header #about{
+    float: left;
+    color: #fff;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 18px;
+    margin-left: 70px;
+    width: 600px;
+    margin-top: 20px;
+}
+#header #about ul li{
+    margin-top: 10px;
+}
+
+#header #me {
+    float: right;
+    margin-right: 55px;
+    background: #ffffff;
+    padding: 3px 3px 0 3px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+#header #me img{
+    margin: 0;
+    padding: 0;
+}
+
+
+#menu{
+    float: left;
+    margin: 0 auto;
+    width: 960px;
+    background: #FAFAFA;
+    border: 1px solid #EEE;
+    width: 100%;
+    border-width: 1px 0 1px 0;
+}
+
+#menu ul{
+    line-height: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+#menu ul li {
+    float: left;
+    margin: 0 -1px -1px 0;
+    padding: 0;
+    position: relative;
+    border-bottom: 1px solid #EEE;
+    border-left: 1px solid #EEE;
+    border-right: 1px solid #EEE;
+}
+#menu ul li a{
+    display: block;
+    float: left;
+    margin: 0;
+    font-family: 'Fjalla One', sans-serif;
+    padding: 6px 16px;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 1;
+    color: #333;
+    text-decoration: none;
+}
+#menu ul li a:hover{
+    text-decoration: underline;
+}
+
+
+#footer{
+    background: #363636;
+    padding: 10px 15px 10px 15px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+#articles, #contact{
+    width: 600px;
+    float: left;
+    overflow: hidden;
+}
+#articles .article .title,
+#sidebar .title,
+#contact .title{
+    background: #363636;
+    margin-top: 10px;
+    padding: 10px 15px 10px 15px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+#articles .article ul.photogalery{
+    height: 300px;
+    width: 600px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
+}
+
+#articles .article ul.photogalery.hide{
+    display: none;
+}
+
+#articles .article ul.photogalery li {
+    float: left;
+    list-style: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+#articles .article ul.photogalery li img{
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2) !important;
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) !important;
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.3) !important;
+    width: 600px;
+    height: 300px;
+    border: none;
+    background: none;
+}
+
+#articles .article .short_description{
+    margin-top: 10px;
+    color: #666;
+    font-family: Arial, sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+
+#articles .article .description{
+    margin-top: 10px;
+    color: #666;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+#articles .article a.more{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 15px;
+    color: #000;
+    margin-top: 15px;
+    display: block;
+    text-decoration: none;
+}
+
+#articles .article a.more:hover{
+    color: #cccccc;
+}
+
+#articles #youtube_wrapper{
+    margin-top: 10px;
+}
+
+#sidebar{
+    float: right;
+    width: 300px;
+}
+
+#sidebar #search #main_search{
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #EEE;
+    display: block;
+    width: 100%;
+}
+#sidebar #search #main_search input[name="q"]{
+    margin: 0;
+    width: 88%;
+    height: 35px;
+    border: none;
+    background: none;
+    padding-left: 5px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 15px;
+    color: #000;
+}
+
+#sidebar #search #main_search input[type="button"]{
+    background: url('images/icon-magnify.png') no-repeat;
+    width: 12px;
+    height: 12px;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#sidebar #social{
+    margin-top: 15px;
+}
+#sidebar #social ul {
+    margin-top: 10px;
+    list-style: none;
+}
+#sidebar #social ul li {
+    float: left;
+    margin-right: 10px;
+
+}
+#contact_me{
+    margin-top: 15px;
+}
+#contact_me .row label{
+    display: block;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 15px;
+    color: #000;
+}
+#contact_me .row {
+    margin-top: 10px;
+}
+#contact_me .row input{
+    margin: 0;
+    width: 50%;
+    height: 35px;
+    background: none;
+    padding-left: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #000;
+    border: 1px solid #EEE;
+    margin-top: 5px;
+}
+
+#contact_me .row textarea{
+    margin: 0;
+    background: none;
+    padding-left: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    border: 1px solid #EEE;
+    margin-top: 5px;
+    width: 90%;
+    height: 100px;
+}
+
+#submit_contact{
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#loading, #nodata{
+    text-align: center;
+    margin-top: 80px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 55px;
+}
+#nodata{
+    display: none;
+}
+
+
+#overlay_wrapper #overlay{
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -150px;
+    margin-left: -200px;
+    padding: 10px;
+    background: #EEEEEE;
+    border: 2px solid #000000;
+    color: #000;
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+
+#overlay_wrapper #overlay div.title{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 45px;
+    color: #000;
+}
+
+#overlay_wrapper #overlay ul
+{
+    margin-top: 30px;
+    list-style: none;
+}
+#overlay_wrapper #overlay ul li
+{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 20px;
+    line-height: 35px;
+    color: #000;
+}
+
+#overlay_wrapper{
+    display: none;
+}
+#overlay_wrapper.show{
+    display: block;
+    z-index: 5;
+
+}
+
+#overlay_wrapper #overlay_bg{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    position: fixed;
+    z-index: 5;
+    top: 0;
+}
+#overlay_wrapper #overlay div.title{
+    margin-top: 15px;
+    font-size: 35px;
+}
+#overlay_wrapper #overlay{
+    z-index: 10;
+}
+#overlay_wrapper #overlay .button{
+    margin-top: 25px;
+    cursor: pointer;
+}
+
+#articles .article ul.errors{
+
+}
+
+#articles .article ul.errors li{
+    margin-top: 10px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 18px;
+    line-height: 25px;
+    color: #000;
+}

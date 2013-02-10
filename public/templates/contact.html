@@ -1,0 +1,24 @@
+<div id="contact">
+    <div class="title">Contact me</div>
+    <form id="contact_me">
+        <div class="row">
+            <label>Name:</label>
+            <input type="text" name="name" placeholder="enter your name">
+        </div>
+        <div class="row">
+            <label>Email:</label>
+            <input type="text" name="email" placeholder="enter your email">
+        </div>
+        <div class="row">
+            <label>Subject:</label>
+            <input type="text" name="subject" placeholder="write a subject">
+        </div>
+        <input type="hidden" name="token" >
+        <div class="row">
+            <label>Message:</label>
+            <textarea name="message"></textarea>
+        </div>
+        <button id="submit_contact" class="blackglossyCSSButtonbutton" ng-click="send()">Send</button>
+    </form>
+
+</div>

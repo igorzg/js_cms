@@ -1,0 +1,10 @@
+<div class="submenu" ng-controller="AdminSubmenuCtl">
+    <ul>
+        <li ng-repeat="item in menu">
+            <span ng-switch on="item.current" >
+                <a ng-switch-when="true" data-ng-href="{{item.url}}" class="current blackglossyCSSButtonbutton">{{item.title}}</a>
+                <a ng-switch-when="false" data-ng-href="{{item.url}}" class="blackglossyCSSButtonbutton">{{item.title}}</a>
+            </span>
+        </li>
+    </ul>
+</div>

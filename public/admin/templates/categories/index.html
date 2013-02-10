@@ -1,0 +1,35 @@
+<div id="menu_wrapper" ng-init="menu_template_src = '/admin/templates/includes/menu.html'" ng-include src="menu_template_src"></div>
+<div id="sub_menu_wrapper" ng-init="sub_menu_template_src = '/admin/templates/includes/submenu.html'" ng-include src="sub_menu_template_src"></div>
+<div id="container">
+    <div id="form_container">
+        <table class="greed">
+            <thead>
+                <th> {{translations['NUM']}}</th>
+                <th> {{translations['ID']}}</th>
+                <th> {{translations['Title']}}</th>
+                <th> {{translations['Short description']}}</th>
+                <th> {{translations['Url']}}</th>
+                <th> {{translations['Parent category']}}</th>
+                <th> {{translations['Created']}}</th>
+                <th> {{translations['Edit']}}</th>
+                <th> {{translations['Delete']}}</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in categories">
+                    <td>{{$index+1}}</td>
+                    <td class="center">{{item._id}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.short_description}}</td>
+                    <td>{{item.url}}</td>
+                    <td class="center">{{item.parent.title}}</td>
+                    <td class="center">{{item.date}}</td>
+                    <td class="center"><a href="{{item.edit_url}}" class="blackglossyCSSButtonbutton" >Edit</a></td>
+                    <td class="center"><a href="#" data-deleteurl="{{item.delete_url}}" class="blackglossyCSSButtonbutton" ng-click="confirmDelete($event)" >Delete</a></td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="center nodata">{{translations['No records to display']}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ngView">
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+    <link type="text/css" rel="stylesheet" href="/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/main.css">
+    <link type="text/css" rel="stylesheet" href="/css/buttons.css">
+    <title></title>
+</head>
+<body>
+<div id="overlay_wrapper"></div>
+<div id="structure" ng-controller="MainCntl">
+    <div id="header">
+        <div id="logo">
+            {{$me.headText}}
+            <a data-ng-href="{{$me.url}}" target="_blank">{{$me.company}}</a> ltd
+        </div>
+        <div id="about">
+            <ul>
+                <li ng-repeat="item in $me.about">
+                    {{item}}
+                </li>
+            </ul>
+        </div>
+        <div id="me">
+            <img data-ng-src="{{$me.image.url}}" width="{{$me.image.width}}" height="{{$me.image.height}}">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="menu">
+        <ul>
+            <li ng-repeat="item in $menu">
+                <a data-ng-href="{{item.url}}">
+                    {{item.title}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="content-padding">
+        <div ng-view></div>
+        <div ng-include src="sidebar.url"></div>
+        <div class="clear"></div>
+    </div>
+    <div id="footer">
+        <div class="copy">{{$me.copy.text}}</div>
+    </div>
+    <script type="text/javascript" src="/js/session.js"></script>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="/js/ie_lte_8.js"></script><![endif]-->
+    <script type="text/javascript" src="/js/app.js"></script>
+</div>
+</body>
+</html>

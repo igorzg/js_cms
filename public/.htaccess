@@ -1,0 +1,15 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^igorivanovic\.info$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.igorivanovic\.info$
+RewriteRule (.*) http://www.igorivanovic.info$/$1 [R=301,L]
+
+
+AddDefaultCharset UTF-8
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.html [QSA,L]
+</IfModule>

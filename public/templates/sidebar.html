@@ -1,0 +1,27 @@
+<div id="sidebar" ng-controller="MainSideBar">
+    <div id="search">
+        <div class="title">{{translations.title}}</div>
+        <form action="/serach">
+            <div id="main_search">
+                    <input type="text" name="q" value="{{query}}" placeholder="{{translations.placeholder}}">
+                    <input type="button" class="magnify" ng-click="search($event)">
+            </div>
+        </form>
+    </div>
+    <div id="social">
+        <div class="title">{{social.title}}</div>
+        <ul>
+            <li ng-repeat="item in social.data">
+                <a data-ng-href="{{item.url}}" target="_blank" style="width: {{item.w}}px; height: {{item.h}}px; overflow: hidden; display: block;"  >
+                              <span  title="{{item.text}}" style="
+                                      background: url( {{item.src}} ) no-repeat;
+                                      background-position: {{item.x}}px {{item.y}}px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;
+                              "></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

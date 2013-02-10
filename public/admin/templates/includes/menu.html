@@ -1,0 +1,13 @@
+<div id="menu" ng-controller="AdminMenuCtrl">
+    <ul>
+        <li ng-repeat="item in menu">
+            <span ng-switch on="item.current" >
+                <a ng-switch-when="true" data-ng-href="{{item.url}}" class="current" >{{item.title}}</a>
+                <a ng-switch-when="false" data-ng-href="{{item.url}}">{{item.title}}</a>
+            </span>
+        </li>
+        <li class="logout">
+            <a href="#" ng-click="logout($event)">Logout</a>
+        </li>
+    </ul>
+</div>

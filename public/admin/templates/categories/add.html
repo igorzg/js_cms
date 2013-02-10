@@ -1,0 +1,28 @@
+<div id="menu_wrapper" ng-init="menu_template_src = '/admin/templates/includes/menu.html'" ng-include src="menu_template_src"></div>
+<div id="sub_menu_wrapper" ng-init="sub_menu_template_src = '/admin/templates/includes/submenu.html'" ng-include src="sub_menu_template_src"></div>
+<div id="container">
+    <div id="form_container">
+        <form id="add_category" >
+            <div class="left">
+                <label>{{translations['Title']}}</label>
+                <input type="text" name="title" value="{{edit.title}}">
+                <label>{{translations['Short description']}}</label>
+                <textarea name="short_description" cols="50" rows="10">{{edit.short_description}}</textarea>
+            </div>
+            <div class="left tags">
+
+                <label>{{translations['Tags']}}</label>
+                <textarea name="tags" cols="50" rows="10">{{edit.tags}}</textarea>
+                <label>{{translations['Select category']}}</label>
+                <select name="parent_category">
+                    <option value="">Select</option>
+                    <option  ng-repeat="item in categories" value="{{item._id}}"  selected="{{item.selected}}">{{item.title}}</option>
+                </select>
+                <input type="hidden" name="id" value="{{edit._id}}">
+            </div>
+            <div class="clear"></div>
+            <button id="submit_category" class="blackglossyCSSButtonbutton" ng-click="save()">{{translations['Submit']}}</button>
+        </form>
+    </div>
+</div>
+
