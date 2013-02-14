@@ -313,7 +313,7 @@ controller.setRoute("post","/email", function(req,res){
 controller.setRoute("post","/snapshot", function(req,res){
     var html = req.param("html");
     var name = req.param("name");
-    name = name.replace("/","_");
+    name = name.replace(/\//ig,"_");
     var snapshot = "/snapshot/" + name + ".html";
     var dir = __dirname + "/../../public" + snapshot;
     var fs = require('fs');
@@ -325,6 +325,49 @@ controller.setRoute("post","/snapshot", function(req,res){
     });
 
 });
+
+/**
+ * Send email
+ */
+controller.setRoute("get","/sitemap", function(req,res){
+
+
+    var host = req.host;
+    var xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+    xml += '<url><loc>http://'+host+'</loc><changefreq>weekly</changefreq></url>';
+
+    categoriesModel.listAll(function(error,data){
+        if(data !== null){
+            data.forEach(function(val){
+                xml += '<url><loc>http://'+host+val.url+'</loc><changefreq>weekly</changefreq></url>';
+            });
+        }
+    });
+
+    articlesModel.listAll(function(error,data){
+        if(data !== null){
+            data.forEach(function(val){
+                xml += '<url><loc>http://'+host+val.url+'</loc><changefreq>weekly</changefreq></url>';
+            });
+        }
+    });
+
+
+    setTimeout(function(){
+        xml += '</urlset>';
+        var dir = __dirname + "/../../public/sitemap.xml";
+        var fs = require('fs');
+        fs.writeFile(dir, xml, 'utf8',function(error) {
+            res.set('Content-Type', 'text/xml');
+            res.send(new Buffer(xml));
+        });
+    }, 50);
+
+
+});
+
 
 /**
  * Initialize controler
