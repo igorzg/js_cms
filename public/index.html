@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ngView" ng-controller="MainCntl">
 <head>
+    <meta name="fragment" content="!">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="/css/reset.css">
     <link type="text/css" rel="stylesheet" href="/css/main.css">
     <link type="text/css" rel="stylesheet" href="/css/buttons.css">
+
     <title>{{pageTitle}}</title>
     <meta name="description" content="{{pageDescription}}">
 </head>
@@ -56,6 +60,20 @@
     <!--[if lte IE 8]>
     <script type="text/javascript" src="/js/ie_lte_8.js"></script><![endif]-->
     <script type="text/javascript" src="/js/app.js"></script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38394375-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
 </div>
 </body>
 </html>

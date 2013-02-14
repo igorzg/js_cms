@@ -1,4 +1,14 @@
 /**
+ * Set base
+ */
+(function(){
+    var base = document.createElement("base");
+    base.setAttribute("href", location.protocol+"//"+location.hostname);
+    var head = document.getElementsByTagName("head")[0];
+    head.insertBefore(base,head.firstChild);
+}());
+
+/**
  * File:
  * User: igorivanovic
  * Date: 1/8/13
@@ -163,6 +173,25 @@ var Router = {
 
 
 
+    },
+    /**
+     * Creating snapshot
+     * SEO handling
+     */
+    snapshot : function($location,$http){
+        var html = angular.element(document.documentElement).html();
+
+
+
+        var name = location.pathname;
+        Router.http({
+            method : "POST",
+            url : Router.serverUrl($location,"snapshot"),
+            data:  {html : "<!DOCTYPE html>"+html, name : name}
+        }, function(data){
+            $http.get(data.snapshot + "#!");
+        },$http,$location);
+
     }
 
 }
@@ -211,16 +240,27 @@ var Compiler = {
         });
     },
     /**
+     *
+     * @param template
+     * @param scope
+     * @param $http
+     * @param $compile
+     */
+
+    /**
      * Compile template
      * @param template
      * @param scope
      * @param $http
      * @param $compile
      */
-    template : function(template,scope,$http,$compile){
+    template : function(template,scope,$http,$compile, $location){
         $http.get(template).success(function(data){
             $compile(angular.element(data))(scope, function(clonedElement) {
                 angular.element(document.querySelector("#compiled_data")).html("").append(clonedElement);
+                setTimeout(function(){
+                    Router.snapshot($location,$http);
+                },0);
             });
             angular.element( document.getElementById("loading") ).css({
                 "display" : "none"
@@ -288,6 +328,7 @@ var strip_tags = function(input, allowed) {
  * @constructor
  */
 function MainCntl($scope, $route, $routeParams, $http, $location ) {
+
 
 
     $scope.pageTitle = "Software developer enthusiast - Igor Ivanovic";
@@ -389,7 +430,7 @@ function SearchCtrl( $scope, $http, $location, $compile, $rootScope, $routeParam
             var rebuilded = rebuild(res.data), scope = $rootScope.$new();
             scope.articles = rebuilded;
             scope.viewMore = "View more";
-            Compiler.template( "/templates/list.html", scope, $http, $compile );
+            Compiler.template( "/templates/list.html", scope, $http, $compile, $location );
         }
 
 
@@ -432,7 +473,7 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             }
 
 
-            Compiler.template( "/templates/list.html", scope, $http, $compile );
+            Compiler.template( "/templates/list.html", scope, $http, $compile, $location );
 
         }else{
             var scope = $rootScope.$new();
@@ -451,10 +492,11 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             }
 
 
-            Compiler.template( "/templates/article.html", scope, $http, $compile );
+            Compiler.template( "/templates/article.html", scope, $http, $compile, $location );
 
 
         }
+
 
 
 
@@ -566,6 +608,8 @@ function MainSideBar($scope, $location){
 function ContactCtrl($scope, $location, $http, $compile, $rootScope){
 
 
+
+
     var form = document.getElementById("contact_me"),
         name = form.querySelector('[name="name"]'),
         email = form.querySelector('[name="email"]'),
@@ -612,6 +656,10 @@ function ContactCtrl($scope, $location, $http, $compile, $rootScope){
         }, $http, $location);
     }
 
+    setTimeout(function(){
+        Router.snapshot($location,$http);
+    },0);
+
 }
 /**
  * Scope translations
@@ -626,4 +674,8 @@ function ErrorCtrl($scope){
         'Press the back button in your broswer and then click another link.' : 'Press the back button in your broswer and then click another link.',
         'Home' : 'Home'
     }
+
+    setTimeout(function(){
+        Router.snapshot($location,$http);
+    },0);
 }

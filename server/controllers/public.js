@@ -306,6 +306,26 @@ controller.setRoute("post","/email", function(req,res){
 });
 
 
+
+/**
+ * Send email
+ */
+controller.setRoute("post","/snapshot", function(req,res){
+    var html = req.param("html");
+    var name = req.param("name");
+    name = name.replace("/","_");
+    var snapshot = "/snapshot/" + name + ".html";
+    var dir = __dirname + "/../../public" + snapshot;
+    var fs = require('fs');
+    fs.writeFile(dir, html, 'utf8',function(error) {
+        res.json({
+            error : error,
+            snapshot : snapshot
+        });
+    });
+
+});
+
 /**
  * Initialize controler
  * @param app
