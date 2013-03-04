@@ -1,0 +1,210 @@
+<!DOCTYPE html><head><base href="http://local.igorivanovic.info">
+    <meta name="fragment" content="!">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <link href="http://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/main.css">
+    <link type="text/css" rel="stylesheet" href="/css/buttons.css">
+
+    <title class="ng-binding">Software developer enthusiast - Igor Ivanovic</title>
+    <meta name="description" content="I'm able to envision a future that no one else sees and invent things that haven’t been imagined :) ">
+<style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style></head>
+<body>
+<div id="overlay_wrapper"></div>
+<div id="structure">
+    <div id="header">
+        <div id="logo" class="ng-binding">
+            Software engineer at
+            <a data-ng-href="http://www.nivas.hr" target="_blank" href="http://www.nivas.hr" class="ng-binding">Nivas</a> ltd
+        </div>
+        <div id="about">
+            <ul>
+                <!-- ngRepeat: item in $me.about --><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    This is my personal wall :)
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    What i do know?
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    Javascript, PHP, MYSQL, MongoDB, HTML 5, Node
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    How i developed this ?
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    Angular.js, MongoDb, Node.js
+                </li>
+            </ul>
+        </div>
+        <div id="me">
+            <img data-ng-src="/css/images/me.jpg" width="150" height="150" src="/css/images/me.jpg">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="menu">
+        <ul>
+            <!-- ngRepeat: item in $menu --><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/" href="/" class="ng-scope ng-binding">
+                        Home
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/javascript" href="/javascript" class="ng-scope ng-binding">
+                        Javascript
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/php" href="/php" class="ng-scope ng-binding">
+                        Php
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-when="true" target="_blank" data-ng-href="https://github.com/igorzg/js_cms" href="https://github.com/igorzg/js_cms" class="ng-scope ng-binding">
+                        Github
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/contact" href="/contact" class="ng-scope ng-binding">
+                        Contact
+                    </a></ng-switch>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="content-padding">
+        <div ng-view=""><div id="articles" class="ng-scope">
+    <div id="compiled_data"><!-- ngRepeat: item in articles --><div class="article ng-scope" ng-repeat="item in articles">
+    <div class="title ng-binding">Third article</div>
+    <ul class="photogalery ">
+        <!-- ngRepeat: image in item.images --><li ng-repeat="image in item.images" class="ng-scope">
+            <img data-ng-src="/static/images/4/DSC00790.JPG" src="/static/images/4/DSC00790.JPG">
+        </li>
+    </ul>
+    <div ng-bind-html-unsafe="item.short_description" class="short_description ng-binding">Third article</div>
+    <a class="more ng-binding" data-ng-href="/third-article" href="/third-article">
+        View more
+    </a>
+</div><div class="article ng-scope" ng-repeat="item in articles">
+    <div class="title ng-binding">First Article 2</div>
+    <ul class="photogalery ">
+        <!-- ngRepeat: image in item.images --><li ng-repeat="image in item.images" class="ng-scope">
+            <img data-ng-src="/static/images/3/DSC00790.JPG" src="/static/images/3/DSC00790.JPG">
+        </li>
+    </ul>
+    <div ng-bind-html-unsafe="item.short_description" class="short_description ng-binding">Lorem Ipsum je jednostavno probni tekst koji se koristi u tiskarskoj i slovoslagarskoj industriji. Lorem Ipsum postoji kao industrijski standard još od 16-og stoljeća, kada je nepoznati tiskar uzeo tiskarsku galiju slova i posložio ih da bi napravio knjigu s uzorkom tiska.  <br> binding test</div>
+    <a class="more ng-binding" data-ng-href="/first-article-2" href="/first-article-2">
+        View more
+    </a>
+</div><div class="article ng-scope" ng-repeat="item in articles">
+    <div class="title ng-binding">Second article</div>
+    <ul class="photogalery hide">
+        <!-- ngRepeat: image in item.images -->
+    </ul>
+    <div ng-bind-html-unsafe="item.short_description" class="short_description ng-binding">Second article</div>
+    <a class="more ng-binding" data-ng-href="/javascript/nodejs/express-framework/second-article" href="/javascript/nodejs/express-framework/second-article">
+        View more
+    </a>
+</div><div class="article ng-scope" ng-repeat="item in articles">
+    <div class="title ng-binding">First Article</div>
+    <ul class="photogalery hide">
+        <!-- ngRepeat: image in item.images -->
+    </ul>
+    <div ng-bind-html-unsafe="item.short_description" class="short_description ng-binding">Lorem Ipsum je jednostavno probni tekst koji se koristi u tiskarskoj i slovoslagarskoj industriji. </div>
+    <a class="more ng-binding" data-ng-href="/javascript/first-article" href="/javascript/first-article">
+        View more
+    </a>
+</div>
+
+</div>
+    <div id="loading" style="display: none;">
+        Loading...
+    </div>
+    <div id="nodata">
+        No data...
+    </div>
+</div>
+</div>
+        <div ng-include="" src="sidebar.url"><div id="sidebar" ng-controller="MainSideBar" class="ng-scope">
+    <div id="search">
+        <div class="title ng-binding">Search</div>
+        <form action="/serach" class="ng-pristine ng-valid">
+            <div id="main_search">
+                    <input type="text" name="q" value="" placeholder="Angular Js">
+                    <input type="button" class="magnify" ng-click="search($event)">
+            </div>
+        </form>
+    </div>
+    <div id="social">
+        <div class="title ng-binding">Networks</div>
+        <ul>
+            <!-- ngRepeat: item in social.data --><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="https://twitter.com/igorzg1987" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="https://twitter.com/igorzg1987">
+                              <span title="Twitter" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: 0px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="http://www.facebook.com/igorzg" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="http://www.facebook.com/igorzg">
+                              <span title="Facebook" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -50px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="http://www.linkedin.com/in/igorivanoviczg" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="http://www.linkedin.com/in/igorivanoviczg">
+                              <span title="Linkedin" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -150px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="https://plus.google.com/108595989864480449672" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="https://plus.google.com/108595989864480449672">
+                              <span title="Google +" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -100px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div></div>
+        <div class="clear"></div>
+    </div>
+    <div id="footer">
+        <div class="copy ng-binding">Copyright: Igor Ivanovic, 2013</div>
+    </div>
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript" src="/js/session.js"></script>
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="/js/ie_lte_8.js"></script><![endif]-->
+    <script type="text/javascript" src="/js/app.js"></script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38394375-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</div><script type="text/javascript" src="https://www.google.com/jsapi?callback=gloader_ready"></script>
+
+</body>

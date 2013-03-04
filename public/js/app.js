@@ -276,7 +276,11 @@ var Compiler = {
  * @return {*}
  */
 var buildArticle = function(data){
-    if( !data.images ){
+    if(data === null){
+       return {};
+    }
+
+    if( data.images === undefined ){
         data.images = [];
     }
     if( data.image && data.image.length > 0 ){
@@ -300,7 +304,10 @@ var rebuild = function(data){
         var i, c,len = data.length;
         for(i = 0; i < len; ++i){
             c = data[i];
-            c = buildArticle(c);
+            if( c ){
+                c = buildArticle(c);
+            }
+
         }
         return data;
     }
@@ -480,7 +487,7 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             scope = angular.extend(scope,buildArticle(res.data));
 
             if( angular.isDefined(scope.youtube) && scope.youtube.length > 5 ){
-                scope.youtube = "http://www.youtube.com/embed/" + scope.youtube;
+                scope.youtube = "https://www.youtube.com/embed/" + scope.youtube;
                 scope.haveYoutube = true;
             }else{
                 scope.haveYoutube = false;

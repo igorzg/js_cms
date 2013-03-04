@@ -114,7 +114,7 @@ controller.setRoute("get","/resolve", function(req,res){
 
     if( url !== "/" ){
 
-        var u = url.replace(/\/$/,"");
+        var u = url.replace(/#?\/$/,"");
 
         categoriesModel.one({ url : u },function(error,category){
 

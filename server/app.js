@@ -16,7 +16,7 @@ app.configure(function(){
     app.set('port', 10350);
     app.locals.pretty = true;
     app.use(express.cookieParser());
-    app.use(express.session({ secret: 'YOUR_SESSION_SECRET' }));
+    app.use(express.session({ secret: 'TWFuIGlzIGRc3Rpbmd1ZWQsvdCBvbmxGJ5IGhpcyByZWFzb2J1dCBeSB0aGlz' }));
     app.use(express.methodOverride());
     app.use(express.bodyParser({uploadDir:'/tmp'}));
     app.use(app.router);
