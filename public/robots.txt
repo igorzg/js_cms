@@ -2,5 +2,5 @@ User-agent: *
 Disallow: /admin
 Disallow: /css
 Disallow: /js
-Disallow: /snapshot
 Disallow: /templates
+Allow: /
