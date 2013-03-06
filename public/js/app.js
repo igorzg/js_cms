@@ -338,9 +338,6 @@ function MainCntl($scope, $route, $routeParams, $http, $location ) {
 
 
 
-    $scope.pageTitle = "Software developer enthusiast - Igor Ivanovic";
-    $scope.pageDescription = "I'm able to envision a future that no one else sees and invent things that haven’t been imagined :) ";
-
     $scope.$me = {
         about : [
             "This is my personal wall :)",
@@ -426,6 +423,10 @@ function MainCntl($scope, $route, $routeParams, $http, $location ) {
 function SearchCtrl( $scope, $http, $location, $compile, $rootScope, $routeParams ){
 
 
+    var desc = document.querySelector('meta[name=description]');
+    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+    document.title = 'Software technology enthusiast - Igor Ivanovic';
+
     Router.http({
         method : 'GET',
         url : Router.serverUrl($location,'search'),
@@ -462,6 +463,12 @@ function SearchCtrl( $scope, $http, $location, $compile, $rootScope, $routeParam
  */
 function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
 
+   var title = 'Software technology enthusiast - Igor Ivanovic';
+   var mainTtitle = function(){
+       var desc = document.querySelector('meta[name=description]');
+       angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+       document.title = title;
+   }
 
     Router.http({
         url : Router.serverUrl($location,'resolve'),
@@ -475,8 +482,12 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             scope.viewMore = "View more";
 
             if( res.category && res.category !== null ){
-                $scope.$parent.pageDescription  = strip_tags( res.category.short_description );
-                $scope.$parent.pageTitle  = strip_tags( res.category.title );
+
+                var desc = document.querySelector('meta[name=description]');
+                angular.element(desc).attr('content', strip_tags( res.category.short_description ) );
+                document.title = strip_tags(  res.category.title )  + ' - ' + title;
+            }else{
+                mainTtitle();
             }
 
 
@@ -494,12 +505,16 @@ function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
             }
 
             if( res.data !== null ){
-                $scope.$parent.pageDescription  = strip_tags( scope.short_description );
-                $scope.$parent.pageTitle  = strip_tags( scope.title );
+                var desc = document.querySelector('meta[name=description]');
+                angular.element(desc).attr('content', strip_tags( scope.short_description ) );
+                document.title = strip_tags( scope.title )  + ' - ' + title;
+            }else{
+                mainTtitle();
             }
 
 
-            Compiler.template( "/templates/article.html", scope, $http, $compile, $location );
+
+        Compiler.template( "/templates/article.html", scope, $http, $compile, $location );
 
 
         }
@@ -615,6 +630,9 @@ function MainSideBar($scope, $location){
 function ContactCtrl($scope, $location, $http, $compile, $rootScope){
 
 
+    var desc = document.querySelector('meta[name=description]');
+    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+    document.title = 'Software technology enthusiast - Igor Ivanovic';
 
 
     var form = document.getElementById("contact_me"),
@@ -674,6 +692,12 @@ function ContactCtrl($scope, $location, $http, $compile, $rootScope){
  * @constructor
  */
 function ErrorCtrl($scope){
+
+    var desc = document.querySelector('meta[name=description]');
+    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+    document.title = 'Software technology enthusiast - Igor Ivanovic';
+
+
     $scope.translations = {
         'Error: 404' : 'Error: 404',
         'Something went terribly wrong, but most likely it is not your fault.' : 'Something went terribly wrong, but most likely it is not your fault.',
