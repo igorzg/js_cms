@@ -8,39 +8,6 @@
     head.insertBefore(base,head.firstChild);
 }());
 
-/**
- * File:
- * User: igorivanovic
- * Date: 1/8/13
- * Time: 7:52 PM
- * @copyright : Igor Ivanovic
- */
-angular.module('ngView', [], function($routeProvider, $locationProvider) {
-
-    var homeUrl = '/';
-
-    $routeProvider.
-        when(homeUrl + 'serach', {
-            templateUrl: '/templates/main.html',
-            controller: SearchCtrl
-        }).
-        when(homeUrl + 'error', {
-            templateUrl: '/templates/error.html',
-            controller: ErrorCtrl
-        }).
-        when(homeUrl + 'contact', {
-            templateUrl: '/templates/contact.html',
-            controller: ContactCtrl
-        }).
-        otherwise({
-            path: homeUrl ,
-            templateUrl: '/templates/main.html',
-            controller: MainListCtrl
-        });
-
-    $locationProvider.html5Mode(true);
-});
-
 
 /**
  * Handle cookies
@@ -89,195 +56,13 @@ var CookieHandler = {
 
 
 /**
- * Create router
- * @type {Object}
- */
-var Router = {
-    /**
-     * Port
-     */
-    port : 10350,
-    /**
-     * Create server admin url
-     * @param $location
-     * @param url
-     * @return {String}
-     */
-    serverUrl : function($location,url){
-
-        var str = "";
-        if( angular.isString(url) ){
-            str += url;
-        }
-        return $location.$$protocol + "://" + $location.$$host + ":"+this.port+"/" + str;
-    },
-    /**
-     * Create Admin url
-     * @param $location
-     * @param url
-     * @return {String}
-     */
-    absUrl : function($location,url){
-        var str = "";
-        if( angular.isString(url) ){
-            str += url;
-        }
-        return $location.$$protocol + "://" + $location.$$host + "/" + str;
-    },
-    /**
-     * Create Admin url
-     * @param $location
-     * @param url
-     * @return {String}
-     */
-    url : function(url){
-        var str = "";
-        if( angular.isString(url) ){
-            str += url;
-        }
-        return "/" + str;
-    },
-    /**
-     * Post data
-     * @param $http
-     * @param $location
-     * @param callback
-     */
-    http : function(settings, callback, $http, $location ){
-
-        var config = {
-            method: 'GET',
-            url:  null,
-            dataType: "json",
-            withCredentials : true,
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        };
-
-        config = angular.extend(config,settings);
-
-
-
-        if( config.url !== null ){
-            $http(config)
-                .success(callback)
-                .error(function() {
-                    if( $location.$$url !== "/error" ){
-                        $location.url(Router.url("error"));
-                    }
-                });
-        }else{
-            throw new Error("Url must be entered");
-        }
-
-
-
-    },
-    /**
-     * Creating snapshot
-     * SEO handling
-     */
-    snapshot : function($location,$http){
-        var html = angular.element(document.documentElement).html();
-
-
-
-        var name = location.pathname;
-        Router.http({
-            method : "POST",
-            url : Router.serverUrl($location,"snapshot"),
-            data:  {html : "<!DOCTYPE html>"+html, name : name}
-        }, function(data){
-            $http.get(data.snapshot + "#!");
-        },$http,$location);
-
-    }
-
-}
-
-
-/**
- * Compiler helper
- * @type {Object}
- */
-var Compiler = {
-    /**
-     * Compile overly
-     * @constructor
-     */
-    compileOverly : function(scope,$compile){
-
-        var templateHTML = '<div id="overlay_bg" ng-click="close()"></div>';
-        templateHTML += '<div id="overlay">';
-        templateHTML += '<div class="title">{{title}}</div>';
-        templateHTML += '<ul>';
-        templateHTML += '<li ng-repeat="item in messages">{{item}}</li>';
-        templateHTML += '</ul>';
-        templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="close()">{{close_button_title}}</button>';
-        templateHTML += '</div>';
-
-        $compile(angular.element(templateHTML))(scope, function(clonedElement, scope) {
-            angular.element(document.querySelector("#overlay_wrapper")).addClass("show").html("").append(clonedElement);
-        });
-    },
-    /**
-     * Confirm Overly
-     * @param scope
-     * @param $compile
-     */
-    compileConfirmOverly : function(scope,$compile){
-
-        var templateHTML = '<div id="overlay_bg" ng-click="close()"></div>';
-        templateHTML += '<div id="overlay">';
-        templateHTML += '<div class="title">{{title}}</div>';
-        templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="ok_confirm_response($event)" style="margin-right: 15px">{{ok_button_title}}</button>';
-        templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="close()">{{close_button_title}}</button>';
-        templateHTML += '</div>';
-
-        $compile(angular.element(templateHTML))(scope, function(clonedElement, scope) {
-            angular.element(document.querySelector("#overlay_wrapper")).addClass("show").html("").append(clonedElement);
-        });
-    },
-    /**
-     *
-     * @param template
-     * @param scope
-     * @param $http
-     * @param $compile
-     */
-
-    /**
-     * Compile template
-     * @param template
-     * @param scope
-     * @param $http
-     * @param $compile
-     */
-    template : function(template,scope,$http,$compile, $location){
-        $http.get(template).success(function(data){
-            $compile(angular.element(data))(scope, function(clonedElement) {
-                angular.element(document.querySelector("#compiled_data")).html("").append(clonedElement);
-                setTimeout(function(){
-                    Router.snapshot($location,$http);
-                },0);
-            });
-            angular.element( document.getElementById("loading") ).css({
-                "display" : "none"
-            });
-        });
-    }
-}
-
-
-/**
  * Build Article
  * @param data
  * @return {*}
  */
 var buildArticle = function(data){
     if(data === null){
-       return {};
+        return {};
     }
 
     if( data.images === undefined ){
@@ -324,6 +109,234 @@ var strip_tags = function(input, allowed) {
     });
 }
 
+/**
+ * File:
+ * User: igorivanovic
+ * Date: 1/8/13
+ * Time: 7:52 PM
+ * @copyright : Igor Ivanovic
+ */
+var ngModule = angular.module('SimpleCMS', [], function($routeProvider, $locationProvider) {
+
+    var homeUrl = '/';
+
+    $routeProvider.
+        when(homeUrl + 'serach', {
+            templateUrl: '/templates/main.html',
+            controller: 'SearchCtrl'
+        }).
+        when(homeUrl + 'error', {
+            templateUrl: '/templates/error.html',
+            controller: 'ErrorCtrl'
+        }).
+        when(homeUrl + 'contact', {
+            templateUrl: '/templates/contact.html',
+            controller: 'ContactCtrl'
+        }).
+        otherwise({
+            path: homeUrl ,
+            templateUrl: '/templates/main.html',
+            controller: 'MainListCtrl'
+        });
+
+    $locationProvider.html5Mode(true);
+});
+
+
+/**
+ * File:
+ * User: igorivanovic
+ * Date: 3/11/13
+ * Time: 8:06 PM
+ * @copyright : Igor Ivanovic
+ */
+ngModule.factory('routerFactory', ['$http','$location', function($http,$location) {
+
+
+
+    /**
+     * Return public data
+     */
+    return {
+
+        /**
+         * Port
+         */
+        port : 10350,
+        /**
+         * Create server admin url
+         * @param $location
+         * @param url
+         * @return {String}
+         */
+        serverUrl : function(url){
+
+            var str = "";
+            if( angular.isString(url) ){
+                str += url;
+            }
+            return $location.$$protocol + "://" + $location.$$host + ":"+this.port+"/" + str;
+        },
+        /**
+         * Create Admin url
+         * @param $location
+         * @param url
+         * @return {String}
+         */
+        absUrl : function(url){
+            var str = "";
+            if( angular.isString(url) ){
+                str += url;
+            }
+            return $location.$$protocol + "://" + $location.$$host + "/" + str;
+        },
+        /**
+         * Create Admin url
+         * @param $location
+         * @param url
+         * @return {String}
+         */
+        url : function(url){
+            var str = "";
+            if( angular.isString(url) ){
+                str += url;
+            }
+            return "/" + str;
+        },
+        /**
+         * Post data
+         * @param $http
+         * @param $location
+         * @param callback
+         */
+        http : function(settings, callback){
+            var self = this;
+            var config = {
+                method: 'GET',
+                url:  null,
+                dataType: "json",
+                withCredentials : true,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            };
+
+            config = angular.extend(config,settings);
+
+
+
+            if( config.url !== null ){
+                $http(config)
+                    .success(callback)
+                    .error(function() {
+                        if( $location.$$url !== "/error" ){
+                            $location.url(self.url("error"));
+                        }
+                    });
+            }else{
+                throw new Error("Url must be entered");
+            }
+
+
+
+        },
+        /**
+         * Creating snapshot
+         * SEO handling
+         */
+        snapshot : function(){
+            var self = this;
+            var html = angular.element(document.documentElement).html();
+            var name = location.pathname;
+            self.http({
+                method : "POST",
+                url : self.serverUrl("snapshot"),
+                data:  {html : "<!DOCTYPE html>"+html, name : name}
+            }, function(data){
+                $http.get(data.snapshot + "#!");
+            });
+
+        }
+    }
+}]);
+
+
+/**
+ * File:
+ * User: igorivanovic
+ * Date: 3/11/13
+ * Time: 8:06 PM
+ * @copyright : Igor Ivanovic
+ */
+ngModule.factory('compileFactory', ['$http','$compile','$location','routerFactory', function($http, $compile,$location, routerFactory) {
+
+
+
+    /**
+     * Return public data
+     */
+    return {
+
+        /**
+         * Set error controller
+         * @param controllerName
+         */
+        compileOverly : function(scope) {
+            var templateHTML = '<div id="overlay_bg" ng-click="close()"></div>';
+            templateHTML += '<div id="overlay">';
+            templateHTML += '<div class="title">{{title}}</div>';
+            templateHTML += '<ul>';
+            templateHTML += '<li ng-repeat="item in messages">{{item}}</li>';
+            templateHTML += '</ul>';
+            templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="close()">{{close_button_title}}</button>';
+            templateHTML += '</div>';
+
+            $compile(angular.element(templateHTML))(scope, function(clonedElement, scope) {
+                angular.element(document.querySelector("#overlay_wrapper")).addClass("show").html("").append(clonedElement);
+            });
+        },
+
+        /**
+         * Set error controller
+         * @param controllerName
+         */
+        compileConfirmOverly : function(scope){
+
+            var templateHTML = '<div id="overlay_bg" ng-click="close()"></div>';
+            templateHTML += '<div id="overlay">';
+            templateHTML += '<div class="title">{{title}}</div>';
+            templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="ok_confirm_response($event)" style="margin-right: 15px">{{ok_button_title}}</button>';
+            templateHTML += '<button class="button blackglossyCSSButtonbutton" ng-click="close()">{{close_button_title}}</button>';
+            templateHTML += '</div>';
+
+            $compile(angular.element(templateHTML))(scope, function(clonedElement, scope) {
+                angular.element(document.querySelector("#overlay_wrapper")).addClass("show").html("").append(clonedElement);
+            });
+        },
+
+        /**
+         * Inject string tample
+         * @param template
+         */
+        template : function(template,scope){
+            $http.get(template).success(function(data){
+                $compile(angular.element(data))(scope, function(clonedElement) {
+                    angular.element(document.querySelector("#compiled_data")).html("").append(clonedElement);
+                    setTimeout(function(){
+                        routerFactory.snapshot();
+                    },0);
+                });
+                angular.element( document.getElementById("loading") ).css({
+                    "display" : "none"
+                });
+            });
+        }
+    }
+}]);
+
+
+
+
 
 
 /***
@@ -334,126 +347,131 @@ var strip_tags = function(input, allowed) {
  * @param $location
  * @constructor
  */
-function MainCntl($scope, $route, $routeParams, $http, $location ) {
+
+
+ngModule.controller(
+    'MainCntl',
+    function ($scope, routerFactory) {
 
 
 
-    $scope.$me = {
-        about : [
-            "This is my personal wall :)",
-            "What i do know?",
-            "Javascript, PHP, MYSQL, MongoDB, HTML 5, Node",
-            "How i developed this ?",
-            "Angular.js, MongoDb, Node.js"
-        ],
-        headText : 'Software engineer at',
-        company : "Nivas",
-        url : "http://www.nivas.hr",
-        image : {
-            url : "/css/images/me.jpg",
-            width : 150,
-            height : 150
-        },
-        copy : {
-            text : "Copyright: Igor Ivanovic, " + new Date().getFullYear()
+        $scope.$me = {
+            about : [
+                "This is my personal wall :)",
+                "What i do know?",
+                "Javascript, PHP, MYSQL, MongoDB, HTML 5, Node",
+                "How i developed this ?",
+                "Angular.js, MongoDb, Node.js"
+            ],
+            headText : 'Software engineer at',
+            company : "Nivas",
+            url : "http://www.nivas.hr",
+            image : {
+                url : "/css/images/me.jpg",
+                width : 150,
+                height : 150
+            },
+            copy : {
+                text : "Copyright: Igor Ivanovic, " + new Date().getFullYear()
+            }
+        };
+
+
+
+        $scope.$menu = [];
+
+        routerFactory.http({
+            url : routerFactory.serverUrl('categories')
+        },function(res){
+
+            var len, i, current, n = [ {
+                url : '/',
+                title : 'Home'
+            }];
+
+            if(res.data !== null){
+
+                len = res.data.length;
+
+                for(i = 0; i < len; ++i){
+                    current = res.data[i];
+                    n.push({
+                        url : current.url,
+                        title : current.title
+                    });
+                }
+
+            }
+
+            /**
+             * Github
+             */
+            n.push({
+                url : 'https://github.com/igorzg/js_cms',
+                title : 'Github',
+                blank : true
+            });
+
+            /**
+             * Contact must be last
+             */
+            n.push({
+                url : '/contact',
+                title : 'Contact'
+            });
+
+            $scope.$menu = n;
+
+        });
+
+
+        $scope.sidebar = {
+            url : "/templates/sidebar.html"
         }
-    };
+    }
+);
 
 
+/**
+ * Main list ctrl
+ * @param $scope
+ * @param $routeParams
+ * @constructor
+ */
+ngModule.controller(
+    'SearchCtrl',
+    function( $scope,  $rootScope, $routeParams, routerFactory, compileFactory){
 
-    $scope.$menu = [];
 
-    Router.http({
-        url : Router.serverUrl($location,'categories')
-    },function(res){
+        var desc = document.querySelector('meta[name=description]');
+        angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+        document.title = 'Software technology enthusiast - Igor Ivanovic';
 
-        var len, i, current, n = [ {
-            url : '/',
-            title : 'Home'
-        }];
+        routerFactory.http({
+            method : 'GET',
+            url : routerFactory.serverUrl('search'),
+            params : {q : $routeParams.q }
+        },function(res){
 
-        if(res.data !== null){
 
-            len = res.data.length;
+            if( res.data !== null ){
+                var rebuilded = rebuild(res.data), scope = $rootScope.$new();
+                scope.articles = rebuilded;
+                scope.viewMore = "View more";
+                compileFactory.template( "/templates/list.html", scope );
+            }
 
-            for(i = 0; i < len; ++i){
-                current = res.data[i];
-                n.push({
-                    url : current.url,
-                    title : current.title
+
+            if( (res.data && res.data.length === 0) || res.data === null ){
+                angular.element( document.getElementById("nodata") ).css({
+                    "display" : "block"
                 });
             }
 
-        }
-
-        /**
-         * Github
-         */
-        n.push({
-            url : 'https://github.com/igorzg/js_cms',
-            title : 'Github',
-            blank : true
         });
 
-        /**
-         * Contact must be last
-         */
-        n.push({
-            url : '/contact',
-            title : 'Contact'
-        });
-
-        $scope.$menu = n;
-
-    }, $http, $location);
-
-
-    $scope.sidebar = {
-        url : "/templates/sidebar.html"
     }
-}
-
-
-/**
- * Main list ctrl
- * @param $scope
- * @param $routeParams
- * @constructor
- */
-function SearchCtrl( $scope, $http, $location, $compile, $rootScope, $routeParams ){
-
-
-    var desc = document.querySelector('meta[name=description]');
-    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
-    document.title = 'Software technology enthusiast - Igor Ivanovic';
-
-    Router.http({
-        method : 'GET',
-        url : Router.serverUrl($location,'search'),
-        params : {q : $routeParams.q }
-    },function(res){
-
-
-        if( res.data !== null ){
-            var rebuilded = rebuild(res.data), scope = $rootScope.$new();
-            scope.articles = rebuilded;
-            scope.viewMore = "View more";
-            Compiler.template( "/templates/list.html", scope, $http, $compile, $location );
-        }
-
-
-
-
-        if( (res.data && res.data.length === 0) || res.data === null ){
-            angular.element( document.getElementById("nodata") ).css({
-                "display" : "block"
-            });
-        }
-
-    }, $http, $location);
-
-}
-
+);
 
 /**
  * Main list ctrl
@@ -461,164 +479,167 @@ function SearchCtrl( $scope, $http, $location, $compile, $rootScope, $routeParam
  * @param $routeParams
  * @constructor
  */
-function MainListCtrl( $scope, $http, $location, $compile, $rootScope ){
+ngModule.controller(
+    'MainListCtrl',
+    function( $scope,   $rootScope, compileFactory, routerFactory, $location ){
 
-   var title = 'Software technology enthusiast - Igor Ivanovic';
-   var mainTtitle = function(){
-       var desc = document.querySelector('meta[name=description]');
-       angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
-       document.title = title;
-   }
+           var title = 'Software technology enthusiast - Igor Ivanovic';
+           var mainTtitle = function(){
+               var desc = document.querySelector('meta[name=description]');
+               angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+               document.title = title;
+           }
 
-    Router.http({
-        url : Router.serverUrl($location,'resolve'),
-        params : {url : $location.$$url }
-    },function(res){
+        routerFactory.http({
+                url : routerFactory.serverUrl('resolve'),
+                params : {url : $location.$$url }
+            },function(res){
 
-        if( res.listAll && res.listAll === true ){
+                if( res.listAll && res.listAll === true ){
 
-            var rebuilded = rebuild(res.data), scope = $rootScope.$new();
-            scope.articles = rebuilded;
-            scope.viewMore = "View more";
+                    var rebuilded = rebuild(res.data), scope = $rootScope.$new();
+                    scope.articles = rebuilded;
+                    scope.viewMore = "View more";
 
-            if( res.category && res.category !== null ){
+                    if( res.category && res.category !== null ){
 
-                var desc = document.querySelector('meta[name=description]');
-                angular.element(desc).attr('content', strip_tags( res.category.short_description ) );
-                document.title = strip_tags(  res.category.title )  + ' - ' + title;
-            }else{
-                mainTtitle();
-            }
-
-
-            Compiler.template( "/templates/list.html", scope, $http, $compile, $location );
-
-        }else{
-            var scope = $rootScope.$new();
-            scope = angular.extend(scope,buildArticle(res.data));
-
-            if( angular.isDefined(scope.youtube) && scope.youtube.length > 5 ){
-                scope.youtube = "https://www.youtube.com/embed/" + scope.youtube;
-                scope.haveYoutube = true;
-            }else{
-                scope.haveYoutube = false;
-            }
-
-            if( res.data !== null ){
-                var desc = document.querySelector('meta[name=description]');
-                angular.element(desc).attr('content', strip_tags( scope.short_description ) );
-                document.title = strip_tags( scope.title )  + ' - ' + title;
-            }else{
-                mainTtitle();
-            }
+                        var desc = document.querySelector('meta[name=description]');
+                        angular.element(desc).attr('content', strip_tags( res.category.short_description ) );
+                        document.title = strip_tags(  res.category.title )  + ' - ' + title;
+                    }else{
+                        mainTtitle();
+                    }
 
 
+                    compileFactory.template( "/templates/list.html", scope );
 
-        Compiler.template( "/templates/article.html", scope, $http, $compile, $location );
+                }else{
+                    var scope = $rootScope.$new();
+                    scope = angular.extend(scope,buildArticle(res.data));
 
+                    if( angular.isDefined(scope.youtube) && scope.youtube.length > 5 ){
+                        scope.youtube = "https://www.youtube.com/embed/" + scope.youtube;
+                        scope.haveYoutube = true;
+                    }else{
+                        scope.haveYoutube = false;
+                    }
 
-        }
+                    if( res.data !== null ){
+                        var desc = document.querySelector('meta[name=description]');
+                        angular.element(desc).attr('content', strip_tags( scope.short_description ) );
+                        document.title = strip_tags( scope.title )  + ' - ' + title;
+                    }else{
+                        mainTtitle();
+                    }
 
 
 
+                    compileFactory.template( "/templates/article.html", scope );
 
-        if( res.data && res.data.length === 0 ){
-            angular.element( document.getElementById("nodata") ).css({
-                "display" : "block"
+
+                }
+
+
+
+
+                if( res.data && res.data.length === 0 ){
+                    angular.element( document.getElementById("nodata") ).css({
+                        "display" : "block"
+                    });
+                }
+
             });
-        }
 
-    }, $http, $location);
-
-}
-
+    }
+);
 /**
  * Main side bar
  * @param $scope
  * @param $routeParams
  * @constructor
  */
-function MainSideBar($scope, $location){
-    $scope.translations = {
-        title : "Search",
-        placeholder : "Angular Js"
-    }
-    $scope.social = {
-        title : "Networks",
-        data : [
-            {
-                text : "Twitter",
-                src : "/css/images/social.png",
-                url : "https://twitter.com/igorzg1987",
-                x : 0,
-                y : 0,
-                w : 50,
-                h : 50
-            },
-            {
-                text : "Facebook",
-                url : "http://www.facebook.com/igorzg",
-                src : "/css/images/social.png",
-                x : -50,
-                y : 0,
-                w : 50,
-                h : 50
-            },
-            {
-                text : "Linkedin",
-                url : "http://www.linkedin.com/in/igorivanoviczg",
-                src : "/css/images/social.png",
-                x : -150,
-                y : 0,
-                w : 50,
-                h : 50
-            },
-            {
-                text : "Google +",
-                url : "https://plus.google.com/108595989864480449672",
-                src : "/css/images/social.png",
-                x : -100,
-                y : 0,
-                w : 50,
-                h : 50
-            }
+ngModule.controller(
+    'MainSideBar',
+    function ($scope){
+        $scope.translations = {
+            title : "Search",
+            placeholder : "Angular Js"
+        }
+        $scope.social = {
+            title : "Networks",
+            data : [
+                {
+                    text : "Twitter",
+                    src : "/css/images/social.png",
+                    url : "https://twitter.com/igorzg1987",
+                    x : 0,
+                    y : 0,
+                    w : 50,
+                    h : 50
+                },
+                {
+                    text : "Facebook",
+                    url : "http://www.facebook.com/igorzg",
+                    src : "/css/images/social.png",
+                    x : -50,
+                    y : 0,
+                    w : 50,
+                    h : 50
+                },
+                {
+                    text : "Linkedin",
+                    url : "http://www.linkedin.com/in/igorivanoviczg",
+                    src : "/css/images/social.png",
+                    x : -150,
+                    y : 0,
+                    w : 50,
+                    h : 50
+                },
+                {
+                    text : "Google +",
+                    url : "https://plus.google.com/108595989864480449672",
+                    src : "/css/images/social.png",
+                    x : -100,
+                    y : 0,
+                    w : 50,
+                    h : 50
+                }
 
-        ]
-    }
-
-    /**
-     * Search
-     * @param event
-     */
-    $scope.search = function(event){
-        var parent = angular.element(event.target).parent()[0];
-        parent.submit();
-    }
-
-    /**
-     * Return query variable
-     * @param variable
-     * @return {*}
-     */
-    function getQuery(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split('&');
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split('=');
-            if (decodeURIComponent(pair[0]) == variable) {
-                return decodeURIComponent(pair[1]);
-            }
+            ]
         }
 
-        return null;
+        /**
+         * Search
+         * @param event
+         */
+        $scope.search = function(event){
+            var parent = angular.element(event.target).parent()[0];
+            parent.submit();
+        }
+
+        /**
+         * Return query variable
+         * @param variable
+         * @return {*}
+         */
+        function getQuery(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) == variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+
+            return null;
+        }
+
+
+        $scope.query = getQuery("q");
+
     }
-
-
-
-    $scope.query = getQuery("q");
-
-}
-
+);
 /**
  * Contact me
  * @param $scope
@@ -627,86 +648,92 @@ function MainSideBar($scope, $location){
  * @param $compile
  * @constructor
  */
-function ContactCtrl($scope, $location, $http, $compile, $rootScope){
+ngModule.controller(
+    'ContactCtrl',
+    function ($scope, $rootScope,  compileFactory, routerFactory){
 
 
-    var desc = document.querySelector('meta[name=description]');
-    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
-    document.title = 'Software technology enthusiast - Igor Ivanovic';
+        var desc = document.querySelector('meta[name=description]');
+        angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+        document.title = 'Software technology enthusiast - Igor Ivanovic';
 
 
-    var form = document.getElementById("contact_me"),
-        name = form.querySelector('[name="name"]'),
-        email = form.querySelector('[name="email"]'),
-        subject = form.querySelector('[name="subject"]'),
-        message = form.querySelector('[name="message"]');
+        var form = document.getElementById("contact_me"),
+            name = form.querySelector('[name="name"]'),
+            email = form.querySelector('[name="email"]'),
+            subject = form.querySelector('[name="subject"]'),
+            message = form.querySelector('[name="message"]');
 
-    Router.http({
-        url : Router.serverUrl($location,'token')
-    }, function(req){
-        if(req.token){
-            angular.element(form.querySelector('[name="token"]')).val(req.token);
-        }
-    }, $http, $location);
-
-    $scope.send = function(){
-
-
-        Router.http({
-            method : 'POST',
-            url : Router.serverUrl($location,'email'),
-            data : ({
-                message : message.value,
-                subject : subject.value,
-                email : email.value,
-                name : name.value,
-                token : form.querySelector('[name="token"]').value
-            })
-        },function(res){
-            var scope = $rootScope.$new();
-            scope = angular.extend(scope,res);
-
-            if(scope.error){
-                scope.close = function(){
-                    angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
-                }
-                Compiler.compileOverly(scope,$compile);
-            }else{
-                scope.close = function(){
-                    angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
-                    $location.url("/");
-                }
-                Compiler.compileOverly(scope,$compile);
+        routerFactory.http({
+            url : routerFactory.serverUrl('token')
+        }, function(req){
+            if(req.token){
+                angular.element(form.querySelector('[name="token"]')).val(req.token);
             }
-        }, $http, $location);
+        });
+
+        $scope.send = function(){
+
+
+            routerFactory.http({
+                method : 'POST',
+                url : routerFactory.serverUrl('email'),
+                data : ({
+                    message : message.value,
+                    subject : subject.value,
+                    email : email.value,
+                    name : name.value,
+                    token : form.querySelector('[name="token"]').value
+                })
+            },function(res){
+                var scope = $rootScope.$new();
+                scope = angular.extend(scope,res);
+
+                if(scope.error){
+                    scope.close = function(){
+                        angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
+                    }
+                    compileFactory.compileOverly(scope);
+                }else{
+                    scope.close = function(){
+                        angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
+                        $location.url("/");
+                    }
+                    compileFactory.compileOverly(scope);
+                }
+            });
+        }
+
+        setTimeout(function(){
+            routerFactory.snapshot();
+        },0);
+
     }
-
-    setTimeout(function(){
-        Router.snapshot($location,$http);
-    },0);
-
-}
+);
 /**
  * Scope translations
  * @param $scope
  * @constructor
  */
-function ErrorCtrl($scope){
+ngModule.controller(
+    'ErrorCtrl',
+    function($scope){
 
-    var desc = document.querySelector('meta[name=description]');
-    angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
-    document.title = 'Software technology enthusiast - Igor Ivanovic';
+        var desc = document.querySelector('meta[name=description]');
+        angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
+        document.title = 'Software technology enthusiast - Igor Ivanovic';
 
 
-    $scope.translations = {
-        'Error: 404' : 'Error: 404',
-        'Something went terribly wrong, but most likely it is not your fault.' : 'Something went terribly wrong, but most likely it is not your fault.',
-        'Open the home page and try to find the information of interest.' : 'Open the home page and try to find the information of interest.',
-        'Press the back button in your broswer and then click another link.' : 'Press the back button in your broswer and then click another link.',
-        'Home' : 'Home'
+        $scope.translations = {
+            'Error: 404' : 'Error: 404',
+            'Something went terribly wrong, but most likely it is not your fault.' : 'Something went terribly wrong, but most likely it is not your fault.',
+            'Open the home page and try to find the information of interest.' : 'Open the home page and try to find the information of interest.',
+            'Press the back button in your broswer and then click another link.' : 'Press the back button in your broswer and then click another link.',
+            'Home' : 'Home'
+        }
+
+        setTimeout(function(){
+            routerFactory.snapshot();
+        },0);
     }
-
-    setTimeout(function(){
-        Router.snapshot($location,$http);
-    },0);
-}
+);
