@@ -3,7 +3,9 @@ Javascript SimpleCMS
 
 This cms is written in javascript. 
 It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation. 
-I will open source this under MIT licence. 
+
+Example:
+http://www.igorivanovic.info
 
 FEATURES
 -----------
