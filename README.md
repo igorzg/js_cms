@@ -17,7 +17,6 @@ FEATURES
 
 Install
 -----------
-App require node.js
 Required node.js modules:
 - bufferjs
 - crypto
