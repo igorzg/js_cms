@@ -351,6 +351,29 @@ Model.prototype.deleteByID = function(id,callback, options){
 };
 
 
+/**
+ * List all data
+ * @param callback
+ */
+Model.prototype.count = function(callback, query){
+
+    var self = this;
+    profiler.startTracing(this.getIdentifier() + ".count");
+
+    if( !query ){
+        query = {};
+    }
+
+    this.collection.count(query,function(error, count) {
+        callback(error,count);
+        profiler.endTracing(self.getIdentifier() + ".count", {
+            error: error,
+            data: count
+        });
+    });
+
+}
+
 
 /**
  * List all data
@@ -364,9 +387,14 @@ Model.prototype.listAll = function(callback, query, options){
         query = { $query: {}, $orderby: { created : -1, _id : -1 }  };
     }
 
-    var self = this;
+    var self = this, o;
 
-    var o = validators.extend({}, options);
+    if( options ){
+        o = options;
+    }else{
+        o = {};
+    }
+
 
     this.collection.find(query,o).toArray(function(error,data){
         callback(error, validators.stripSlashesRecursive(data) );

@@ -366,13 +366,13 @@ ngModule.controller(
                     CookieHandler.set("sessionid",res.sessionID,1);
                     routerFactory.url("/admin");
                 }else{
-                    $scope.title = "Ups something wrong :)";
+                    $scope.title = "Ups something is wrong :)";
                     $scope.close_button_title = "Close";
                     $scope.errors = res.translations;
                     $scope.close = function(){
                         angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
                     }
-                    compileFactory.compileErrorOverly();
+                    compileFactory.compileErrorOverly( $scope );
                 }
 
             });
@@ -573,7 +573,7 @@ ngModule.controller(
             $scope.close = function(){
                 angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
             }
-            compileFactory.compileConfirmOverly();
+            compileFactory.compileConfirmOverly( $scope );
         }
 
 
@@ -749,13 +749,13 @@ ngModule.controller(
                     if( angular.isDefined( res.error ) && res.error === false ){
                         $scope.edit = res.data;
                     }else{
-                        $scope.title = "Ups something wrong :)";
+                        $scope.title = "Ups something is wrong :)";
                         $scope.close_button_title = "Close";
                         $scope.errors = [];
                         $scope.close = function(){
                             angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
                         }
-                        compileFactory.compileErrorOverly();
+                        compileFactory.compileErrorOverly( $scope );
                     }
 
                 });
@@ -820,13 +820,13 @@ ngModule.controller(
                     if( angular.isDefined( res.error ) && res.error === false ){
                         $location.url(routerFactory.adminUrl('categories'));
                     }else{
-                        $scope.title = "Ups something wrong :)";
+                        $scope.title = "Ups something is wrong :)";
                         $scope.close_button_title = "Close";
                         $scope.errors = res.translations;
                         $scope.close = function(){
                             angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
                         }
-                        compileFactory.compileErrorOverly();
+                        compileFactory.compileErrorOverly( $scope );
                     }
 
                 });
@@ -978,7 +978,7 @@ ngModule.controller(
             $scope.close = function(){
                 angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
             }
-            compileFactory.compileConfirmOverly();
+            compileFactory.compileConfirmOverly( $scope );
         }
     }
 );
@@ -1062,13 +1062,13 @@ ngModule.controller(
                 if( angular.isDefined( res.error ) && res.error === false ){
                     $scope.edit = res.data;
                 }else{
-                    $scope.title = "Ups something wrong :)";
+                    $scope.title = "Ups something is wrong :)";
                     $scope.close_button_title = "Close";
                     $scope.errors = [];
                     $scope.close = function(){
                         angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
                     }
-                    compileFactory.compileErrorOverly();
+                    compileFactory.compileErrorOverly( $scope );
                 }
 
             });
@@ -1104,14 +1104,14 @@ ngModule.controller(
          */
         if( angular.isDefined($routeParams.errors) ){
             var parsed = JSON.parse($routeParams.errors);
-            $scope.title = "Ups something wrong :)";
+            $scope.title = "Ups something is wrong :)";
             $scope.close_button_title = "Close";
             $scope.errors = parsed.translations;
             $scope.close = function(){
                 angular.element(document.querySelector("#overlay_wrapper")).removeClass("show");
             }
 
-            compileFactory.compileErrorOverly();
+            compileFactory.compileErrorOverly( $scope );
         }
 
         /**

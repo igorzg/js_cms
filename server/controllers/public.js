@@ -32,9 +32,11 @@ var validators = require("../config/validators").init();
  * @param res
  * @param query
  */
-var listArticles = function(callback, query){
+var listArticles = function(callback, query, options){
 
     var response;
+
+
 
     articlesModel.listAll(function(error,rows){
 
@@ -63,7 +65,7 @@ var listArticles = function(callback, query){
 
         callback(response);
 
-    }, query, { limit: 10 } );
+    }, query, options);
 
 }
 
@@ -109,7 +111,36 @@ controller.setRoute("get","/search", function(req,res){
  */
 controller.setRoute("get","/resolve", function(req,res){
 
-    var url = req.param("url");
+    var url = req.param("url"),
+        limit = req.param("limit"),
+        page = req.param("page"),
+        skip = 0;
+
+        if( limit ){
+            limit = parseInt( limit );
+            if( isNaN(limit) ){
+                limit = 10;
+            }
+        }else{
+            limit = 10;
+        }
+
+
+        if( page ){
+            page = parseInt( page );
+            if( isNaN(page) ){
+                page = 10;
+            }
+        }else{
+            page = 0;
+        }
+
+
+        if( page > 1 ){
+            skip = limit * (page-1);
+        }
+
+
         url = validators.addSlashesRecursive(url);
 
     if( url !== "/" ){
@@ -128,11 +159,19 @@ controller.setRoute("get","/resolve", function(req,res){
                     });
                 });
             }else{
+                var query =  { $query: { category : category._id }, $orderby: { created : -1, _id : -1 } };
+
                 listArticles(function(response){
+
                     response.category = category;
                     response.url = u;
-                    res.json(response);
-                },  { $query: { category : category._id }, $orderby: { created : -1, _id : -1 } } );
+
+                    articlesModel.count(function(error,count){
+                        response.count = count;
+                        res.json(response);
+                    }, { category : category._id } );
+
+                },  query);
 
             }
 
@@ -141,8 +180,12 @@ controller.setRoute("get","/resolve", function(req,res){
 
     }else{
         listArticles(function(response){
-            res.json(response);
-        });
+            articlesModel.count(function(error,count){
+                response.count = count;
+                res.json(response);
+            })
+
+        },  { $query: {}, $orderby: { created : -1, _id : -1 }  }, { limit : limit, skip : skip});
     }
 
 

@@ -54,13 +54,30 @@ var CookieHandler = {
     }
 };
 
+/**
+ * Return query variable
+ * @param variable
+ * @return {*}
+ */
+function getQuery(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    return null;
+}
+
 
 /**
  * Build Article
  * @param data
  * @return {*}
  */
-var buildArticle = function(data){
+function buildArticle(data){
     if(data === null){
         return {};
     }
@@ -83,7 +100,7 @@ var buildArticle = function(data){
  * @param data
  * @return {*}
  */
-var rebuild = function(data){
+function rebuild(data){
 
     if( data ){
         var i, c,len = data.length;
@@ -99,8 +116,14 @@ var rebuild = function(data){
     return null;
 }
 
+/**
+ * Strip tags
+ * @param input
+ * @param allowed
+ * @returns {XML}
+ */
 
-var strip_tags = function(input, allowed) {
+function strip_tags(input, allowed) {
     allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
     var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
         commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
@@ -335,7 +358,53 @@ ngModule.factory('compileFactory', ['$http','$compile','$location','routerFactor
 }]);
 
 
+/**
+ * Include file directive
+ */
+ngModule.directive('includeFile',  ['$http', '$templateCache', '$anchorScroll', '$compile', function($http,   $templateCache,   $anchorScroll,   $compile) {
+        return {
+            restrict: 'ECA',
+            terminal: true,
+            replace : true,
+            compile: function(element, attr) {
+                var srcExp = attr.src,
+                    onloadExp = attr.onload || '',
+                    autoScrollExp = attr.autoscroll;
 
+                return function(scope, element) {
+
+                    var childScope;
+
+                    if (srcExp) {
+                        $http.get(srcExp, {cache: $templateCache}).success(function(response) {
+
+                            if (childScope){
+                                childScope.$destroy();
+                            }
+
+                            childScope = scope.$new();
+
+                            element.html(response);
+
+                            $compile(element.contents())(childScope);
+
+                            if (angular.isDefined(autoScrollExp) && (!autoScrollExp || scope.$eval(autoScrollExp))) {
+                                $anchorScroll();
+                            }
+
+                            childScope.$emit('$includeContentLoaded');
+
+                            scope.$eval(onloadExp);
+
+                        }).error(function() {
+
+                        });
+                    }
+                };
+            }
+        };
+    }]
+);
 
 
 
@@ -425,9 +494,6 @@ ngModule.controller(
         });
 
 
-        $scope.sidebar = {
-            url : "/templates/sidebar.html"
-        }
     }
 );
 
@@ -490,9 +556,17 @@ ngModule.controller(
                document.title = title;
            }
 
+        var qp = parseInt( getQuery("page") );
+        var ql = parseInt( getQuery("limit") );
+
+        var limit = isNaN( ql ) ? 5 : ql ;
+        var page = isNaN( qp ) ? 1 : qp ;
+
+
+
         routerFactory.http({
                 url : routerFactory.serverUrl('resolve'),
-                params : {url : $location.$$url }
+                params : { url : $location.$$path, limit : limit, page : page }
             },function(res){
 
                 if( res.listAll && res.listAll === true ){
@@ -510,6 +584,13 @@ ngModule.controller(
                         mainTtitle();
                     }
 
+                    scope.pagination = {
+                        limit : limit,
+                        count : res.count,
+                        max : Math.round(res.count/limit),
+                        page : page,
+                        url : $location.$$path
+                    }
 
                     compileFactory.template( "/templates/list.html", scope );
 
@@ -552,6 +633,90 @@ ngModule.controller(
 
     }
 );
+
+/**
+ * Main list ctrl
+ * @param $scope
+ * @param $routeParams
+ * @constructor
+ */
+ngModule.controller(
+    'PaginationCtrl',
+    function( $scope ){
+        var pagination = $scope.$parent.$parent.pagination;
+       
+
+        $scope.pages = [];
+
+        var displayLimit = 8;
+        var pagination_half = Math.round(displayLimit/2);
+        var pagination_start = Math.round(pagination.page - (pagination_half-1));
+        var pagination_end = Math.round(pagination.page + (pagination_half-1));
+
+        pagination.prev = pagination.page - 1;
+        pagination.next = pagination.page + 1;
+
+        if( pagination_end < displayLimit ){
+            pagination_end = displayLimit;
+        }
+
+        if( pagination_end > pagination.max ){
+            pagination_end = pagination.max;
+            pagination_start = pagination_end - (displayLimit-1);
+        }
+
+        if( pagination_start < 1 ){
+            pagination_start = 1;
+        }
+
+        if( pagination.prev < 1 ){
+            pagination.prev = 1;
+        }
+
+        if( pagination.next > pagination.max ){
+            pagination.next = pagination.max;
+        }
+
+        $scope.current = pagination.page;
+        $scope.max = pagination.max;
+
+
+        if( pagination.limit < pagination.count ){
+
+            $scope.pages.push({
+                href : pagination.url + '?limit=' + pagination.limit + '&page=1',
+                title : '<<'
+            });
+            $scope.pages.push({
+                href : pagination.url + '?limit=' + pagination.limit + '&page=' +pagination.prev,
+                title : '<'
+            });
+
+            for(var i = pagination_start; i <= pagination_end; ++i){
+                $scope.pages.push({
+                    href : pagination.url + '?limit=' + pagination.limit + '&page=' + i,
+                    title : i,
+                    cssClass : i == pagination.page ? 'current' : ''
+                });
+            }
+
+            $scope.pages.push({
+                href : pagination.url + '?limit=' + pagination.limit + '&page=' +pagination.next,
+                title : '>'
+            });
+
+            $scope.pages.push({
+                href : pagination.url + '?limit=' + pagination.limit + '&page=' +pagination.max,
+                title : '>>'
+            });
+
+        }else{
+            angular.element(document.getElementById("pagination")).remove();
+        }
+
+    }
+);
+
 /**
  * Main side bar
  * @param $scope
@@ -617,23 +782,6 @@ ngModule.controller(
             parent.submit();
         }
 
-        /**
-         * Return query variable
-         * @param variable
-         * @return {*}
-         */
-        function getQuery(variable) {
-            var query = window.location.search.substring(1);
-            var vars = query.split('&');
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
-                if (decodeURIComponent(pair[0]) == variable) {
-                    return decodeURIComponent(pair[1]);
-                }
-            }
-
-            return null;
-        }
 
 
         $scope.query = getQuery("q");
@@ -717,7 +865,7 @@ ngModule.controller(
  */
 ngModule.controller(
     'ErrorCtrl',
-    function($scope){
+    function($scope, routerFactory){
 
         var desc = document.querySelector('meta[name=description]');
         angular.element(desc).attr('content', 'This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.' );
