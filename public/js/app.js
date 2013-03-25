@@ -559,7 +559,7 @@ ngModule.controller(
         var qp = parseInt( getQuery("page") );
         var ql = parseInt( getQuery("limit") );
 
-        var limit = isNaN( ql ) ? 5 : ql ;
+        var limit = isNaN( ql ) ? 4 : ql ;
         var page = isNaN( qp ) ? 1 : qp ;
 
 
@@ -644,7 +644,7 @@ ngModule.controller(
     'PaginationCtrl',
     function( $scope ){
         var pagination = $scope.$parent.$parent.pagination;
-       
+
 
         $scope.pages = [];
 
