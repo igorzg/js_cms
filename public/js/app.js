@@ -271,10 +271,16 @@ ngModule.factory('routerFactory', ['$http','$location', function($http,$location
             var self = this;
             var html = angular.element(document.documentElement).html();
             var name = location.pathname;
+            var qp = parseInt( getQuery("page") );
+            var ql = parseInt( getQuery("limit") );
+
+            var limit = isNaN( ql ) ? 4 : ql ;
+            var page = isNaN( qp ) ? 1 : qp ;
+
             self.http({
                 method : "POST",
                 url : self.serverUrl("snapshot"),
-                data:  {html : "<!DOCTYPE html>"+html, name : name}
+                data:  {html : "<!DOCTYPE html>"+html, name : name, page : page, limit : limit }
             }, function(data){
                 $http.get(data.snapshot + "#!");
             });

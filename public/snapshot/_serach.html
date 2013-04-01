@@ -1,0 +1,188 @@
+<!DOCTYPE html><!--<![endif]--><head><base href="http://local.igorivanovic.info">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="fragment" content="!">
+
+
+    <link href="http://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="/css/main.css">
+    <link type="text/css" rel="stylesheet" href="/css/buttons.css">
+    <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style>
+
+    <!--[if lte IE 8]><script type="text/javascript" src="/js/ie_lte_8.js"></script><![endif]-->
+    <script type="text/javascript" src="/js/app.js"></script>
+    <title>Software technology enthusiast - Igor Ivanovic</title>
+    <meta name="description" content="This cms is written in javascript. It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation.">
+
+</head>
+<body data-twttr-rendered="true">
+<div id="overlay_wrapper"></div>
+<div id="structure">
+    <div id="header">
+        <div id="logo" class="ng-binding">
+            Software engineer at
+            <a data-ng-href="http://www.nivas.hr" target="_blank" class="ng-binding" href="http://www.nivas.hr">Nivas</a> ltd
+        </div>
+        <div id="about">
+            <ul>
+                <!-- ngRepeat: item in $me.about --><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    This is my personal wall :)
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    What i do know?
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    Javascript, PHP, MYSQL, MongoDB, HTML 5, Node
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    How i developed this ?
+                </li><li ng-repeat="item in $me.about" class="ng-scope ng-binding">
+                    Angular.js, MongoDb, Node.js
+                </li>
+            </ul>
+        </div>
+        <div id="me">
+            <img data-ng-src="/css/images/me.jpg" width="150" height="150" src="/css/images/me.jpg">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="menu">
+        <ul>
+            <!-- ngRepeat: item in $menu --><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/" class="ng-scope ng-binding" href="/">
+                        Home
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/javascript" class="ng-scope ng-binding" href="/javascript">
+                        Javascript
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/php" class="ng-scope ng-binding" href="/php">
+                        Php
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-when="true" target="_blank" data-ng-href="https://github.com/igorzg/js_cms" class="ng-scope ng-binding" href="https://github.com/igorzg/js_cms">
+                        Github
+                    </a></ng-switch>
+            </li><li ng-repeat="item in $menu" class="ng-scope">
+                <ng-switch on="item.blank">
+                    <!-- ngSwitchWhen: true -->
+                    <!-- ngSwitchDefault:  -->
+                <a ng-switch-default="" data-ng-href="/contact" class="ng-scope ng-binding" href="/contact">
+                        Contact
+                    </a></ng-switch>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="content-padding">
+        <div ng-view=""><div id="articles" class="ng-scope">
+    <div id="compiled_data"><!-- ngRepeat: item in articles -->
+
+
+<include-file src="/templates/pagination.html" class="ng-scope"></include-file>
+</div>
+    <div id="loading" style="display: none;">
+        Loading...
+    </div>
+    <div id="nodata" style="display: block;">
+        No data...
+    </div>
+</div>
+</div>
+        <include-file src="/templates/sidebar.html"><div id="sidebar" ng-controller="MainSideBar" class="ng-scope">
+    <div id="search">
+        <div class="title ng-binding">Search</div>
+        <form action="/serach" class="ng-pristine ng-valid">
+            <div id="main_search">
+                    <input type="text" name="q" value="test" placeholder="Angular Js">
+                    <input type="button" class="magnify" ng-click="search($event)">
+            </div>
+        </form>
+    </div>
+    <div id="social">
+        <div class="title ng-binding">Networks</div>
+        <ul>
+            <!-- ngRepeat: item in social.data --><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="https://twitter.com/igorzg1987" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="https://twitter.com/igorzg1987">
+                              <span title="Twitter" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: 0px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="http://www.facebook.com/igorzg" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="http://www.facebook.com/igorzg">
+                              <span title="Facebook" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -50px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="http://www.linkedin.com/in/igorivanoviczg" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="http://www.linkedin.com/in/igorivanoviczg">
+                              <span title="Linkedin" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -150px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li><li ng-repeat="item in social.data" class="ng-scope">
+                <a data-ng-href="https://plus.google.com/108595989864480449672" target="_blank" style="width: 50px; height: 50px; overflow: hidden; display: block;" href="https://plus.google.com/108595989864480449672">
+                              <span title="Google +" style="background: url( /css/images/social.png ) no-repeat;
+                                      background-position: -100px 0px;
+                                      width: 600px;
+                                      height: 345px;
+                                      display: block;"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div id="twitter">
+        <iframe id="twitter-widget-0" class="twitter-timeline twitter-timeline-rendered" scrolling="no" frameborder="0" allowtransparency="true" style="width: 1px; height: 1px; border: none; position: absolute;" title="Twitter Timeline Widget"></iframe><a class="twitter-timeline" style="visibility:hidden;" href="https://twitter.com/igorzg1987" data-widget-id="309378902827077633" data-twttr-rendered="true">Tweets by @igorzg1987</a>
+    </div>
+</div></include-file>
+        <div class="clear"></div>
+    </div>
+    <div id="footer">
+        <div class="copy ng-binding">Copyright: Igor Ivanovic, 2013</div>
+    </div>
+
+
+
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38394375-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+    <script>
+        angular.element(document).ready(function(){
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+        });
+    </script>
+</div>
+
+<iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" style="display: none;"></iframe><script src="//cdn.syndication.twimg.com/widgets/timelines/309378902827077633?domain=local.igorivanovic.info&amp;lang=en&amp;t=1515737&amp;callback=twttr.tfw.callbacks.tl_309378902827077633&amp;suppress_response_codes=true" async=""></script></body>

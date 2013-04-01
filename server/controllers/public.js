@@ -356,15 +356,59 @@ controller.setRoute("post","/email", function(req,res){
 controller.setRoute("post","/snapshot", function(req,res){
     var html = req.param("html");
     var name = req.param("name");
+    var page = req.param("page");
+    var limit = req.param("limit");
     name = name.replace(/\//ig,"_");
-    var snapshot = "/snapshot/" + name + ".html";
+    var snapshot = "/snapshot/" + name + page + limit +".html";
     var dir = __dirname + "/../../public" + snapshot;
     var fs = require('fs');
+
+    html = html.replace('<meta name="fragment" content="!">','');
+
     fs.writeFile(dir, html, 'utf8',function(error) {
         res.json({
             error : error,
             snapshot : snapshot
         });
+    });
+
+});
+
+
+/**
+ * Send email
+ */
+controller.setRoute("get","/snapshot", function(req,res){
+
+    var name = req.param("__search_for_template__");
+    
+    if( name ){
+        name = name.replace(/\//ig,"_");
+    }
+
+
+    var page = parseInt(req.param("page")) || 1;
+    var limit = parseInt(req.param("limit")) || 4;
+
+    var snapshot = "/snapshot/" + name + page + limit +".html";
+    var dir = __dirname + "/../../public" + snapshot;
+
+
+    var fs = require('fs');
+    fs.readFile(dir, function(error, html) {
+
+        if( error ){
+            res.json({
+                error : true,
+                file : snapshot
+            });
+        }
+        else
+        {
+            res.writeHeader(200, {"Content-Type": "text/html"});
+            res.write(html);
+            res.end();
+        }
     });
 
 });
