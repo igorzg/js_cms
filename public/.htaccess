@@ -1,27 +1,24 @@
-
-
 AddDefaultCharset UTF-8
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    #RewriteCond %{HTTP_HOST} !^www\.igorivanovic\.info$ [NC]
-    #RewriteRule ^(.*)$ http://www.igorivanovic.info/$1 [R=301,L]
+    RewriteCond %{HTTP_HOST} !^www\.igorivanovic\.info$ [NC]
+    RewriteRule ^(.*)$ http://www.igorivanovic.info/$1 [R=301,L]
 
-    RewriteCond %{REQUEST_METHOD} ^GET$
-    RewriteCond %{QUERY_STRING} _escaped_fragment_ [OR]
-    RewriteCond %{QUERY_STRING} _escaped_fragment_= [OR]
-    RewriteCond %{QUERY_STRING} _escaped_fragment_=(.*) [OR]
+
+    RewriteCond %{REQUEST_FILENAME} !-d [OR]
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{HTTP_REFERER} ^(.*)?facebook.*$ [OR]
-    RewriteCond %{HTTP_REFERER} ^(.*)?fb.*$ [OR]
-    RewriteCond %{HTTP_REFERER} ^(.*)?google.*$ [OR]
+    RewriteCond %{HTTP_REFERER} ^(.*)?plus.google.com$ [OR]
     RewriteCond %{HTTP_REFERER} ^(.*)?yahoo.*$ [OR]
     RewriteCond %{HTTP_REFERER} ^(.*)?youtube.*$ [OR]
     RewriteCond %{HTTP_REFERER} ^(.*)?bing.*$ [OR]
-    RewriteCond %{HTTP_REFERER} ^(.*)?linkedin.*$
-    #RewriteCond %{HTTP_REFERER} !^(.*)?twitter.*$
-    RewriteRule (.*)  http://%{SERVER_NAME}:10350/snapshot?__search_for_template__=/$1&%{QUERY_STRING} [L]
+    RewriteCond %{HTTP_REFERER} ^(.*)?fbcdn.*$ [OR]
+
+    RewriteCond %{QUERY_STRING} _escaped_fragment_
+    RewriteRule  ^(.*)$ http://%{SERVER_NAME}:10350/snapshot?__search_for_template__=/$1&%{QUERY_STRING}  [R=301,L]
 
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
