@@ -62,7 +62,7 @@ Session.prototype.checkSession = function(req, callback, handleError){
 
                    /**
                     * update session end time on user interaction
-                    * DONT USE this.update because of memory allocation
+                  
                     */
                    self.collection.update(
                        {
