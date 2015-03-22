@@ -1,0 +1,36 @@
+{% import 'layouts/macros' as macro %}
+
+<!DOCTYPE html>
+<html lang="{{ isoLocale }}">
+<head>
+    <meta charset="utf-8" />
+    {{ macro.add_css(scripts | filterScript("type", "css")) }}
+    {{ macro.add_scripts(scripts | filterScript("type", "javascript"), "position", "head") }}
+    <title>{{ metaTitle }}</title>
+    <meta name="description" content="{{ metaDesc }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {{ macro.show_robots(robots) }}
+</head>
+<body class="{% if module %}mv-module-{{ module }} {% endif %}mv-controller-{{ controller }} mv-action-{{ action }}">
+    {{ macro.add_scripts(scripts, "position", "body_top") }}
+    <div class="mv-body-wrapper">
+        <ul class="mv-menu">
+            <li>
+                <a href="{{ createUrl('home/index') }}">{{ t('Home') }}</a>
+            </li>
+            {% for item in categories %}
+                <li>
+                    <a href="{{ getRoute(item.id, 'category') }}">{{ item.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% block before-content-wrapper %}{% endblock %}
+        <div class="mv-main">
+            {% block content %}{% endblock %}
+        </div>
+        {% block after-content-wrapper %}{% endblock %}
+    </div>
+    {{ macro.scripts_bottom_init() }}
+    {{ macro.add_scripts(scripts, "position", "body_bottom") }}
+</body>
+</html>

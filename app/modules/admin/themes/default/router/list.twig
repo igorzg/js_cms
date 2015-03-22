@@ -1,0 +1,79 @@
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ t('Route list') }}</div>
+        {% if data.length %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ t('Id') }}
+                        </th>
+                        <th>
+                            {{ t('Url') }}
+                        </th>
+                        <th>
+                            {{ t('Type') }}
+                        </th>
+                        <th>
+                            {{ t('Type id') }}
+                        </th>
+                        <th>
+                            {{ t('Index') }}
+                        </th>
+                        <th>
+                            {{ t('Follow') }}
+                        </th>
+                        <th>
+                            {{ t('Operations') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in data %}
+                    <tr>
+                        <td>
+                            {{ item.id }}
+                        </td>
+                        <td>
+                            {{ item.url }}
+                        </td>
+                        <td>
+                            {{ item.type }}
+                        </td>
+                        <td>
+                            {% if item.type === 'article' %}
+                                <a href="{{ createUrl('admin/articles/add', {id: item.type_id}) }}">
+                                    <span class="glyphicon glyphicon-pencil" title="{{ t('Edit') }}"></span>
+                                    {{ item.type_id }}
+                                </a>
+                            {% else %}
+                                <a href="{{ createUrl('admin/categories/add', {id: item.type_id}) }}">
+                                    <span class="glyphicon glyphicon-pencil" title="{{ t('Edit') }}"></span>
+                                    {{ item.type_id }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.follow }}
+                        </td>
+                        <td>
+                            <a href="{{ createUrl('admin/router/add', {id: item.id}) }}">
+                                <span class="glyphicon glyphicon-pencil" title="{{ t('Edit') }}"></span>
+                            </a>
+                            <a href="{{ createUrl('admin/router/delete', {id: item.id}) }}">
+                                <span class="glyphicon glyphicon-remove" title="{{ t('Delete') }}"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="mv-p">{{ t('No routes defined') }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

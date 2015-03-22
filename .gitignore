@@ -1,18 +1,10 @@
 
-.DS_Store
-
-server/.DS_Store
-
-public/.DS_Store
-
-public/templates/.DS_Store
-
-public/static/images/.DS_Store
-
-public/static/.DS_Store
-
-public/css/images/.DS_Store
-
-public/css/.DS_Store
-
-public/admin/.DS_Store
+node_modules
+.idea
+server.log
+npm-debug.log
+coverage
+storage/css
+storage/vendor
+storage/files
+env/dev/params.json

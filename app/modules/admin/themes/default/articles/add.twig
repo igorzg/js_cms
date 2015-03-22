@@ -1,0 +1,59 @@
+{% import "layouts/macros" as macros %}
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="mv-content">
+        <h1 class="mv-brand">{{ t('Add new article') }}</h1>
+        <form name="addCategory" action="{{ createUrl('admin/articles/add', params) }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ macros.input_text('meta_title', 'Meta title') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text('meta_description', 'Meta description') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text_area('title', 'Title') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text_area('short_description', 'Short description') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text_area('description', 'Description') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_select('category', 'Category', categories, 'id', 'title') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_file('files', 'Files') }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="{{ t('Submit') }}">
+            </div>
+
+            {% if post.files.length > 0 %}
+                <ul class="list-group">
+                    {% for item in post.files %}
+                        <li class="list-group-item">
+                            <img src="{{ assetsPath(item) }}" class="img-thumbnail" />
+                            <a href="{{ createUrl('admin/articles/deleteimage', {id: post.id, file: toBase64(item) }) }}">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
+
+{# DISPLAY ERROR #}
+{% block before-content %}
+    {% if errors.length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for item in errors %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

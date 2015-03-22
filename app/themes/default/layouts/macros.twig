@@ -1,0 +1,67 @@
+{#
+ADD_SCRIPT
+#}
+{% macro add_scripts(source, key, value) %}
+    {% for item in source | filterScript(key, value) %}
+        <script src="{{ item.src }}" data-position="{{ item.position }}" {% if item.require_config %}data-main="{{ item.require_config }}"{% endif %} {% if item.id %}id="{{ item.id }}"{% endif %} {% if item.async && !item.defer %}async="async"{% endif %} {% if item.defer && !item.async %}defer="defer"{% endif %}></script>
+    {% endfor %}
+{% endmacro %}
+{#
+CSS_SCRIPT
+#}
+{% macro add_css(source, key, value) %}
+    {% for item in source %}
+        <link href="{{ item.href }}" rel="stylesheet" type="text/css" {% if item.media %}media="{{ item.media }}"{% endif %}/>
+    {% endfor %}
+{% endmacro %}
+{#
+CDN_IMAGE
+#}
+{% macro cdn_image(path, alt, width, height) %}
+    <img src="{{ assetsPath('/images/blank.gif') }}" {% if path %}data-orig="{{ getCdnPath(path)}}"{% endif %} {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %} class="mv-lazy-image" />
+{% endmacro %}
+
+
+{#
+ASSET_IMAGE
+#}
+{% macro assets_image(path, alt, width, height) %}
+    {% if path %}
+        <img src="{{ assetsPath(path) }}" {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %}  />
+    {% else %}
+        <img src="{{ assetsPath('/images/blank.gif') }}" {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %}  class="mv-no-image" />
+    {% endif %}
+{% endmacro %}
+
+{#
+ROBOTS
+#}
+{% macro show_robots(robots) %}
+    {% if robots.index && robots.follow %}
+        <meta name="robots" content="index, follow">
+    {% elseif !robots.index && robots.follow %}
+        <meta name="robots" content="noindex, follow">
+    {% elseif robots.index && !robots.follow %}
+        <meta name="robots" content="index, nofollow">
+    {% else %}
+        <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+{% endmacro %}
+
+
+{#### INIT BOTTOM SCRIPTS #######}
+{% macro scripts_bottom_init() %}
+    <script>
+        (function INIT_IIFE(window) {
+            var MV = {};
+            MV.assetsPath = "{{ assetsPath('/') }}";
+            MV.controller = "{{ controller }}";
+            MV.action = "{{ action }}";
+            MV.module = "{{ module }}";
+            MV.env = "{{ env }}";
+
+            MV.isoLocale = "{{ isoLocale }}";
+            window.MV = MV;
+        }(window));
+    </script>
+{% endmacro %}

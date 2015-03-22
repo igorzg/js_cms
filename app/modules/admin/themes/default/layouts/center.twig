@@ -1,0 +1,53 @@
+{% import '@{viewsPath}/layouts/macros' as macro %}
+
+<!DOCTYPE html>
+<html lang="{{ isoLocale }}">
+<head>
+    <meta charset="utf-8"/>
+    {{ macro.add_css(scripts | filterScript("type", "css")) }}
+    {{ macro.add_scripts(scripts | filterScript("type", "javascript"), "position", "head") }}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+    {{ macro.add_scripts(scripts, "position", "body_top") }}
+
+    <div class="container">
+        {% if menu.length > 0 && isLoggedin %}
+            <nav class="navbar navbar-inverse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    {% for item in menu %}
+                        <li>
+                            <a href="{{ item.href }}" >
+                                {% if item.icon %}<span class="{{ item.icon }}"></span>{% endif %}
+                                {{ item.label }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+        {% if submenu.length > 0 && isLoggedin %}
+            <nav class="navbar">
+                <ul class="nav navbar-nav">
+                    {% for item in submenu %}
+                        <li class="{{ item.icon }}">
+                            <a href="{{ item.href }}">{{ item.label }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+    {% block before-content-wrapper %}{% endblock %}
+    {% if message %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    {% block after-content-wrapper %}{% endblock %}
+
+    {{ macro.add_scripts(scripts, "position", "body_bottom") }}
+    {{ macro.scripts_bottom_init() }}
+</body>
+</html>

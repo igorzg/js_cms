@@ -1,0 +1,51 @@
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ t('Users list') }}</div>
+        {% if data.length %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ t('Name') }}
+                        </th>
+                        <th>
+                            {{ t('Username') }}
+                        </th>
+                        <th>
+                            {{ t('Created') }}
+                        </th>
+                        <th>
+                            {{ t('Operations') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in data %}
+                    <tr>
+                        <td>
+                            {{ item.id }}
+                        </td>
+                        <td>
+                            {{ item.username }}
+                        </td>
+                        <td>
+                            {{ item.created | date('Y-m-d h:i:s') }}
+                        </td>
+                        <td>
+                            <a href="{{ createUrl('admin/users/add', {id: item.id}) }}">
+                                <span class="glyphicon glyphicon-pencil" title="{{ t('Edit') }}"></span>
+                            </a>
+                            <a href="{{ createUrl('admin/users/delete', {id: item.id}) }}">
+                                <span class="glyphicon glyphicon-remove" title="{{ t('Delete') }}"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="mv-p">{{ t('No users defined') }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

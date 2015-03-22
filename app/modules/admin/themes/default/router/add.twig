@@ -1,0 +1,40 @@
+{% import "layouts/macros" as macros %}
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="mv-content">
+        <h1 class="mv-brand">{{ t('Add new route') }}</h1>
+        <form name="addCategory" action="{{ createUrl('admin/router/add', params) }}" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                {{ macros.input_text('url', 'Url') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text('type_id', 'Type ID') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_select('type', 'Type', types, 'key', 'value') }}
+            </div>
+            <div class="checkbox">
+                {{ macros.input_checkbox('index', 'Index', true) }}
+            </div>
+            <div class="checkbox">
+                {{ macros.input_checkbox('follow', 'Follow', true) }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="{{ t('Submit') }}">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{# DISPLAY ERROR #}
+{% block before-content %}
+    {% if errors.length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for item in errors %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

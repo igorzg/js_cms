@@ -1,0 +1,66 @@
+{% import '@{viewsPath}/layouts/macros' as macro %}
+
+<!DOCTYPE html>
+<html lang="{{ isoLocale }}">
+<head>
+    <meta charset="utf-8"/>
+    {{ macro.add_css(scripts | filterScript("type", "css")) }}
+    {{ macro.add_scripts(scripts | filterScript("type", "javascript"), "position", "head") }}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+    {{ macro.add_scripts(scripts, "position", "body_top") }}
+
+    <div class="container-fluid">
+        {% if menu.length > 0 && isLoggedin %}
+            <nav class="navbar navbar-inverse navbar-collapse">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-1">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="navbar-brand">{{ t('JSCMS') }}</span>
+                </div>
+                <div class="collapse navbar-collapse" id="collapse-1">
+                    <ul class="nav navbar-nav">
+                        {% for item in menu %}
+                            <li>
+                                <a href="{{ item.href }}" >
+                                    {% if item.icon %}<span class="{{ item.icon }}"></span>{% endif %}
+                                    {{ item.label }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </nav>
+        {% endif %}
+        {% if submenu.length > 0 && isLoggedin %}
+            <nav class="navbar">
+                <ul class="nav navbar-nav">
+                    {% for item in submenu %}
+                        <li class="{{ item.icon }}">
+                            <a href="{{ item.href }}" class="btn btn-default">{{ item.label }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+
+    </div>
+
+    <div class="container-fluid">
+        {% block before-content %}{% endblock %}
+        {% if message %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+        {% block content %}{% endblock %}
+
+    </div>
+    {% block after-content-wrapper %}{% endblock %}
+
+    {{ macro.add_scripts(scripts, "position", "body_bottom") }}
+    {{ macro.scripts_bottom_init() }}
+</body>
+</html>

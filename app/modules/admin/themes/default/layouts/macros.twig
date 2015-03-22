@@ -1,0 +1,60 @@
+{# INPUT #}
+{% macro input_text(name, title) %}
+    <label for="{{ name }}">{{ t(title) }}</label>
+    <input type="text" name="{{ name }}" id="{{ name }}" {% if post[name] %}value="{{ post[name] }}"{% endif %} class="form-control"/>
+{% endmacro %}
+
+{# INPUT #}
+{% macro input_password(name, title) %}
+    <label for="{{ name }}">{{ t(title) }}</label>
+    <input type="password" name="{{ name }}" id="{{ name }}" {% if post[name] %}value="{{ post[name] }}"{% endif %} class="form-control"/>
+{% endmacro %}
+
+{# INPUT #}
+{% macro input_checkbox(name, title, value) %}
+    <label for="{{ name }}">
+        <input type="checkbox" name="{{ name }}" id="{{ name }}" value="{{ value }}" {% if post[name] %}checked{% endif %}/>
+        {{ t(title) }}
+    </label>
+
+{% endmacro %}
+
+{# TEXT AREA #}
+{% macro input_text_area(name, title) %}
+    <label for="{{ name }}">{{ t(title) }}</label>
+    <textarea  id="{{ name }}"  name="{{ name }}"  class="form-control">{% if post[name] %}{{ post[name] }}{% endif %}</textarea>
+{% endmacro %}
+
+{# INPUT FILE #}
+{% macro input_file(name, title) %}
+    <label for="{{ name }}">{{ t(title) }}</label>
+    <input type="file" name="{{ name }}" id="{{ name }}" multiple  class="form-control"/>
+{% endmacro %}
+
+
+{# INPUT SELECT #}
+{% macro input_select(name, title, data, vKey, dKey) %}
+    <label for="{{ name }}">{{ t(title) }}</label>
+    <select name="{{ name }}" id="{{ name }}"  class="form-control">
+        <option value="">{{ t('Select') }}</option>
+        {% for item in data %}
+            <option value="{{ item[vKey] }}" {% if post[name] && post[name] === item[vKey] %}selected{% endif %}>{{ item[dKey] }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro scripts_bottom_init() %}
+    <script>
+        (function INIT_IIFE(window) {
+            var MV = {};
+            MV.assetsPath = "{{ assetsPath('/') }}";
+            MV.controller = "{{ controller }}";
+            MV.action = "{{ action }}";
+            MV.module = "{{ module }}";
+            MV.env = "{{ env }}";
+
+            MV.isoLocale = "{{ isoLocale }}";
+            window.MV = MV;
+        }(window));
+    </script>
+{% endmacro %}

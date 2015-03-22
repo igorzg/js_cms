@@ -1,0 +1,13 @@
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="mv-content">
+        {% for item in articles %}
+            <article class="mv-article">
+                <h2 class="mv-h2">{{ item.title }}</h2>
+                <p class="mv-short-desc">{{ item.short_description }}</p>
+                <a href="{{ getRoute(item.id, 'article') }}">{{ t('Read more') }}</a>
+            </article>
+        {% endfor %}
+    </div>
+    {% parent %}
+{% endblock %}

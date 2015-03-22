@@ -1,0 +1,34 @@
+{% import "layouts/macros" as macros %}
+{% extends "layouts/default" %}
+{% block content %}
+    <div class="mv-content">
+        <h1 class="mv-brand">{{ t('Add new user') }}</h1>
+        <form name="addCategory" action="{{ createUrl('admin/users/add', params) }}" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                {{ macros.input_text('username', 'Username') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_text('new_password', 'Password') }}
+            </div>
+            <div class="form-group">
+                {{ macros.input_select('type', 'Type', types, 'key', 'value') }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="{{ t('Submit') }}">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{# DISPLAY ERROR #}
+{% block before-content %}
+    {% if errors.length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for item in errors %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

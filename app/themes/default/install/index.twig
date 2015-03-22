@@ -1,0 +1,64 @@
+{% extends "layouts/install" %}
+
+{% block content %}
+
+    <div class="panel panel-default mv-login">
+        <div class="panel-heading">{{ t('Install process') }}</div>
+
+
+        <form action="{{ createUrl('install/index') }}" method="POST" enctype="application/x-www-form-urlencoded" class="center-block">
+
+            {% if errors.length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for item in errors %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="mv-group">
+                <h2 class="mv-title">{{ t('Encryption') }}</h2>
+                <div class="form-group">
+                    <label>{{ t('Cipher') }}</label>
+                    <input type="text" placeholder="{{ t('Cipher') }}" name="cipher" class="form-control" {% if post.cipher %}value="{{ post.cipher }}"{% endif %}/>
+                </div>
+                <div class="form-group">
+                    <label>{{ t('Iso locale') }}</label>
+                    <input type="iso_locale" placeholder="{{ t('Iso Locale eg: de_AT') }}" name="iso_locale" class="form-control" {% if post.iso_locale %}value="{{ post.iso_locale }}"{% endif %}/>
+                </div>
+            </div>
+            <div class="mv-group">
+                <h2 class="mv-title">{{ t('User data') }}</h2>
+                <div class="form-group">
+                    <label>{{ t('Username') }}</label>
+                    <input type="text" placeholder="{{ t('Username') }}" name="username" class="form-control" {% if post.username %}value="{{ post.username }}"{% endif %}/>
+                </div>
+                <div class="form-group">
+                    <label>{{ t('Password') }}</label>
+                    <input type="password" placeholder="{{ t('Password') }}" name="password" class="form-control" {% if post.password %}value="{{ post.password }}"{% endif %}/>
+                </div>
+            </div>
+            <div class="mv-group">
+                <h2 class="mv-title">{{ t('Email server data') }}</h2>
+                <div class="form-group">
+                    <label>{{ t('Server') }}</label>
+                    <input type="text" placeholder="{{ t('Server') }}" name="email_server" class="form-control" {% if post.email_server %}value="{{ post.email_server }}"{% endif %}/>
+                </div>
+                <div class="form-group">
+                    <label>{{ t('Username') }}</label>
+                    <input type="text" placeholder="{{ t('Username') }}" name="email_username" class="form-control" {% if post.email_username %}value="{{ post.email_username }}"{% endif %}/>
+                </div>
+                <div class="form-group">
+                    <label>{{ t('Password') }}</label>
+                    <input type="password" placeholder="{{ t('Password') }}" name="email_password" class="form-control" {% if post.email_password %}value="{{ post.email_password }}"{% endif %}/>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="{{ t('Submit') }}" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
