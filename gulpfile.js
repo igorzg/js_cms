@@ -7,7 +7,8 @@ var less = require('gulp-less');
 var sourcemaps = require('gulp-sourcemaps');
 var clean = require('del');
 var nodemon = require('gulp-nodemon');
-
+var LessPluginCleanCSS = require('less-plugin-clean-css'),
+    cleancss = new LessPluginCleanCSS({ advanced: true });
 // coverage task
 gulp.task('coverage', function (cb) {
     gulp.src(['./app/**/*.js'])
@@ -48,9 +49,10 @@ gulp.task('clean-less', function (cb) {
     ], cb);
 });
 // copy less files for source maps
-gulp.task('copy-less', function () {
+gulp.task('copy-less', function (cb) {
     gulp.src('./less/**/*.less')
-        .pipe(gulp.dest('./storage/css'));
+        .pipe(gulp.dest('./storage/css'))
+        .on('finish', cb);
 });
 
 // compile less files dev env
@@ -75,12 +77,14 @@ gulp.task('less-watch', function () {
 // compile less files production env
 gulp.task('less-prod', ['clean-less'], function () {
     gulp.src('./less/public/*.less')
-        .pipe(less())
+        .pipe(less({
+            plugins: [cleancss]
+        }))
         .pipe(gulp.dest('./storage/css'));
 });
 
 // gulp dev
-gulp.task('dev', ['less-watch'], function () {
+gulp.task('dev', function () {
 
     nodemon({
         script: 'index.js',

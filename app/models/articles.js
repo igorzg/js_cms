@@ -99,6 +99,7 @@ ArticlesModel = AbstractModel.inherit({
                     type_id: id,
                     url: data.url
                 }).then(function () {
+                    delete data.url;
                     return this.model.create(core.extend({
                         created: new Date,
                         id: id

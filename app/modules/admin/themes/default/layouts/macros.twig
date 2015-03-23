@@ -22,7 +22,7 @@
 {# TEXT AREA #}
 {% macro input_text_area(name, title) %}
     <label for="{{ name }}">{{ t(title) }}</label>
-    <textarea  id="{{ name }}"  name="{{ name }}"  class="form-control">{% if post[name] %}{{ post[name] }}{% endif %}</textarea>
+    <textarea  id="{{ name }}"  name="{{ name }}"  class="form-control">{% if post[name] %}{{ post[name] | safe }}{% endif %}</textarea>
 {% endmacro %}
 
 {# INPUT FILE #}
