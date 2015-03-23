@@ -8,11 +8,11 @@ var sourcemaps = require('gulp-sourcemaps');
 var clean = require('del');
 var nodemon = require('gulp-nodemon');
 var LessPluginCleanCSS = require('less-plugin-clean-css'),
-    cleancss = new LessPluginCleanCSS({ advanced: true });
+    cleancss = new LessPluginCleanCSS({advanced: true});
 // coverage task
 gulp.task('coverage', function (cb) {
     gulp.src(['./app/**/*.js'])
-        .pipe(istanbul({ includeUntested: true }))
+        .pipe(istanbul({includeUntested: true}))
         .pipe(istanbul.hookRequire())
         .on('finish', cb);
 });
@@ -26,7 +26,7 @@ gulp.task('test-with-coverage', ['coverage'], function () {
             includeStackTrace: true
         }))
         .pipe(istanbul.writeReports({
-            reporters: [ 'json', 'clover', 'html' ]
+            reporters: ['json', 'clover', 'html']
         }))
         .pipe(exit());
 });
@@ -56,22 +56,29 @@ gulp.task('copy-less', function (cb) {
 });
 
 // compile less files dev env
-gulp.task('less-dev', ['clean-less', 'copy-less'], function (cb) {
+gulp.task('less-dev', ['copy-less'], function () {
+    var lessStream = less({});
+    lessStream.on('error',function(e){
+        console.log(e);
+        lessStream.end();
+    });
     gulp.src('./less/public/*.less')
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(less())
-        .pipe(sourcemaps.write('./maps',{
+        .pipe(lessStream)
+        .pipe(sourcemaps.write('./maps', {
             includeContent: true,
             sourceRoot: './storage/css',
             debug: true
         }))
-        .pipe(gulp.dest('./storage/css'))
-        .on('finish', cb);
+        .pipe(gulp.dest('./storage/css'));
 });
 
 // compile less files production env
 gulp.task('less-watch', function () {
-    gulp.watch('./less/**/*.less', ['less-dev']);
+    gulp.watch('./less/**/*.less', ['less-dev'])
+        .on('error', function (error) {
+            console.error(error);
+        });
 });
 
 // compile less files production env
@@ -84,7 +91,7 @@ gulp.task('less-prod', ['clean-less'], function () {
 });
 
 // gulp dev
-gulp.task('dev', function () {
+gulp.task('dev', ['less-watch'], function () {
 
     nodemon({
         script: 'index.js',

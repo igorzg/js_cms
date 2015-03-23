@@ -13,42 +13,27 @@
 </head>
 <body>
 {{ macro.add_scripts(scripts, "position", "body_top") }}
-    <div class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-1">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse" id="collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ createUrl('home/index') }}">
-                            <span class="glyphicon glyphicon-home"></span>
-                            {{ t('Home') }}
-                        </a>
-                    </li>
-                    {% for item in categories %}
-                        <li>
-                            <a href="{{ getRoute(item.id, 'category') }}">{{ item.title }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <div class="mv-navigation">
+        <ul class="nav">
+            <li>
+                <a href="{{ createUrl('home/index') }}" class="icon-home">
+                    {{ t('Home') }}
+                </a>
+            </li>
+            {% for item in categories %}
+                <li>
+                    <a href="{{ getRoute(item.id, 'category') }}">{{ item.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-
-    {% block before-content-wrapper %}{% endblock %}
-    <div class="container">
-        <div class="row">
+    <div class="mv-body">
+        {% block before-content-wrapper %}{% endblock %}
+        <div class="mv-container">
             {% block content %}{% endblock %}
         </div>
+        {% block after-content-wrapper %}{% endblock %}
     </div>
-    {% block after-content-wrapper %}{% endblock %}
-
-
 {{ macro.scripts_bottom_init() }}
 {{ macro.add_scripts(scripts, "position", "body_bottom") }}
 </body>

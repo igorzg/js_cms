@@ -31,10 +31,7 @@ ViewController = CoreController.inherit({}, {
         return this._super(action, params).then(function () {
 
 
-            this.locals.scripts.push({
-                href: this.assetsPath('/vendor/bootstrap/dist/css/bootstrap.min.css'),
-                type: "css"
-            });
+
 
             this.locals.scripts.push({
                 href: this.assetsPath('/css/main.css'),
@@ -42,16 +39,11 @@ ViewController = CoreController.inherit({}, {
             });
 
             this.locals.scripts.push({
-                src: this.assetsPath('/vendor/jquery/dist/jquery.min.js'),
+                src: this.assetsPath('/vendor/zepto-full/zepto.min.js'),
                 position: "body_bottom",
                 type: "javascript"
             });
 
-            this.locals.scripts.push({
-                src: this.assetsPath('/vendor/bootstrap/dist/js/bootstrap.min.js'),
-                position: "body_bottom",
-                type: "javascript"
-            });
 
             return Promise.all([
                 routerModel.find().exec(),
