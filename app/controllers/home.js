@@ -1,5 +1,6 @@
 "use strict";
 var di = require('mvcjs'), // mvcjs as node package
+    Promise = di.load('promise'),
     CoreController = di.load('@{controllersPath}/private/view'),
     categoriesModel = di.load('@{modelsPath}/categories'),
     articleModel = di.load('@{modelsPath}/articles'),

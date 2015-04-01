@@ -4,6 +4,7 @@ var di = require('mvcjs'), // mvcjs as node package
     articlesModel = di.load('@{modelsPath}/articles'),
     categoriesModel = di.load('@{modelsPath}/categories'),
     routerModel = di.load('@{modelsPath}/router'),
+    Promise = di.load('promise'),
     fs = di.load('fs'),
     Type = di.load('typejs'),
     ArticlesController;

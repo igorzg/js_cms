@@ -1,6 +1,7 @@
 "use strict";
 var di = require('mvcjs'), // mvcjs as node package
     Type = di.load('typejs'),
+    Promise = di.load('promise'),
     Controller = di.load('core/controller'),
     crypto = di.load('crypto'),
     error = di.load('error'),

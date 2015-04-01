@@ -2,6 +2,7 @@
 var di = require('mvcjs'),
     Type = di.load('typejs'),
     core = di.load('core'),
+    Promise = di.load('promise'),
     AbstractModel = di.load('@{modelsPath}/abstract-model'),
     routerModel = di.load('@{modelsPath}/router'),
     component = di.load('core/component'),

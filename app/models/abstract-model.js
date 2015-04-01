@@ -2,6 +2,7 @@
 var di = require('mvcjs'),
     Type = di.load('typejs'),
     core = di.load('core'),
+    Promise = di.load('promise'),
     component = di.load('core/component'),
     mongo = component.get('db/mongo'),
     AbstractModel;
