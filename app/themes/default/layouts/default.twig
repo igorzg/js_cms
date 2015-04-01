@@ -13,27 +13,112 @@
 </head>
 <body>
 {{ macro.add_scripts(scripts, "position", "body_top") }}
-    <div class="mv-navigation">
-        <ul class="nav">
+<div class="mv-navigation">
+    <form action="{{ createUrl('search/index') }}" class="mv-form" method="get">
+        <div class="mv-wrapper">
+            <button type="submit" class="icon-search white"></button>
+            <input type="text" name="query" placeholder="{{ t('Type search keyward') }}" autocomplete="off"
+                   onkeyup="this.setAttribute('value', this.value)">
+            <i class="icon-x white"></i>
+        </div>
+    </form>
+    <ul class="nav">
+        <li>
+            <a href="{{ createUrl('home/index') }}" class="icon-home white">
+                {{ t('Home') }}
+            </a>
+        </li>
+        {% for item in categories %}
             <li>
-                <a href="{{ createUrl('home/index') }}" class="icon-home">
-                    {{ t('Home') }}
+                <a href="{{ getRoute(item.id, 'category') }}" class="icon-link white">
+                    {{ item.title }}
                 </a>
             </li>
-            {% for item in categories %}
-                <li>
-                    <a href="{{ getRoute(item.id, 'category') }}">{{ item.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="mv-body">
-        {% block before-content-wrapper %}{% endblock %}
-        <div class="mv-container">
-            {% block content %}{% endblock %}
+        {% endfor %}
+        <li>
+            <a href="{{ createUrl('contact/index') }}" class="icon-book white">
+                {{ t('Contact') }}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="mv-body">
+    <div class="mv-header row fluid">
+        <i class="icon-align-justify white mv-navigation-call"></i>
+
+        <div class="row">
+            <div class="col-6">
+                {{ macro.assets_image('/image/me.jpeg', null, 150, 150, 'mv-me') }}
+            </div>
+            <ul class="mv-skills col-6">
+                <li>Agile {{ macro.display_stars(5) }}</li>
+                <li>Scalability {{ macro.display_stars(5) }}</li>
+                <li>Javascript {{ macro.display_stars(5) }}</li>
+                <li>Node.js {{ macro.display_stars(5) }}</li>
+                <li>HTML {{ macro.display_stars(5) }}</li>
+                <li>JAVA {{ macro.display_stars(2) }}</li>
+                <li>PHP {{ macro.display_stars(4) }}</li>
+                <li>Mongodb {{ macro.display_stars(4) }}</li>
+                <li>MySql {{ macro.display_stars(4) }}</li>
+                <li>ElasticSearch {{ macro.display_stars(3) }}</li>
+                <li>Solr {{ macro.display_stars(3) }}</li>
+            </ul>
         </div>
-        {% block after-content-wrapper %}{% endblock %}
     </div>
+    {% if breadcrumbs.length %}
+        <div class="mv-breadcrumbs row fluid clear">
+            <div class="row">
+                <ul>
+                    {% for item in breadcrumbs %}
+
+                    <li>
+                        <i class="icon-chevron-right"></i>
+                        {% if item.url %}
+                            <a href="{{ item.url }}">
+                                {{ item.label }}
+                            </a>
+                        {% else %}
+                            {{ item.label }}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    {% block before-content-wrapper %}{% endblock %}
+    <div class="mv-container row">
+        {% block content %}{% endblock %}
+    </div>
+    {% block after-content-wrapper %}{% endblock %}
+    <div class="mv-footer row fluid">
+        <div class="row">
+            <ul class="mv-social-links">
+                <li>2015 MIT.</li>
+                <li>
+                    <a href="http://twitter.com/igorzg1987" target="_blank">
+                        <i class="icon-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/igorivanoviczg" target="_blank">
+                        <i class="icon-linkedin"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/igorzg" target="_blank">
+                        <i class="icon-social-github"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://plus.google.com/u/0/+IgorIvanovic-js" target="_blank">
+                        <i class="icon-google-plus"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {{ macro.scripts_bottom_init() }}
 {{ macro.add_scripts(scripts, "position", "body_bottom") }}
 </body>

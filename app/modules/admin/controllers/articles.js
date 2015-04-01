@@ -97,34 +97,36 @@ ArticlesController = CoreController.inherit({}, {
 
 
         this.locals.categories.forEach(function (item) {
-            if (item.id === parseInt(body.category.value)) {
+            if (body && body.category && item.id === parseInt(body.category.value)) {
                 category = item;
             }
         });
 
-        if (!body.meta_title.value) {
+
+        if (!body.meta_title || !body.meta_title.value) {
             this.locals.errors.push(this.translate('You must define meta title'));
         }
 
-        if (!body.meta_description.value) {
+        if (!body.meta_description || !body.meta_description.value) {
             this.locals.errors.push(this.translate('You must define meta description'));
         }
 
-        if (!body.title.value) {
+        if (!body.title || !body.title.value) {
             this.locals.errors.push(this.translate('You must define title'));
         }
 
-        if (!body.short_description.value) {
+        if (!body.short_description || !body.short_description.value) {
             this.locals.errors.push(this.translate('You must define short description'));
         }
 
-        if (!body.description.value) {
+        if (!body.description || !body.description.value) {
             this.locals.errors.push(this.translate('You must define description'));
         }
-
-        if (!body.category.value) {
-            this.locals.errors.push(this.translate('You must select category'));
-        }
+        /*
+            if (!body.category || !body.category.value) {
+                this.locals.errors.push(this.translate('You must select category'));
+            }
+        */
 
 
         if (Type.isArray(body.files) && body.files.length > 0) {

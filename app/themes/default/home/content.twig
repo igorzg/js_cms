@@ -1,5 +1,20 @@
 {% extends "layouts/default" %}
 {% block content %}
-    <div class="mv-content mv-cf">{{ content | safe }}</div>
-    {% parent %}
+    {% if article.files.length %}
+        <div data-carousel class="mv-carousel">
+            <div class="wrapper">
+                <ul data-slides class="mv-slides">
+                    {% for item in article.files %}
+                        <li class="mv-li">{{ macro.assets_image(item) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <span class="icon-chevron-left arrow left"></span>
+            <span class="icon-chevron-right arrow right"></span>
+        </div>
+    {% endif %}
+
+    <h1 class="mv-title">{{ article.title }}</h1>
+    <div class="mv-content">{{ article.description | safe }}</div>
+
 {% endblock %}

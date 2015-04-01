@@ -1,6 +1,14 @@
 {% extends "layouts/default" %}
+
+{% block before-content-wrapper %}
+    <div class="mv-breadcrumbs row fluid clear">
+        <div class="row">
+            <span class="mv-info">{{ t('Showing %s1 of %s2 pages.') | replace('%s1', page) | replace('%s2', numOfPages) }}</span>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
-    <div class="mv-content col-12">
+    <div class="mv-content col-12 {% if articles.length === 0 %}mv-no-data{% endif %}">
         {% if category %}
             <h1 class="mv-title">{{ category.title }}</h1>
             <div class="mv-short-desc">{{ category.description | safe }}</div>
@@ -21,5 +29,4 @@
             {% endif %}
         </section>
     </div>
-    {% parent %}
 {% endblock %}

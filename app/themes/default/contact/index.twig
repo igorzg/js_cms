@@ -1,0 +1,86 @@
+{% extends "layouts/default" %}
+
+{% block content %}
+
+    <div class="mv-box-layout clear">
+
+        {% if showSuccess %}
+            <div class="mv-alert-box success">
+                {{ t('Your email was sent!') }}
+            </div>
+        {% endif %}
+
+        <form id="contactForm" class="mv-contact-form" action="{{ getPathName() }}" method="POST" enctype="application/x-www-form-urlencoded">
+            <div class="mv-form-row clear">
+                <label for="name">
+                    {{ t('Name') }}*
+                </label>
+                <input type="text" name="name" id="name" class="mv-input-form {% if errors.name %}mv-error{% endif %}" placeholder="{{ t('name') }}"
+                        {% if postData.name %} value="{{ postData.name }}" {% endif %} />
+                {% if errors.name %}
+                    <div class="mv-msg">
+                        {{ errorMessages.name }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mv-form-row clear">
+                <label for="email">
+                    {{ t('Email') }}*
+                </label>
+                <input type="text" name="email" id="email" class="mv-input-form {% if errors.email %}mv-error{% endif %}" placeholder="{{ t('email') }}"
+                        {% if postData.email %} value="{{ postData.email }}" {% endif %} />
+                {% if errors.email %}
+                    <div class="mv-msg">
+                        {{ errorMessages.email }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mv-form-row clear">
+                <label for="email">
+                    {{ t('Subject') }}*
+                </label>
+                <input type="text" name="subject" id="subject" class="mv-input-form {% if errors.subject %}mv-error{% endif %}" placeholder="{{ t('subject') }}"
+                        {% if postData.subject %} value="{{ postData.subject }}" {% endif %} />
+                {% if errors.subject %}
+                    <div class="mv-msg">
+                        {{ errorMessages.subject }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mv-form-row clear">
+                <label for="message">
+                    {{ t('Message') }}*
+                </label>
+                <textarea name="message" id="message" class="mv-input-form mv-contact-form-textarea {% if errors.message %}mv-error{% endif %}" rows="6" cols="40">{% if postData.message %}{{ postData.message }}{% endif %}</textarea>
+                {% if errors.message %}
+                    <div class="mv-msg">
+                        {{ errorMessages.message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mv-form-row clear">
+                <label for="captcha">
+                    {{ t('Captcha') }}*
+                </label>
+                <img class="mv-captcha" src="{{ createUrl('contact/captcha') }}" />
+            </div>
+
+            <div class="mv-form-row mv-captcha-text clear">
+                <label>&nbsp;</label>
+                <input type="text" id="captcha" name="captcha" class="mv-input-form {% if errors.captcha %}mv-error{% endif %}" placeholder="{{ t('number') }}"/>
+                {% if errors.captcha %}
+                    <div class="mv-msg">
+                        {{ errorMessages.captcha }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mv-form-row clear">
+                <label>&nbsp;</label>
+                <button class="button" type="submit">{{ t('Send') }}</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

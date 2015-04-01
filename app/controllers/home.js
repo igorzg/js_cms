@@ -15,6 +15,37 @@ var di = require('mvcjs'), // mvcjs as node package
  * Home controller is responsible for home actions
  */
 HomeController = CoreController.inherit({}, {
+
+    /**
+     * @since 0.0.1
+     * @author Igor Ivanovic
+     * @method HomeController#before_each
+     *
+     * @description
+     * Before each
+     * @return {*|string}
+     */
+    beforeEach: function (action, params) {
+        var html = this.getCache(this.getRequestUrl());
+        if (!!html) {
+            this.stopChain();
+            return html;
+        }
+        return this._super(action, params);
+    },
+    /**
+     * @since 0.0.1
+     * @author Igor Ivanovic
+     * @method HomeController#afterEach
+     *
+     * @description
+     * Before index get menu and some data
+     * @return {*|string}
+     */
+    afterEach: function ViewController_afterEach(action, params, html) {
+        this.setCache(this.getRequestUrl(), html);
+        return html;
+    },
     /**
      * @since 0.0.1
      * @author Igor Ivanovic
@@ -50,7 +81,12 @@ HomeController = CoreController.inherit({}, {
      * @return {*|string}
      */
     before_article: function HomeController_before_article(params) {
-        return articleModel.findOne({id: params.route.type_id}).exec();
+        return articleModel.findOne({id: params.route.type_id}).exec().then(function (article) {
+            this.locals.article = article;
+            return categoriesModel.findOne({id: article.category}).exec().then(function (category) {
+                this.locals.category = category;
+            }.bind(this));
+        }.bind(this));
     },
     /**
      * @since 0.0.1
@@ -62,7 +98,25 @@ HomeController = CoreController.inherit({}, {
      * @return {*|string}
      */
     action_article: function HomeController_article(params) {
-        console.log('params', params);
+
+        this.locals.breadcrumbs.push({
+            url: this.createUrl('home/index'),
+            label: this.translate('Home')
+        });
+
+        this.locals.breadcrumbs.push({
+            url: this.getRoute(this.locals.category.id, 'category'),
+            label: this.locals.category.title
+        });
+
+        this.locals.breadcrumbs.push({
+            label: this.locals.article.title
+        });
+
+        this.locals.metaTitle = this.locals.article.meta_title;
+        this.locals.metaDesc = this.locals.article.meta_description;
+
+        return this.renderFile('home/content', this.locals);
     },
     /**
      * @since 0.0.1
@@ -92,7 +146,20 @@ HomeController = CoreController.inherit({}, {
      * Show article
      * @return {*|string}
      */
-    action_category: function HomeController_category(params, data) {
+    action_category: function HomeController_category() {
+
+
+        this.locals.breadcrumbs.push({
+            url: this.createUrl('home/index'),
+            label: this.translate('Home')
+        });
+
+        this.locals.breadcrumbs.push({
+            label: this.locals.category.title
+        });
+
+        this.locals.metaTitle = this.locals.category.meta_title;
+        this.locals.metaDesc = this.locals.category.meta_description;
 
         return this.renderFile('home/index', this.locals);
     }

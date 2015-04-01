@@ -6,6 +6,7 @@ var di = require('mvcjs'), // mvcjs as node package
     error = di.load('error'),
     component = di.load('core/component'),
     config = component.get('params'),
+    cache = component.get('storage/memory'),
     CoreController;
 
 
@@ -22,6 +23,7 @@ var di = require('mvcjs'), // mvcjs as node package
 CoreController = Controller.inherit({
     locals: Type.OBJECT,
     translations: Type.OBJECT,
+    forceCacheRefresh: Type.BOOLEAN,
     routes: Type.ARRAY
 }, {
     /**
@@ -33,6 +35,13 @@ CoreController = Controller.inherit({
      * On construct set some defaults
      */
     _construct: function CoreController_construct() {
+
+        if (config.has('chiper')) {
+            this.forceCacheRefresh = this.getParsedUrl().query.forceCacheRefresh === config.get('cipher');
+        } else {
+            this.forceCacheRefresh = true;
+        }
+
         this.translations = {};
         this.routes = [];
         this.locals = {
@@ -54,8 +63,40 @@ CoreController = Controller.inherit({
             env: process.env.NODE_ENV,
             isoLocale: config.has('isoLocale') ? config.get('isoLocale') : 'en_EN',
             scripts: [],
-            menu: []
+            menu: [],
+            breadcrumbs: [],
+            robots: {
+                index: true,
+                follow: true
+            },
+            metaTitle: config.has('seo_title') ? config.get('seo_title') : '',
+            metaDesc: config.has('seo_description') ? config.get('seo_description') : '',
         };
+    },
+    /**
+     * @since 0.0.1
+     * @author Igor Ivanovic
+     * @method CoreController#setCache
+     *
+     * @description
+     * Set cache
+     */
+    setCache: function (key, value) {
+        cache.set('CLIENT_' + key, value);
+    },
+    /**
+     * @since 0.0.1
+     * @author Igor Ivanovic
+     * @method CoreController#getCache
+     *
+     * @description
+     * Get cache
+     */
+    getCache: function (key) {
+        if (process.env.NODE_ENV !== 'development' && !this.forceCacheRefresh) {
+            return cache.get('CLIENT_' + key);
+        }
+        return false;
     },
     /**
      * @since 0.0.1

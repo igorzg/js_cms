@@ -25,9 +25,9 @@ CDN_IMAGE
 {#
 ASSET_IMAGE
 #}
-{% macro assets_image(path, alt, width, height) %}
+{% macro assets_image(path, alt, width, height, css) %}
     {% if path %}
-        <img src="{{ assetsPath(path) }}" {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %}  />
+        <img src="{{ assetsPath(path) }}" {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %}  {% if css %}class="{{ css }}"{% endif %}/>
     {% else %}
         <img src="{{ assetsPath('/images/blank.gif') }}" {% if alt %}alt="{{alt}}"{% endif %} {% if width %}width="{{ width }}"{% endif %} {% if height %}height="{{ height }}"{% endif %}  class="mv-no-image" />
     {% endif %}
@@ -64,4 +64,12 @@ ROBOTS
             window.MV = MV;
         }(window));
     </script>
+{% endmacro %}
+
+{% macro display_stars(i)  %}
+    <span class="mv-stars">
+        {% for star in Array(i) %}
+            <i class="icon-star"></i>
+        {% endfor %}
+    </span>
 {% endmacro %}

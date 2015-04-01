@@ -56,7 +56,7 @@ ArticlesModel = AbstractModel.inherit({
                 },
                 category: {
                     type: Number,
-                    require: true
+                    default : 0
                 },
                 files: {
                     type: Array

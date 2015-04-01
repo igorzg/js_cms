@@ -96,7 +96,7 @@ gulp.task('dev', ['less-watch'], function () {
     nodemon({
         script: 'index.js',
         env: {
-            'NODE_ENV': 'dev'
+            'NODE_ENV': 'development'
         },
         nodeArgs: ['--debug'],
         ext: 'js'

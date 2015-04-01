@@ -28,9 +28,13 @@ ViewController = CoreController.inherit({}, {
      * @return {*|string}
      */
     beforeEach: function ViewController_beforeEach(action, params) {
+
+        if (Type.isObject(params.route)) {
+            this.locals.robots.index = params.route.index;
+            this.locals.robots.follow = params.route.follow;
+        }
+
         return this._super(action, params).then(function () {
-
-
 
 
             this.locals.scripts.push({
@@ -44,6 +48,11 @@ ViewController = CoreController.inherit({}, {
                 type: "javascript"
             });
 
+            this.locals.scripts.push({
+                src: this.assetsPath('/js/index.js'),
+                position: "body_bottom",
+                type: "javascript"
+            });
 
             return Promise.all([
                 routerModel.find().exec(),
@@ -54,6 +63,8 @@ ViewController = CoreController.inherit({}, {
             }.bind(this))
         }.bind(this));
     }
+
+
 });
 
 

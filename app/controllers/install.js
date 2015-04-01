@@ -93,6 +93,12 @@ InstallController = CoreController.inherit({}, {
                 this.locals.errors.push(this.translate('Please provide your email password!'));
             }
 
+            if (!body.seo_title) {
+                this.locals.errors.push(this.translate('Please provide default seo title!'));
+            }
+            if (!body.seo_description) {
+                this.locals.errors.push(this.translate('Please provide default seo description!'));
+            }
             if (!body.iso_locale) {
                 this.locals.errors.push(this.translate('Please provide your iso locale!'));
             }

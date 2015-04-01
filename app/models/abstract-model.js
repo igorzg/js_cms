@@ -78,6 +78,17 @@ AbstractModel = Type.create({},
         /**
          * @since 0.0.1
          * @author Igor Ivanovic
+         * @method ArticlesModel#count
+         *
+         * @description
+         * count
+         */
+        count: function (a, b, c) {
+            return this.model.count.apply(this.model, arguments);
+        },
+        /**
+         * @since 0.0.1
+         * @author Igor Ivanovic
          * @method ArticlesModel#findOne
          *
          * @description

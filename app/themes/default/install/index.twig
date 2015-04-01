@@ -17,7 +17,17 @@
                     </ul>
                 </div>
             {% endif %}
-
+            <div class="mv-group">
+                <h2 class="mv-title">{{ t('Seo') }}</h2>
+                <div class="form-group">
+                    <label>{{ t('Default title') }}</label>
+                    <input type="text" placeholder="{{ t('Title') }}" name="seo_title" class="form-control" {% if post.seo_title %}value="{{ post.seo_title }}"{% endif %}/>
+                </div>
+                <div class="form-group">
+                    <label>{{ t('Default meta description') }}</label>
+                    <input type="text" placeholder="{{ t('Description') }}" name="seo_description" class="form-control" {% if post.seo_description %}value="{{ post.seo_description }}"{% endif %}/>
+                </div>
+            </div>
             <div class="mv-group">
                 <h2 class="mv-title">{{ t('Encryption') }}</h2>
                 <div class="form-group">
@@ -26,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label>{{ t('Iso locale') }}</label>
-                    <input type="iso_locale" placeholder="{{ t('Iso Locale eg: de_AT') }}" name="iso_locale" class="form-control" {% if post.iso_locale %}value="{{ post.iso_locale }}"{% endif %}/>
+                    <input type="iso_locale" placeholder="{{ t('Iso Locale eg: de-AT') }}" name="iso_locale" class="form-control" {% if post.iso_locale %}value="{{ post.iso_locale }}"{% endif %}/>
                 </div>
             </div>
             <div class="mv-group">

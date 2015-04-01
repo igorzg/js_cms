@@ -59,9 +59,6 @@ CategoriesController = CoreController.inherit({}, {
                 this.locals.errors.push(this.translate('You must define title'));
             }
 
-            if (!body.short_description) {
-                this.locals.errors.push(this.translate('You must define short description'));
-            }
 
             if (!body.description) {
                 this.locals.errors.push(this.translate('You must define description'));

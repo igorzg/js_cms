@@ -22,6 +22,19 @@ module.exports = function (componet, di) {
             route: 'admin/home/index'
         },
         {
+            pattern: '/contact',
+            route: 'contact/index',
+            method: ['GET', 'POST']
+        },
+        {
+            pattern: '/captcha',
+            route: 'contact/captcha'
+        },
+        {
+            pattern: '/search',
+            route: 'search/index'
+        },
+        {
             pattern: 'admin/<controller>/<action>',
             route: 'admin/<controller>/<action>',
             method: ['GET', 'POST']

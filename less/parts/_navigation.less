@@ -1,10 +1,43 @@
 .mv-navigation{
   background: rgb(18, 19, 26);
+  .mv-wrapper {
+    background-color: #1C1D24;
+    height: 55px;
+    margin-bottom: 0;
+    color: #737d83;
+    position: relative;
+    button {
+
+      border: 0;
+      background: none;
+      position: absolute;
+      top: 18px;
+      left: 5px;
+      outline: none;
+    }
+    input {
+      width: 250px;
+      height: 100%;
+      padding-left: 40px;
+      padding-right: 40px;
+      border: 0;
+      font-size: 13px;
+      font-weight: bold;
+      background-color: #1C1D24;
+      outline: none;
+    }
+    i {
+      position: absolute;
+      cursor: pointer;
+      top: 18px;
+      right: 15px;
+    }
+  }
   .nav {
     list-style: none;
     font-family: 'Open Sans', helvetica, arial, sans-serif;
     padding: 0;
-    margin: 0;
+    margin: 20px 0;
 
     li {
       margin-top: 10px;
@@ -15,9 +48,8 @@
       display: block;
       padding: 0 15px 0 15px;
 
-      &:not([class^="icon-"]),
-      &:not([class*=" icon-"]) {
-        padding-left: 15px;
+      &:not([class*="icon-"]) {
+        padding-left: 35px;
       }
     }
   }

@@ -7,4 +7,5 @@ coverage
 storage/css
 storage/vendor
 storage/files
-env/dev/params.json
+env/production/params.json
+env/development/params.json

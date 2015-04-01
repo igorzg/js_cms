@@ -1,42 +1,42 @@
-Javascript SimpleCMS alpha release 0.0.2
+Javascript BLOG release 0.1
 =====================
 
 This cms is written in javascript. 
-It use mongodb for database, nodejs (express) for server processing and angularjs for dom manipulation. 
-
+It use mongodb for database, nodejs (mvcjs) for server processing.
 
 
 Example:
-http://www.igorivanovic.info
+[Live app](http://www.igorivanovic.info)
 
-FEATURES
+[Admin panel](http://www.igorivanovic.info/admin)
+user: viewer
+password: viewer
+
+
+REQUIREMENTS
 -----------
 
-1. Articles adding, editing. 
-2. Categories adding, editing. 
-3. View users.
-4. Contact form 
-5. Paggination on frontend
+1. Canvas (contact form) [OSX install](https://github.com/Automattic/node-canvas/wiki/installation---osx)
+2. Nodejs
+2.1. Bower -> npm install -g bower
+2.2. Gulp -> npm install -g gulp
+
 
 Install
 -----------
-Required node.js modules:
-- bufferjs
-- crypto
-- emailjs
-- express
-- gm
-- moment
-- mongodb
+npm install
+bower install
 
-Configure
+
+Start server:
 -----------
-You must configure files:
-- server/config/db.js
-- server/config/email.js
-- server/app.js -> if necessary
+gulp dev
 
-License
---------------
+http://localhost:9000/
 
-Javascript cms  is open-sourced software licensed MIT License.
+Start prod:
+-----------
+NODE_ENV=production node start index.js
+
+
+

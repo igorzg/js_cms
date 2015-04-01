@@ -1,0 +1,48 @@
+
+
+.mv-carousel {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+  .wrapper {
+    max-width: 1200px;
+    overflow: hidden;
+    margin: 0 auto;
+    .mv-slides {
+      overflow: hidden;
+      display: block;
+      width: 2000em;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        overflow: hidden;
+        float: left;
+        max-height: 354px;
+        padding: 0;
+        margin: 0;
+        img {
+          width: inherit;
+          min-height: 354px;
+        }
+      }
+    }
+
+  }
+  .arrow {
+    cursor: pointer;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    line-height: 60px;
+    top: 50%;
+    text-align: center;
+    margin-top: -12px;
+    opacity: 0.7;
+    font-size: 30px;
+    &.right {
+      right: 0;
+    }
+  }
+}
