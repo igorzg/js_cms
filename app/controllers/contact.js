@@ -57,7 +57,7 @@ ContactController = ViewController.inherit({}, {
         ctx.fillStyle = params.color;
         ctx.lineWidth = 8;
         ctx.strokeStyle = params.color;
-        ctx.font = '5px sans';
+        ctx.font = '60px sans';
 
         text = ('' + Math.random()).substr(3, 6);
 
