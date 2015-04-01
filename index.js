@@ -1,9 +1,33 @@
-var di = require('mvcjs');
-var framework = di.load('bootstrap');
-framework.setBasePath(__dirname);
+"use strict";
+var cluster, numCPUs, i;
 
-di.setAlias('envShared', __dirname + '/env/shared/');
+if (process.env.NODE_ENV !== 'development') {
+    cluster = require('cluster');
+    numCPUs = require('os').cpus().length;
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+    if (cluster.isMaster) {
+        // Fork workers.
+        for (i = 0; i < numCPUs; i++) {
+            cluster.fork();
+        }
+    } else {
+        bootstrap();
+    }
+} else {
+    bootstrap();
+}
 
-framework.init('app/', '../env/' + process.env.NODE_ENV + '/env.json');
+/**
+ * Bootstrap
+ */
+function bootstrap() {
+    var di = require('mvcjs');
+    var framework = di.load('bootstrap');
+    framework.setBasePath(__dirname);
+
+    di.setAlias('envShared', __dirname + '/env/shared/');
+
+    process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+
+    framework.init('app/', '../env/' + process.env.NODE_ENV + '/env.json');
+}
