@@ -17,18 +17,9 @@ ErrorController = ViewController.inherit({}, {
      * @return {*|string}
      */
     action_index: function CoreController_action_index(params) {
-        var e = "";
-        if (!params.exception.trace) {
-            e += "\n" + params.exception.stack;
-        } else {
-            e = params.exception.toString();
-        }
+        var e = params.exception.toString();
         e += '\n ROUTE: ' + JSON.stringify(this.getParsedUrl(), null, '\t');
-        e = e.replace(/\\n/g, '\n').replace(/\\\'/g, "'");
-
-
         this.locals.error = e;
-
         return this.renderFile('error/error', this.locals);
     }
 
