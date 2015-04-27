@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies" : {
-    "mvcjs": "0.1.7",
+    "mvcjs": "0.1.8",
     "gulp": "3.8.x",
     "gulp-exit": "0.0.x",
     "gulp-istanbul": "0.5.x",

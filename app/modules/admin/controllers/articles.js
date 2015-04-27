@@ -49,9 +49,9 @@ ArticlesController = CoreController.inherit({}, {
          */
         function filePromise(file) {
 
-            var path, fileName;
+            var path, fileName, filesPath = '/files';
 
-            if (!file.value && !file.fileName) {
+            if (!file.value || !file.fileName) {
                 return Promise.reject(false);
             }
 
@@ -69,17 +69,46 @@ ArticlesController = CoreController.inherit({}, {
                     break;
             }
 
-            path = '/files/' + fileName;
+            path = di.normalizePath('@{basePath}/storage' + filesPath);
 
+
+            if (!isDir(path)) {
+                mkdir(path);
+            }
 
             return new Promise(function (resolve, reject) {
-                fs.writeFile(di.normalizePath('@{basePath}/storage' + path), file.value, function (err) {
+                fs.writeFile(path + '/' + fileName, file.value, function (err) {
                     if (err) {
                         return reject(err);
                     }
-                    return resolve(path);
+                    return resolve(filesPath + '/' + fileName);
                 });
             });
+        }
+
+
+        /**
+         * Is directory
+         * @param path
+         * @returns {boolean}
+         */
+        function isDir(path) {
+            try {
+                return fs.statSync(path).isDirectory();
+            } catch (e) {
+                return false;
+            }
+
+        }
+
+        /**
+         * Create directory
+         * @param path
+         */
+        function mkdir(path) {
+            if (!isDir(path)) {
+                fs.mkdirSync(path);
+            }
         }
     },
 
@@ -94,7 +123,7 @@ ArticlesController = CoreController.inherit({}, {
      */
     _before_add_post: function ArticlesController_before_add_post(params) {
 
-        var body = this.getParsedBody(), promise, data, category = {};
+        var body = this.getParsedBody(), promise, data, category = {}, cat_id;
 
 
         this.locals.categories.forEach(function (item) {
@@ -124,10 +153,10 @@ ArticlesController = CoreController.inherit({}, {
             this.locals.errors.push(this.translate('You must define description'));
         }
         /*
-            if (!body.category || !body.category.value) {
-                this.locals.errors.push(this.translate('You must select category'));
-            }
-        */
+         if (!body.category || !body.category.value) {
+         this.locals.errors.push(this.translate('You must select category'));
+         }
+         */
 
 
         if (Type.isArray(body.files) && body.files.length > 0) {
@@ -142,6 +171,8 @@ ArticlesController = CoreController.inherit({}, {
             }
         }
 
+        cat_id = parseInt(body.category.value);
+
         data = {
             url: '/' + this.normalizeUrl(category.title) + '/' + this.normalizeUrl(body.title.value),
             meta_title: body.meta_title.value,
@@ -149,7 +180,7 @@ ArticlesController = CoreController.inherit({}, {
             title: body.title.value,
             short_description: body.short_description.value,
             description: body.description.value,
-            category: parseInt(body.category.value)
+            category: isNaN(cat_id) ? 0 : cat_id
         };
 
         this.locals.post = data;
@@ -282,7 +313,7 @@ ArticlesController = CoreController.inherit({}, {
     action_deleteimage: function (params) {
 
         var iPromise = new Promise(function (resolve, reject) {
-            articlesModel.findOne(params.id).exec(function (err, data) {
+            articlesModel.findOne({id: params.id}).exec(function (err, data) {
                 if (err) {
                     return reject(err);
                 }
@@ -295,7 +326,7 @@ ArticlesController = CoreController.inherit({}, {
             return new Promise(function (resolve, reject) {
                 var unlink = di.normalizePath('@{basePath}/storage/' + file);
                 fs.unlink(unlink, function (err) {
-                    if (err) {
+                    if (err && err.errno !== -2) {
                         return reject(err);
                     }
                     return resolve({
