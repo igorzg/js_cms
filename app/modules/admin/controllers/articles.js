@@ -209,7 +209,7 @@ ArticlesController = CoreController.inherit({}, {
                     }
                 })
                 .then(function () {
-                    return this.redirect(this.createUrl('admin/articles/list'), true);
+                    return this.redirect(this.createUrl('admin/articles/list', {page: params.page}), true);
                 }.bind(this));
         }.bind(this))
             .catch(function (error) {
@@ -259,7 +259,7 @@ ArticlesController = CoreController.inherit({}, {
 
         this.locals.params = params;
         this.locals.submenu.push({
-            href: this.createUrl('admin/articles/list'),
+            href: this.createUrl('admin/articles/list', {page: params.page}),
             label: this.translate('List')
         });
 
@@ -295,10 +295,10 @@ ArticlesController = CoreController.inherit({}, {
             }.bind(this));
         }.bind(this))
             .then(function () {
-                return this.redirect(this.createUrl('admin/articles/list'), true);
+                return this.redirect(this.createUrl('admin/articles/list', {page: params.page}), true);
             }.bind(this))
             .catch(function () {
-                return this.redirect(this.createUrl('admin/articles/list'), true);
+                return this.redirect(this.createUrl('admin/articles/list', {page: params.page}), true);
             }.bind(this));
     },
     /**
@@ -343,10 +343,10 @@ ArticlesController = CoreController.inherit({}, {
                 });
             })
             .then(function () {
-                return this.redirect(this.createUrl('admin/articles/add', {id: params.id}), true);
+                return this.redirect(this.createUrl('admin/articles/add', {id: params.id, page: params.page}), true);
             }.bind(this))
             .catch(function () {
-                return this.redirect(this.createUrl('admin/articles/add', {id: params.id}), true);
+                return this.redirect(this.createUrl('admin/articles/add', {id: params.id, page: params.page}), true);
             }.bind(this));
     },
     /**
@@ -358,8 +358,65 @@ ArticlesController = CoreController.inherit({}, {
      * Before list get all data
      * @return {*|string}
      */
-    before_list: function () {
-        return articlesModel.find().sort({id: -1}).exec();
+    before_list: function (params) {
+        var limit = parseInt(params.limit) || 10,
+            page = parseInt(params.page) || 1,
+            skip = 0,
+            p;
+
+        if (params.page === '1') {
+            return this.redirect(this.createUrl('admin/articles/list'), true);
+        }
+
+        if (page > 1) {
+            skip = limit * (page - 1);
+        }
+
+        p = {
+            limit: limit,
+            page: page,
+            skip: skip,
+            count: 0,
+            maxPages: 0,
+            pages: [],
+            next: null,
+            prev: null
+        };
+
+        return Promise.all([
+            articlesModel.find().sort({id: -1}).limit(limit).skip(skip).exec(),
+            articlesModel.count().exec()
+        ]).then(function (models) {
+            var data = models.shift(), i;
+            p.count = models.shift();
+            p.maxPages = Math.ceil(p.count / limit);
+
+            if (page > p.maxPages) {
+                return this.redirect(this.createUrl('admin/articles/list', {page: p.maxPages}), true);
+            }
+
+            if (p.page < p.maxPages) {
+                p.next = this.createUrl('admin/articles/list', {page: p.page + 1});
+            }
+
+            if (p.page > 1) {
+                p.prev = this.createUrl('admin/articles/list', {page: p.page - 1});
+            }
+
+            i = 1;
+            while (i <= p.maxPages) {
+                p.pages.push({
+                    href: this.createUrl('admin/articles/list', {page: i}),
+                    active: i === page,
+                    label: i
+                });
+                ++i;
+            }
+
+            this.locals.pagination = p;
+
+            return data;
+        }.bind(this));
     },
     /**
      * @since 0.0.1

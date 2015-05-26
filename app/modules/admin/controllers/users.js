@@ -32,7 +32,7 @@ UsersController = CoreController.inherit({}, {
             }
         }.bind(this))
             .then(function () {
-                return this.redirect(this.createUrl('admin/users/list'), true);
+                return this.redirect(this.createUrl('admin/users/list', {page: params.page}), true);
             }.bind(this))
     },
     /**
@@ -82,13 +82,13 @@ UsersController = CoreController.inherit({}, {
             if (!!params.id) {
                 return usersModel.update(params.id, data)
                     .then(function () {
-                        return this.redirect(this.createUrl('admin/users/list'), true);
+                        return this.redirect(this.createUrl('admin/users/list', {page: params.page}), true);
                     }.bind(this));
             }
 
             return usersModel.save(data)
                 .then(function () {
-                    return this.redirect(this.createUrl('admin/users/list'), true);
+                    return this.redirect(this.createUrl('admin/users/list', {page: params.page}), true);
                 }.bind(this))
                 .catch(function (error) {
                     if (error.stack.indexOf('insertDocument') > -1) {
@@ -133,7 +133,7 @@ UsersController = CoreController.inherit({}, {
             }
         ];
         this.locals.submenu.push({
-            href: this.createUrl('admin/users/list'),
+            href: this.createUrl('admin/users/list', {page: params.page}),
             label: this.translate('List')
         });
 
@@ -148,11 +148,65 @@ UsersController = CoreController.inherit({}, {
      * Before list get all data
      * @return {*|string}
      */
-    before_list: function () {
-        return usersModel.find().sort({id: -1}).exec()
-            .then(function (data) {
-                this.locals.data = data;
-            }.bind(this))
+    before_list: function (params) {
+        var limit = parseInt(params.limit) || 10,
+            page = parseInt(params.page) || 1,
+            skip = 0,
+            p;
+
+        if (params.page === '1') {
+            return this.redirect(this.createUrl('admin/users/list'), true);
+        }
+
+        if (page > 1) {
+            skip = limit * (page - 1);
+        }
+
+        p = {
+            limit: limit,
+            page: page,
+            skip: skip,
+            count: 0,
+            maxPages: 0,
+            pages: [],
+            next: null,
+            prev: null
+        };
+
+        return Promise.all([
+            usersModel.find().sort({id: -1}).limit(limit).skip(skip).exec(),
+            usersModel.count().exec()
+        ]).then(function (models) {
+            var data = models.shift(), i;
+            p.count = models.shift();
+            p.maxPages = Math.ceil(p.count / limit);
+
+            if (page > p.maxPages) {
+                return this.redirect(this.createUrl('admin/users/list', {page: p.maxPages}), true);
+            }
+
+            if (p.page < p.maxPages) {
+                p.next = this.createUrl('admin/users/list', {page: p.page + 1});
+            }
+
+            if (p.page > 1) {
+                p.prev = this.createUrl('admin/users/list', {page: p.page - 1});
+            }
+
+            i = 1;
+            while (i <= p.maxPages) {
+                p.pages.push({
+                    href: this.createUrl('admin/users/list', {page: i}),
+                    active: i === page,
+                    label: i
+                });
+                ++i;
+            }
+
+            this.locals.pagination = p;
+
+            return data;
+        }.bind(this));
     },
     /**
      * @since 0.0.1
@@ -165,10 +219,10 @@ UsersController = CoreController.inherit({}, {
      */
     action_list: function UsersController_action_list(params, data) {
         this.locals.submenu.push({
-            href: this.createUrl('admin/users/add'),
+            href: this.createUrl('admin/users/add', {page: params.page}),
             label: this.translate('Add')
         });
-
+        this.locals.data = data;
         return this.renderFile('users/list', this.locals);
     }
 });

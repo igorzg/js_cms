@@ -22,25 +22,27 @@
             <i class="icon-x white"></i>
         </div>
     </form>
-    <ul class="nav">
-        <li>
-            <a href="{{ createUrl('home/index') }}" class="icon-home white">
-                {{ t('Home') }}
-            </a>
-        </li>
-        {% for item in categories %}
+    <div class="nav-wrapper">
+        <ul class="nav">
             <li>
-                <a href="{{ getRoute(item.id, 'category') }}" class="icon-link white">
-                    {{ item.title }}
+                <a href="{{ createUrl('home/index') }}" class="icon-home white">
+                    {{ t('Home') }}
                 </a>
             </li>
-        {% endfor %}
-        <li>
-            <a href="{{ createUrl('contact/index') }}" class="icon-book white">
-                {{ t('Contact') }}
-            </a>
-        </li>
-    </ul>
+            {% for item in categories %}
+                <li>
+                    <a href="{{ getRoute(item.id, 'category') }}" class="icon-link white">
+                        {{ item.title }}
+                    </a>
+                </li>
+            {% endfor %}
+            <li>
+                <a href="{{ createUrl('contact/index') }}" class="icon-book white">
+                    {{ t('Contact') }}
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
 <div class="mv-body">
     <div class="mv-header row fluid">

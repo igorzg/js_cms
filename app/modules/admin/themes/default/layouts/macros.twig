@@ -58,3 +58,35 @@
         }(window));
     </script>
 {% endmacro %}
+
+{% macro display_table_pagination(pagination) %}
+    {% if pagination.pages && pagination.pages.length > 0 %}
+        <tfooter>
+            <tr>
+                <td rowspan="4">
+                    <ul class="pagination pagination-lg">
+                        {% if pagination.prev %}
+                            <li>
+                                <a href="{{ pagination.prev }}" aria-label="{{ t('Previous') }}">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for item in pagination.pages %}
+                            <li {% if item.active %}class="active"{% endif %}>
+                                <a href="{{ item.href }}">{{ item.label }}</a>
+                            </li>
+                        {% endfor %}
+                        {% if pagination.next %}
+                            <li>
+                                <a href="{{ pagination.next }}" aria-label="{{ t('Next') }}">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
+        </tfooter>
+    {% endif %}
+{% endmacro %}

@@ -1,3 +1,4 @@
+{% import "layouts/macros" as admin_macros %}
 {% extends "layouts/default" %}
 {% block content %}
     <div class="panel panel-default">
@@ -33,16 +34,17 @@
                             {{ item.created | date('Y-m-d h:i:s') }}
                         </td>
                         <td>
-                            <a href="{{ createUrl('admin/users/add', {id: item.id}) }}">
+                            <a href="{{ createUrl('admin/users/add', {id: item.id, page: pagination.page}) }}">
                                 <span class="glyphicon glyphicon-pencil" title="{{ t('Edit') }}"></span>
                             </a>
-                            <a href="{{ createUrl('admin/users/delete', {id: item.id}) }}">
+                            <a href="{{ createUrl('admin/users/delete', {id: item.id, page: pagination.page}) }}">
                                 <span class="glyphicon glyphicon-remove" title="{{ t('Delete') }}"></span>
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
+                {{ admin_macros.display_table_pagination(pagination) }}
             </table>
         {% else %}
             <p class="mv-p">{{ t('No users defined') }}</p>

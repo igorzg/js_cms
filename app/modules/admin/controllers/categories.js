@@ -3,6 +3,7 @@ var di = require('mvcjs'), // mvcjs as node package
     CoreController = di.load('@{module_admin}/controllers/core'),
     categoriesModel = di.load('@{modelsPath}/categories'),
     routerModel = di.load('@{modelsPath}/router'),
+    Promise = di.load('promise'),
     CategoriesController;
 /**
  * @license Mit Licence 2014
@@ -29,7 +30,7 @@ CategoriesController = CoreController.inherit({}, {
             return routerModel.removeByTypeId(params.id, 'category');
         }.bind(this))
             .then(function () {
-                return this.redirect(this.createUrl('admin/categories/list'), true);
+                return this.redirect(this.createUrl('admin/categories/list', {page: params.page}), true);
             }.bind(this))
     },
     /**
@@ -44,6 +45,7 @@ CategoriesController = CoreController.inherit({}, {
     before_add: function CategoriesController_before_add(params) {
 
         var body, data;
+
         if (this.getMethod() === 'POST') {
             body = this.getParsedBody();
 
@@ -82,13 +84,13 @@ CategoriesController = CoreController.inherit({}, {
             if (!!params.id) {
                 return categoriesModel.update(params.id, data)
                     .then(function () {
-                        return this.redirect(this.createUrl('admin/categories/list'), true);
+                        return this.redirect(this.createUrl('admin/categories/list', {page: params.page}), true);
                     }.bind(this));
             }
 
             return categoriesModel.save(data)
                 .then(function () {
-                    return this.redirect(this.createUrl('admin/categories/list'), true);
+                    return this.redirect(this.createUrl('admin/categories/list', {page: params.page}), true);
                 }.bind(this))
                 .catch(function (error) {
                     if (error.stack.indexOf('insertDocument') > -1) {
@@ -133,8 +135,65 @@ CategoriesController = CoreController.inherit({}, {
      * Before list get all data
      * @return {*|string}
      */
-    before_list: function () {
-        return categoriesModel.find().sort({id: -1}).exec();
+    before_list: function (params) {
+        var limit = parseInt(params.limit) || 10,
+            page = parseInt(params.page) || 1,
+            skip = 0,
+            p;
+
+        if (params.page === '1') {
+            return this.redirect(this.createUrl('admin/categories/list'), true);
+        }
+
+        if (page > 1) {
+            skip = limit * (page - 1);
+        }
+
+        p = {
+            limit: limit,
+            page: page,
+            skip: skip,
+            count: 0,
+            maxPages: 0,
+            pages: [],
+            next: null,
+            prev: null
+        };
+
+        return Promise.all([
+            categoriesModel.find().sort({id: -1}).limit(limit).skip(skip).exec(),
+            categoriesModel.count().exec()
+        ]).then(function (models) {
+            var data = models.shift(), i;
+            p.count = models.shift();
+            p.maxPages = Math.ceil(p.count / limit);
+
+            if (page > p.maxPages) {
+                return this.redirect(this.createUrl('admin/categories/list', {page: p.maxPages}), true);
+            }
+
+            if (p.page < p.maxPages) {
+                p.next = this.createUrl('admin/categories/list', {page: p.page + 1});
+            }
+
+            if (p.page > 1) {
+                p.prev = this.createUrl('admin/categories/list', {page: p.page - 1});
+            }
+
+            i = 1;
+            while (i <= p.maxPages) {
+                p.pages.push({
+                    href: this.createUrl('admin/categories/list', {page: i}),
+                    active: i === page,
+                    label: i
+                });
+                ++i;
+            }
+
+            this.locals.pagination = p;
+
+            return data;
+        }.bind(this));
     },
     /**
      * @since 0.0.1

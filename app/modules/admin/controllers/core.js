@@ -125,6 +125,16 @@ CoreAdminController = CoreController.inherit({
      */
     beforeEach: function CoreAdminController_beforeEach(action, params) {
 
+        if (!params.page) {
+            params.page = 1;
+        }
+
+        this.locals.message = this.getSession('flashMessage');
+
+        if (!!this.locals.message) {
+            this.removeSession('flashMessage');
+        }
+
         return this._super(action, params).then(function () {
             var controller = this.getControllerName(),
                 action = this.getActionName(),

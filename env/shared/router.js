@@ -35,6 +35,11 @@ module.exports = function (componet, di) {
             route: 'search/index'
         },
         {
+            pattern: 'admin/<controller>/list/page/<page:(\\d+)>',
+            route: 'admin/<controller>/list',
+            method: ['GET', 'POST']
+        },
+        {
             pattern: 'admin/<controller>/<action>',
             route: 'admin/<controller>/<action>',
             method: ['GET', 'POST']
