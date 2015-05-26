@@ -2,6 +2,7 @@
 var di = require('mvcjs'), // mvcjs as node package
     CoreController = di.load('@{module_admin}/controllers/core'),
     routerModel = di.load('@{modelsPath}/router'),
+    Promise = di.load('promise'),
     RouterController;
 /**
  * @license Mit Licence 2014
