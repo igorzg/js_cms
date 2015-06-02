@@ -55,6 +55,12 @@ ViewController = CoreController.inherit({}, {
                 type: "javascript"
             });
 
+            this.locals.scripts.push({
+                src: this.assetsPath('/js/prism.js'),
+                position: "head",
+                type: "javascript"
+            });
+
             return Promise.all([
                 routerModel.find().exec(),
                 categoriesModel.find().exec()
