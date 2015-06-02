@@ -154,7 +154,7 @@ CategoriesController = CoreController.inherit({}, {
             page: page,
             skip: skip,
             count: 0,
-            maxPages: 0,
+            maxPages: 1,
             pages: [],
             next: null,
             prev: null
