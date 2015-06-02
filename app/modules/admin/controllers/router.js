@@ -152,7 +152,7 @@ RouterController = CoreController.inherit({}, {
             page: page,
             skip: skip,
             count: 0,
-            maxPages: 1,
+            maxPages: 0,
             pages: [],
             next: null,
             prev: null
@@ -166,7 +166,7 @@ RouterController = CoreController.inherit({}, {
             p.count = models.shift();
             p.maxPages = Math.ceil(p.count / limit);
 
-            if (page > p.maxPages) {
+            if (page > p.maxPages && p.maxPages > 0) {
                 return this.redirect(this.createUrl('admin/router/list', {page: p.maxPages}), true);
             }
 
