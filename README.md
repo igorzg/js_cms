@@ -13,9 +13,9 @@ user: viewer
 password: viewer
 
 
+
 REQUIREMENTS
 -----------
-
 1. Canvas (contact form) [OSX install](https://github.com/Automattic/node-canvas/wiki/installation---osx)
 2. Nodejs
 2.1. Bower -> npm install -g bower
@@ -24,6 +24,11 @@ REQUIREMENTS
 
 Install
 -----------
+install homebrew
+brew install pkgconfig
+brew install pixman
+brew install cairo
+
 npm install
 bower install
 
