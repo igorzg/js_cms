@@ -25,11 +25,15 @@ REQUIREMENTS
 Install
 -----------
 install homebrew
+
 brew install pkgconfig
+
 brew install pixman
+
 brew install cairo
 
 npm install
+
 bower install
 
 
