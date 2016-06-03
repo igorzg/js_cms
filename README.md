@@ -16,10 +16,9 @@ password: viewer
 
 REQUIREMENTS
 -----------
-1. Canvas (contact form) [OSX install](https://github.com/Automattic/node-canvas/wiki/installation---osx)
-2. Nodejs
-2.1. Bower -> npm install -g bower
-2.2. Gulp -> npm install -g gulp
+1. Nodejs
+1.1. Bower -> npm install -g bower
+1.2. Gulp -> npm install -g gulp
 
 
 Install
