@@ -4,16 +4,6 @@ Javascript BLOG release 0.1
 This cms is written in javascript. 
 It use mongodb for database, nodejs (mvcjs) for server processing.
 
-
-Example:
-[Live app](http://www.igorivanovic.info)
-
-[Admin panel](http://www.igorivanovic.info/admin)
-user: viewer
-password: viewer
-
-
-
 REQUIREMENTS
 -----------
 1. Nodejs
