@@ -1,0 +1,1 @@
+export const ABC_X1 = "whatever";

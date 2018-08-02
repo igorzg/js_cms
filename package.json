@@ -26,6 +26,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "pack": "wp",
     "compile": "tsc",
     "test": "npm run compile && jest --detectOpenHandles -c jest-runner.json",
     "demo": "npm run compile && node build/bootstrap.js",
@@ -33,13 +34,16 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
-    "@types/mu2": "0.0.30",
     "@types/mime": "^2.0.0",
+    "@types/mu2": "0.0.30",
     "@types/node": "^10.5.4",
     "jest": "^23.4.2",
     "ts-jest": "^23.0.1",
+    "ts-loader": "^4.4.2",
     "tslint": "^5.11.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.4",
+    "webpack-command": "^0.4.1"
   },
   "dependencies": {
     "@typeix/rexxar": "^1.2.0",
