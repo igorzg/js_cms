@@ -1,11 +1,5 @@
-
-node_modules
 .idea
-server.log
-npm-debug.log
-coverage
-storage/css
-storage/vendor
-storage/files
-env/production/params.json
-env/development/params.json
+/node_modules/
+/build/
+.lock
+package-lock.json

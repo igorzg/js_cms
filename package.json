@@ -1,25 +1,7 @@
 {
-  "name" : "js-cms",
-  "main" : "./index.js",
+  "name": "js-cms",
   "description": "Node CMS",
-  "version": "0.1.0",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies" : {
-    "mvcjs": "0.1.x",
-    "gulp": "3.8.x",
-    "gulp-exit": "0.0.x",
-    "gulp-istanbul": "0.5.x",
-    "gulp-jasmine": "2.0.x",
-    "gulp-less": "3.0.x",
-    "gulp-sourcemaps": "1.3.x",
-    "gulp-nodemon": "2.0.x",
-    "less-plugin-clean-css": "1.5.x",
-    "del": "1.1.x",
-    "nodemailer": "0.7.1",
-    "canvas": "1.2.x"
-  },
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/igorzg/js_cms.git"
@@ -34,24 +16,34 @@
     "email": "igor.zg1987@gmail.com"
   },
   "engines": {
-    "node": ">=0.12",
-    "npm": ">=2.5"
+    "node": ">=9.x"
   },
-  "keywords": [
-    "jscms",
-    "cms",
-    "blog",
-    "mvc",
-    "content",
-    "management",
-    "system",
-    "mvcjs"
-  ],
   "maintainers": [
     {
       "name": "igorzg",
       "email": "igor.zg1987@gmail.com"
     }
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc",
+    "test": "npm run compile && jest --detectOpenHandles -c jest-runner.json",
+    "demo": "npm run compile && node build/bootstrap.js",
+    "start": "npm run demo"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "@types/mu2": "0.0.30",
+    "@types/mime": "^2.0.0",
+    "@types/node": "^10.5.4",
+    "jest": "^23.4.2",
+    "ts-jest": "^23.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@typeix/rexxar": "^1.2.0",
+    "mime": "^2.3.1",
+    "mu2": "^0.5.21"
+  }
 }

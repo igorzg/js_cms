@@ -1,0 +1,19 @@
+{
+  "verbose": true,
+  "testEnvironment": "node",
+  "transform": {
+    "^(.+)\\.tsx?$": "ts-jest"
+  },
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
+  "testMatch": [
+    "<rootDir>/src/**/*-spec.ts",
+    "<rootDir>/src/*-spec.ts"
+  ]
+}
