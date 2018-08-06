@@ -33,16 +33,19 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
+    "@types/jquery": "^3.3.5",
     "@types/mime": "^2.0.0",
     "@types/mu2": "0.0.30",
     "@types/node": "^10.5.4",
     "jest": "^23.4.2",
+    "node-sass": "^4.9.2",
     "ts-jest": "^23.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.0"
   },
   "dependencies": {
     "@typeix/rexxar": "^1.2.0",
+    "jquery": "^3.3.1",
     "mime": "^2.3.1",
     "mu2": "^0.5.21"
   }

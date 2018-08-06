@@ -1,0 +1,218 @@
+// vars
+
+$primaryColor: #679E42;
+$secondaryColor: rgba(0, 0, 0, 0.3);
+$primaryGradientColor: #000;
+$secondaryGradientColor: #fff;
+
+@mixin vendor-prefix($key, $val) {
+  -webkit-#{$key}: #{$val};
+  -moz-#{$key}: #{$val};
+  -ms-#{$key}: #{$val};
+  -o-#{$key}: #{$val};
+  #{$key}: #{$val};
+}
+
+@mixin background-gradient($startColor: $primaryGradientColor, $endColor: $secondaryGradientColor) {
+  background-color: $startColor;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+  background-image: -webkit-linear-gradient(top, $startColor, $endColor);
+  background-image: -moz-linear-gradient(top, $startColor, $endColor);
+  background-image: -ms-linear-gradient(top, $startColor, $endColor);
+  background-image: -o-linear-gradient(top, $startColor, $endColor);
+  background-image: linear-gradient(top, $startColor, $endColor);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}');
+}
+
+@mixin background-radial($startColor: $primaryGradientColor, $startPos: 0%, $endColor: $secondaryGradientColor, $endPos:100%) {
+  background: -moz-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop($startPos, $startColor), color-stop($endPos, $endColor));
+  background: -webkit-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+  background: -o-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+  background: -ms-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+  background: radial-gradient(ellipse at center, $startColor $startPos, $endColor $endPos);
+}
+
+@mixin background-horizontal-inverse($startColor: $primaryGradientColor, $endColor: $secondaryGradientColor) {
+  background-color: $startColor;
+  background-image: -webkit-gradient(linear, right top, left top, from($startColor), to($endColor));
+  background-image: -webkit-linear-gradient(right, $startColor, $endColor);
+  background-image: -moz-linear-gradient(right, $startColor, $endColor);
+  background-image: -ms-linear-gradient(right, $startColor, $endColor);
+  background-image: -o-linear-gradient(right, $startColor, $endColor);
+  background-image: linear-gradient(right, $startColor, $endColor);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$endColor}', endColorStr='#{$startColor}', gradientType='1');
+}
+
+@mixin background-horizontal($startColor: $primaryGradientColor, $endColor: $secondaryGradientColor) {
+  background-color: $startColor;
+  background-image: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+  background-image: -webkit-linear-gradient(left, $startColor, $endColor);
+  background-image: -moz-linear-gradient(left, $startColor, $endColor);
+  background-image: -ms-linear-gradient(left, $startColor, $endColor);
+  background-image: -o-linear-gradient(left, $startColor, $endColor);
+  background-image: linear-gradient(left, $startColor, $endColor);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}', gradientType='1');
+}
+
+@mixin background-size($width: 100%, $height: $width) {
+  @if type-of($width) == 'number' and $height != null {
+    @include vendor-prefix('background-size', $width $height);
+  } @else {
+    @include vendor-prefix('background-size', $width);
+  }
+}
+
+@mixin background-opacity($color: #000, $opacity: 0.85) {
+  background: $color;
+  background: rgba($color, $opacity);
+}
+
+@mixin border-radius($radius: 5px) {
+  @include vendor-prefix('border-radius', $radius);
+}
+
+@mixin border-radius-separate($topLeftRadius: 5px, $topRightRadius: 5px, $bottomLeftRadius: 5px, $bottomRightRadius: 5px) {
+  -moz-border-radius-topleft: $topLeftRadius;
+  -moz-border-radius-topright: $topRightRadius;
+  -moz-border-radius-bottomright: $bottomRightRadius;
+  -moz-border-radius-bottomleft: $bottomLeftRadius;
+
+  -webkit-border-top-left-radius: $topLeftRadius;
+  -webkit-border-top-right-radius: $topRightRadius;
+  -webkit-border-bottom-right-radius: $bottomRightRadius;
+  -webkit-border-bottom-left-radius: $bottomLeftRadius;
+
+  border-top-left-radius: $topLeftRadius;
+  border-top-right-radius: $topRightRadius;
+  border-bottom-right-radius: $bottomRightRadius;
+  border-bottom-left-radius: $bottomLeftRadius;
+}
+
+@mixin box($orient: horizontal, $pack: center, $align: center) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+
+  @include vendor-prefix('box-orient', $orient);
+  @include vendor-prefix('box-pack', $pack);
+  @include vendor-prefix('box-align', $align);
+}
+
+@mixin box-rgba($r: 60, $g: 3, $b: 12, $opacity: 0.23, $color: #3C3C3C) {
+  background-color: transparent;
+  background-color: rgba($r, $g, $b, $opacity);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color}', endColorstr='#{$color}');
+  zoom: 1;
+}
+
+@mixin box-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4), $inset: "") {
+  @if ($inset != "") {
+    @include vendor-prefix('box-shadow', $inset $x $y $blur $color);
+  } @else {
+    @include vendor-prefix('box-shadow', $x $y $blur $color);
+  }
+}
+
+@mixin box-sizing($type: border-box) {
+  @include vendor-prefix('box-sizing', $type);
+}
+
+@mixin columns($count: 3, $gap: 10) {
+  @include vendor-prefix('column-count', $count);
+  @include vendor-prefix('column-gap', $gap);
+}
+
+@mixin double-borders($colorOne: #3C3C3C, $colorTwo: #999999, $radius: 0) {
+  border: 1px solid $colorOne;
+
+  @include vendor-prefix('box-shadow', 0 0 0 1px $colorTwo);
+
+  @include border-radius($radius);
+}
+
+@mixin flex($value: 1) {
+  @include vendor-prefix('box-flex', $value);
+}
+
+@mixin flip($scaleX: -1) {
+  @include vendor-prefix('transform', scaleX($scaleX));
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+@mixin opacity($opacity: 0.5) {
+  $opacityMultiplied: ($opacity * 100);
+
+  filter: alpha(opacity=$opacityMultiplied);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + $opacityMultiplied + ")";
+  @include vendor-prefix('opacity', $opacity);
+}
+
+@mixin outline-radius($radius: 5px) {
+  @include vendor-prefix('outline-radius', $radius);
+}
+
+@mixin resize($direction: both) {
+  @include vendor-prefix('resize', $direction);
+}
+
+@mixin rotate($deg: 0, $m11: 0, $m12: 0, $m21: 0, $m22: 0) {
+  @include vendor-prefix('transform', rotate($deg + deg));
+  filter: progid:DXImageTransform.Microsoft.Matrix(
+                  M11=#{$m11}, M12=#{$m12}, M21=#{$m21}, M22=#{$m22}, sizingMethod='auto expand');
+  zoom: 1;
+}
+
+@mixin text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4)) {
+  text-shadow: $x $y $blur $color;
+}
+
+@mixin transform($params) {
+  @include vendor-prefix('transform', $params);
+}
+
+@mixin transform-origin($params) {
+  @include vendor-prefix('transform-origin', $params);
+}
+
+@mixin transform-style($style: preserve-3d) {
+  @include vendor-prefix('transform-style', $style);
+}
+
+@mixin transition($properties...) {
+
+  @if length($properties) >= 1 {
+    @include vendor-prefix('transition', $properties);
+  } @else {
+    @include vendor-prefix('transition', "all 0.2s ease-in-out 0s");
+  }
+}
+
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  @include vendor-prefix('animation', $str);
+}
+
+@mixin user-select($val: none) {
+  @include vendor-prefix('user-select', $val);
+}
+
