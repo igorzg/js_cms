@@ -26,7 +26,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "sass": "node-sass --include-path scss src/public/scss/main.scss build/public/css/main.css",
+    "build:sass": "node-sass src/public/scss/ -o build/public/css/",
+    "watch:sass": "node-sass src/public/scss/ -wo build/public/css/",
     "compile": "tsc",
     "test": "npm run compile && jest --detectOpenHandles -c jest-runner.json",
     "demo": "npm run compile && node build/bootstrap.js",
