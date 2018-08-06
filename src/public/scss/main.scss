@@ -1,14 +1,14 @@
-@import "parts/_mixins";
-@import "parts/_normalize";
-@import "parts/_icons";
-@import "parts/_grid";
+@import "parts/mixins";
+@import "parts/normalize";
+@import "parts/icons";
+@import "parts/grid";
 
 html, body {
   font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
 }
-@import "parts/_navigation";
-@import "parts/_layout";
-@import "parts/_article";
-@import "parts/_contact";
-@import "parts/_responsive";
-@import "parts/_prism";
+@import "parts/navigation";
+@import "parts/layout";
+@import "parts/article";
+@import "parts/contact";
+@import "parts/responsive";
+@import "parts/prism";

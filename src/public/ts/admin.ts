@@ -5,7 +5,7 @@
     "use strict";
     $(function () {
         $('textarea').tinymce({
-            script_url : MV.assetsPath + '/vendor/tinymce/tinymce.min.js',
+            script_url : '/vendor/tinymce/tinymce.min.js',
             keep_styles: true,
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",

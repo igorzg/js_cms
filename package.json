@@ -27,6 +27,9 @@
   "license": "MIT",
   "scripts": {
     "build:sass": "node-sass src/public/scss/ -o build/public/css/",
+    "build:copy:fonts": "cp -R src/public/fonts/ build/public/fonts/",
+    "build:copy:images": "cp -R src/public/image/ build/public/image/",
+    "build:copy": "npm run build:copy:fonts && npm run build:copy:images",
     "watch:sass": "node-sass src/public/scss/ -wo build/public/css/",
     "compile": "tsc",
     "test": "npm run compile && jest --detectOpenHandles -c jest-runner.json",
@@ -39,6 +42,7 @@
     "@types/mime": "^2.0.0",
     "@types/mu2": "0.0.30",
     "@types/node": "^10.5.4",
+    "@types/tinymce": "^4.5.16",
     "jest": "^23.4.2",
     "node-sass": "^4.9.2",
     "ts-jest": "^23.0.1",
