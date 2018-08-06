@@ -68,7 +68,7 @@
       text-decoration: none;
       text-align: center;
       cursor: pointer;
-      .border-radius(5px);
+      @include border-radius(5px);
     }
 
   }

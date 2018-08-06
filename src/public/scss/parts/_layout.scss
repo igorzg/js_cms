@@ -15,7 +15,7 @@ body.open {
 }
 .mv-body,
 .mv-navigation {
-   .transition(all 0.3s ease);
+   @include transition(all 0.3s ease);
 }
 .mv-body{
   width: 100%;
@@ -111,8 +111,8 @@ body.open {
   .mv-me {
     margin-top: 60px;
     margin-left: 30px;
-    .border-radius(150px);
-    .box-shadow(0 0 8px rgba(0, 0, 0, .8));
+    @include border-radius(150px);
+    @include box-shadow(0 0 8px rgba(0, 0, 0, .8));
   }
 }
 .mv-navigation-call {
