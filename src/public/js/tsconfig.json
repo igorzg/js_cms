@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "ES6",
-    "module": "requirejs",
-    "moduleResolution": "node",
-    "outDir": "build",
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "classic",
+    "outDir": "../../../build/public/js",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -18,11 +18,9 @@
     ]
   },
   "include": [
-    "./**/*",
-    "./*"
+    "**/*",
+    "*"
   ],
-  "exclude": [
-    "../../../node_modules"
-  ],
+  "exclude": [],
   "compileOnSave": true
 }

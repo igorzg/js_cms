@@ -31,7 +31,9 @@
     "build:copy:images": "cp -R src/public/image/ build/public/image/",
     "build:copy": "npm run build:copy:fonts && npm run build:copy:images",
     "watch:sass": "node-sass src/public/scss/ -wo build/public/css/",
-    "compile": "tsc",
+    "build:compile:server": "tsc -b tsconfig.json",
+    "build:compile:client": "tsc -b src/public/js/tsconfig.json",
+    "build:compile": "npm run build:compile:server && npm run build:compile:client",
     "test": "npm run compile && jest --detectOpenHandles -c jest-runner.json",
     "demo": "npm run compile && node build/bootstrap.js",
     "start": "npm run demo"
@@ -42,16 +44,18 @@
     "@types/mime": "^2.0.0",
     "@types/mu2": "0.0.30",
     "@types/node": "^10.5.4",
+    "@types/systemjs": "^0.20.6",
     "@types/tinymce": "^4.5.16",
     "jest": "^23.4.2",
+    "jquery": "^3.3.1",
     "node-sass": "^4.9.2",
+    "systemjs": "^0.21.4",
     "ts-jest": "^23.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.0"
   },
   "dependencies": {
     "@typeix/rexxar": "^1.2.0",
-    "jquery": "^3.3.1",
     "mime": "^2.3.1",
     "mu2": "^0.5.21"
   }
