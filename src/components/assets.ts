@@ -2,8 +2,8 @@ import {readFile} from "fs";
 import {normalize} from "path";
 import {isUndefined, isDefined, Injectable} from "@typeix/rexxar";
 
-if (isUndefined(process.env.VIEWS_PATH)) {
-    process.env.VIEWS_PATH = "/build/views/"
+if (isUndefined(process.env.PUBLIC_PATH)) {
+    process.env.PUBLIC_PATH = "/build/public/";
 }
 /**
  * Asset loader service
@@ -22,7 +22,7 @@ export class Assets {
    */
   static publicPath(name: string): string {
     name = normalize(name);
-    return normalize(process.cwd() + process.env.VIEWS_PATH + name);
+    return normalize(process.cwd() + process.env.PUBLIC_PATH + name);
   }
 
   /**

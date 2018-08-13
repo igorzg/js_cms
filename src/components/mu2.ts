@@ -1,8 +1,10 @@
 import {normalize} from "path";
-import {Injectable} from "@typeix/rexxar";
+import {Injectable, isUndefined} from "@typeix/rexxar";
 import {compileAndRender} from "mu2";
 
-
+if (isUndefined(process.env.VIEWS_PATH)) {
+  process.env.VIEWS_PATH = "/build/views/";
+}
 /**
  * Template engine
  * @constructor
@@ -19,7 +21,7 @@ export class TemplateEngine {
      * @return {String}
      */
     static getTemplatePath(name: String): string {
-        return normalize(process.cwd() + "/views/" + name + ".mustache");
+        return normalize(process.cwd() + process.env.VIEWS_PATH + name + ".mustache");
     }
 
     /**
