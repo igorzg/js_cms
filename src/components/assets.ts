@@ -3,7 +3,7 @@ import {normalize} from "path";
 import {isUndefined, isDefined, Injectable} from "@typeix/rexxar";
 
 if (isUndefined(process.env.VIEWS_PATH)) {
-    process.env.VIEWS_PATH = "/src/views/"
+    process.env.VIEWS_PATH = "/build/views/"
 }
 /**
  * Asset loader service
