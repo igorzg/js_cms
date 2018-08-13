@@ -1,7 +1,7 @@
 import {Injector, Router, Request} from "@typeix/rexxar";
 import {HomeController} from "./home";
 import {Assets} from "../components/assets";
-import {TemplateEngine} from "../components/mu2";
+import {TemplateEngine} from "../components/template-engine";
 
 
 describe("Home controller", () => {

@@ -2,7 +2,7 @@ import {Assets} from "../components/assets";
 import {Inject, Action, Controller, Request, Chain, BeforeEach, Param, Router, StatusCodes} from "@typeix/rexxar";
 import {Cache} from "../filters/cache";
 import {CoreController} from "./core";
-import {TemplateEngine} from "../components/mu2";
+import {TemplateEngine} from "../components/template-engine";
 
 /**
  * Controller example

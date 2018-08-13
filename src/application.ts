@@ -3,7 +3,7 @@ import {Assets} from "./components/assets";
 import {CoreController} from "./controllers/core";
 import {HomeController} from "./controllers/home";
 import {AdminModule} from "./modules/admin/admin.module";
-import {TemplateEngine} from "./components/mu2";
+import {TemplateEngine} from "./components/template-engine";
 import {InMemoryCache} from "./components/in-memory-cache";
 import {DynamicRouteRule} from "./components/dynamic-router";
 

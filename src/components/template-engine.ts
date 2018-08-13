@@ -1,11 +1,10 @@
 import {normalize} from "path";
+import {renderFile} from "twig";
 import {Injectable, isUndefined} from "@typeix/rexxar";
-import {compileAndRender} from "mu2";
 
 if (isUndefined(process.env.BUILD_PATH)) {
   process.env.BUILD_PATH = "/build/";
 }
-
 /**
  * Template engine
  * @constructor
@@ -22,7 +21,7 @@ export class TemplateEngine {
    * @return {String}
    */
   static getTemplatePath(name: String, path?: string): string {
-    return normalize(process.cwd() + process.env.BUILD_PATH + (isUndefined(path) ? "views/" : path) + name + ".mustache");
+    return normalize(process.cwd() + process.env.BUILD_PATH + (isUndefined(path) ? "views/" : path) + name + ".twig");
   }
 
   /**
@@ -34,11 +33,17 @@ export class TemplateEngine {
    */
   compileAndRender(template: String, data: any, path?: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      let buffer = "";
-      compileAndRender(TemplateEngine.getTemplatePath(template, path), data)
-        .on("data", (chunk) => buffer += chunk.toString())
-        .on("error", error => reject(error))
-        .on("end", () => resolve(buffer));
+      renderFile(
+        TemplateEngine.getTemplatePath(template, path),
+        data,
+        (error, html) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(html);
+          }
+        }
+      );
     });
   }
 }
