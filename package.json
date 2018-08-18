@@ -50,6 +50,7 @@
     "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.5",
     "@types/mime": "^2.0.0",
+    "@types/mongoose": "^5.2.6",
     "@types/node": "^10.5.4",
     "@types/systemjs": "^0.20.6",
     "@types/tinymce": "^4.5.16",
@@ -66,6 +67,7 @@
   "dependencies": {
     "@typeix/rexxar": "^1.2.0",
     "mime": "^2.3.1",
+    "mongoose": "^5.2.9",
     "twig": "^1.12.0"
   }
 }

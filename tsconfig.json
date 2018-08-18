@@ -20,6 +20,7 @@
   "exclude": [
     "src/public",
     "node_modules"
+    "build"
   ],
   "compileOnSave": true
 }
