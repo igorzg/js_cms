@@ -1,40 +1,24 @@
-Javascript BLOG release 0.1
+CMS in js
 =====================
 
-This cms is written in javascript. 
-It use mongodb for database, nodejs (mvcjs) for server processing.
+Written in typescript.
+TBD...
+
 
 REQUIREMENTS
 -----------
-1. Nodejs
-1.1. Bower -> npm install -g bower
-1.2. Gulp -> npm install -g gulp
-
+1. Docker
+2. Node.js
 
 Install
 -----------
-install homebrew
-
-brew install pkgconfig
-
-brew install pixman
-
-brew install cairo
-
-npm install
-
-bower install
-
+npm i
 
 Start server:
 -----------
-gulp dev
+npm start
 
-http://localhost:9000/
 
-Start prod:
------------
-NODE_ENV=production node start index.js
 
 
 
