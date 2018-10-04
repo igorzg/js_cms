@@ -12,11 +12,17 @@ REQUIREMENTS
 
 Install
 -----------
+```bash
 npm i
+```
 
 Start server:
 -----------
+```bash
+docker-compose up -d
 npm start
+```
+
 
 
 
