@@ -1,15 +1,21 @@
-import {Injectable, Inject, IAfterConstruct} from "@typeix/rexxar";
+import {Injectable, Inject, IAfterConstruct, Logger} from "@typeix/rexxar";
+import {createConnection, Connection} from "mongoose";
 
 
 @Injectable
 export class MongodbConnectionProvider implements IAfterConstruct {
 
-  @Inject("mongodb:://connection")
-  mongoDbConnectionString: string;
+  @Inject("MONGODB_CONNECTION")
+  private connectionStr: string;
 
-  mongodb;
+  @Inject(Logger)
+  private logger: Logger;
+
+  mongodb: Connection;
 
   afterConstruct(): void {
-
+    this.logger.info("Mongodb connection string", this.connectionStr);
+    this.mongodb = createConnection(this.connectionStr, {useNewUrlParser: true});
   }
+
 }

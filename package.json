@@ -67,7 +67,7 @@
   "dependencies": {
     "@typeix/rexxar": "^1.2.0",
     "mime": "^2.3.1",
-    "mongoose": "^5.2.9",
+    "mongoose": "^5.3.1",
     "twig": "^1.12.0"
   }
 }

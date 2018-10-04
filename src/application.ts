@@ -6,6 +6,7 @@ import {AdminModule} from "./modules/admin/admin.module";
 import {TemplateEngine} from "./components/template-engine";
 import {InMemoryCache} from "./components/in-memory-cache";
 import {DynamicRouteRule} from "./components/dynamic-router";
+import {MongodbConnectionProvider} from "./components/mongodb-connection";
 
 /**
  * Application entry point
@@ -21,22 +22,32 @@ import {DynamicRouteRule} from "./components/dynamic-router";
     controllers: [HomeController, CoreController], // no order
     providers: [Assets, TemplateEngine, InMemoryCache],
     shared_providers: [
-        {
-            provide: Logger,
-            useFactory: () => {
-                let logger: Logger = new Logger();
-                logger.enable();
-                logger.printToConsole();
-                logger.setDebugLevel(LogLevels.BENCHMARK);
-                return logger;
-            },
-            providers: []
-        },
-        {
-            provide: Router,
-            useClass: Router,
-            providers: [Logger, InMemoryCache]
-        }
+      {
+          provide: Logger,
+          useFactory: () => {
+              let logger: Logger = new Logger();
+              logger.enable();
+              logger.printToConsole();
+              logger.setDebugLevel(LogLevels.BENCHMARK);
+              return logger;
+          },
+          providers: []
+      },
+      {
+          provide: Router,
+          useClass: Router,
+          providers: [Logger, InMemoryCache]
+      },
+      {
+        provide: MongodbConnectionProvider,
+        useClass: MongodbConnectionProvider,
+        providers: [
+          {
+            provide: "MONGODB_CONNECTION",
+            useValue: "mongodb://localhost:30012,localhost:30013,localhost:30011/cms?replicaSet=rs1&connectTimeoutMS=5000"
+          }
+        ]
+      }
     ]
 })
 export class Application implements IAfterConstruct {
