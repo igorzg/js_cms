@@ -12,8 +12,8 @@ export interface Article {
   title: string;
   short_description: string;
   description: string;
-  category_id: string;
-  files: Array<string>;
+  category_id?: string;
+  files?: Array<string>;
 }
 
 
@@ -28,8 +28,7 @@ export class ArticleModel extends AbstractModel<Article> implements IAfterConstr
     this.model = this.provider.mongodb.model("article", new Schema({
         _id: {
           type: String,
-          require: true,
-          unique: true
+          require: true
         },
         created: {
           type: Date,
@@ -55,7 +54,7 @@ export class ArticleModel extends AbstractModel<Article> implements IAfterConstr
           type: String,
           require: true
         },
-        category: {
+        category_id: {
           type: String
         },
         files: {

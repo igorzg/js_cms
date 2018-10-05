@@ -15,7 +15,13 @@ export class MongodbConnectionProvider implements IAfterConstruct {
 
   afterConstruct(): void {
     this.logger.info("Mongodb connection string", this.connectionStr);
-    this.mongodb = createConnection(this.connectionStr, {useNewUrlParser: true});
+    try {
+      this.mongodb = createConnection(this.connectionStr, {
+        useNewUrlParser: true
+      });
+    } catch (e) {
+      this.logger.error("Mongodb connection", e);
+    }
   }
 
 }

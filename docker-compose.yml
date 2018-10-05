@@ -1,48 +1,84 @@
-version: '2'
+version: '3.7'
 services:
-    mongo-1-2:
-        container_name: "mongo-1-2"
+    mongo-1:
+        container_name: "mongo-1"
         image: mongo
+        command: mongod --replSet rs1 --port 27017
         ports:
-            - "30012:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
-        restart: always
+        - 30001:27017
+        restart: on-failure
+        networks:
+        - mongo_net
 
-    mongo-1-3:
-        container_name: "mongo-1-3"
+    mongo-2:
+        container_name: "mongo-2"
         image: mongo
+        command: mongod --replSet rs1 --port 27017
         ports:
-            - "30013:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
-        restart: always 
+        - 30002:27017
+        restart: on-failure
+        networks:
+        - mongo_net
 
-    mongo-1-1:
-        container_name: "mongo-1-1"
+    mongo-3:
+        container_name: "mongo-3"
         image: mongo
-        ports:
-            - "30011:27017"
-        command: mongod --replSet rs1 --shardsvr --port 27017 --nojournal --oplogSize 16 --noprealloc --smallfiles
+        command: mongod --replSet rs1 --port 27017
         links:
-            - mongo-1-2:mongo-1-2
-            - mongo-1-3:mongo-1-3
-        restart: always
+            - mongo-2:mongo-2
+            - mongo-1:mongo-1
+        ports:
+          - 30003:27017
+        restart: on-failure
+        networks:
+        - mongo_net
 
     mongo-rs1-setup:
         container_name: "mongo-rs1-setup"
         image: mongo
         depends_on:
-            - "mongo-1-1"
-            - "mongo-1-2"
-            - "mongo-1-3"
+            - "mongo-1"
+            - "mongo-2"
+            - "mongo-3"
         links:
-            - mongo-1-1:mongo-1-1
-            - mongo-1-2:mongo-1-2
-            - mongo-1-3:mongo-1-3
+            - mongo-1:mongo-1
+            - mongo-2:mongo-2
+            - mongo-3:mongo-3
         volumes:
             - ./shell:/scripts
-        environment: 
-            - MONGO1=mongo-1-1
-            - MONGO2=mongo-1-2
-            - MONGO3=mongo-1-3
+        environment:
+            - MONGO1=mongo-1
+            - MONGO2=mongo-2
+            - MONGO3=mongo-3
             - RS=rs1
-        entrypoint: [ "/scripts/setup.sh" ]
+        entrypoint: [ "/scripts/mongo.sh" ]
+        networks:
+          - mongo_net
+
+    app:
+      container_name: "web-app"
+      build: ./
+      ports:
+      - 3000:9000
+      volumes:
+      - ./build:/usr/src/app
+      - /usr/src/app/node_modules
+      depends_on:
+       - "mongo-rs1-setup"
+      links:
+      - mongo-1:mongo-1
+      - mongo-2:mongo-2
+      - mongo-3:mongo-3
+      environment:
+        - MONGO_REPLICA=1
+      restart: on-failure
+      networks:
+      - mongo_net
+
+networks:
+  mongo_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.10.0/24

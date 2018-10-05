@@ -7,20 +7,12 @@ TBD...
 
 REQUIREMENTS
 -----------
-1. Docker
-2. Node.js
+Docker
 
-Install
------------
-```bash
-npm i
-```
-
-Start server:
+Start stack:
 -----------
 ```bash
 docker-compose up -d
-npm start
 ```
 
 

@@ -1,5 +1,6 @@
 import {Application} from "./application";
 import {httpServer} from "@typeix/rexxar";
+
 /**
  * Bootstraps server
  *
@@ -12,5 +13,5 @@ import {httpServer} from "@typeix/rexxar";
  * We will be able to simulate server side request with fakeHttp
  */
 httpServer(Application, {
-    port: 9000
+  port: 9000
 });

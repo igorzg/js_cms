@@ -1,8 +1,11 @@
 import {Assets} from "../components/assets";
-import {Inject, Action, Controller, Request, Chain, BeforeEach, Param, Router, StatusCodes} from "@typeix/rexxar";
+import {Inject, Action, Controller, Request, Chain, BeforeEach, Param, Router, StatusCodes, uuid} from "@typeix/rexxar";
 import {Cache} from "../filters/cache";
 import {CoreController} from "./core";
 import {TemplateEngine} from "../components/template-engine";
+import {ArticleModel} from "../components/models/article";
+import {util} from "tinymce";
+import JSON = util.JSON;
 
 /**
  * Controller example
@@ -121,6 +124,24 @@ export class HomeController extends CoreController {
       name: "this is home page",
       title: "Home page example"
     });
+  }
+
+
+  @Inject(ArticleModel)
+  articleModel: ArticleModel;
+
+  @Action("article")
+  async actionArticleHandler() {
+    let data = await this.articleModel.create({
+      _id: uuid(),
+      created: new Date,
+      meta_title: "MTitle",
+      meta_description: "MDesc",
+      title: "Title",
+      short_description: "Short Desc",
+      description: "Desc"
+    });
+    return JSON.stringify(data);
   }
 
 }
