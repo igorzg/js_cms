@@ -92,6 +92,11 @@ export class Application implements IAfterConstruct {
    */
   afterConstruct() {
 
+    this.logger.debug("SET system paths", {
+      assetsPath: Assets.publicPath("*"),
+      templatePath: TemplateEngine.getTemplatePath("*")
+    });
+
     this.router.addRules([
       {
         methods: [RestMethods.GET],

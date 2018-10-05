@@ -1,10 +1,7 @@
 import {normalize} from "path";
 import {renderFile} from "twig";
-import {Injectable, isUndefined} from "@typeix/rexxar";
+import {Injectable, isUndefined, Inject, Logger} from "@typeix/rexxar";
 
-if (isUndefined(process.env.BUILD_PATH)) {
-  process.env.BUILD_PATH = "/build/";
-}
 /**
  * Template engine
  * @constructor
@@ -16,12 +13,15 @@ if (isUndefined(process.env.BUILD_PATH)) {
  */
 @Injectable()
 export class TemplateEngine {
+
+  @Inject(Logger)
+  private logger: Logger;
   /**
    * Gets template path
    * @return {String}
    */
   static getTemplatePath(name: String, path?: string): string {
-    return normalize(process.cwd() + process.env.BUILD_PATH + (isUndefined(path) ? "views/" : path) + name + ".twig");
+    return normalize(process.cwd() + process.env.TEMPLATE_PATH + (isUndefined(path) ? "views/" : path) + name + ".twig");
   }
 
   /**
@@ -33,17 +33,23 @@ export class TemplateEngine {
    */
   compileAndRender(template: String, data: any, path?: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      renderFile(
-        TemplateEngine.getTemplatePath(template, path),
-        data,
-        (error, html) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(html);
+      let templatePath = TemplateEngine.getTemplatePath(template, path);
+      this.logger.debug("Loading template path", {templatePath, data})
+      try {
+        renderFile(
+          templatePath,
+          data,
+          (error, html) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(html);
+            }
           }
-        }
-      );
+        );
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 }

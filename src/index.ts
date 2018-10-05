@@ -1,6 +1,14 @@
 import {Application} from "./application";
-import {httpServer} from "@typeix/rexxar";
+import {httpServer, isUndefined} from "@typeix/rexxar";
 
+// SET template path if not defined
+if (isUndefined(process.env.TEMPLATE_PATH)) {
+  process.env.TEMPLATE_PATH = "/build/";
+}
+// SET assets path if not defined
+if (isUndefined(process.env.ASSETS_PATH)) {
+  process.env.ASSETS_PATH = "/build/public/";
+}
 /**
  * Bootstraps server
  *

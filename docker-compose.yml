@@ -71,6 +71,8 @@ services:
       - mongo-3:mongo-3
       environment:
         - MONGO_REPLICA=1
+        - ASSETS_PATH=/public/
+        - TEMPLATE_PATH=/
       restart: on-failure
       networks:
       - mongo_net

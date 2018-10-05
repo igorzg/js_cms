@@ -1,10 +1,7 @@
 import {readFile} from "fs";
 import {normalize} from "path";
-import {isUndefined, isDefined, Injectable} from "@typeix/rexxar";
+import {isDefined, Injectable} from "@typeix/rexxar";
 
-if (isUndefined(process.env.PUBLIC_PATH)) {
-    process.env.PUBLIC_PATH = "/build/public/";
-}
 /**
  * Asset loader service
  * @constructor
@@ -22,7 +19,7 @@ export class Assets {
    */
   static publicPath(name: string): string {
     name = normalize(name);
-    return normalize(process.cwd() + process.env.PUBLIC_PATH + name);
+    return normalize(process.cwd() + process.env.ASSETS_PATH + name);
   }
 
   /**
@@ -32,11 +29,16 @@ export class Assets {
    */
   async load(name: string): Promise<Buffer> {
     return await <Promise<Buffer>> new Promise(
-      (resolve, reject) =>
-        readFile(
-          Assets.publicPath(name),
-          (err, data) => isDefined(err) ? reject(err) : resolve(data)
-        )
+      (resolve, reject) => {
+        try {
+          readFile(
+            Assets.publicPath(name),
+            (err, data) => isDefined(err) ? reject(err) : resolve(data)
+          )
+        } catch (e) {
+          reject(e);
+        }
+      }
     );
   }
 }
