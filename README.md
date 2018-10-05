@@ -11,6 +11,12 @@ REQUIREMENTS
 1. Docker
 2. Node.js
 
+Install:
+-----------
+```bash
+npm i
+```
+
 Start stack:
 -----------
 ```bash
